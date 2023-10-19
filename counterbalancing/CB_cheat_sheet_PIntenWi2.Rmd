@@ -1,0 +1,648 @@
+---
+title: "CB_cheat_sheet_PIntenWi2"
+author: "Isa Garbisch"
+date: '2023-10-10'
+output:
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+require(tidyverse)
+library(kableExtra)
+```
+
+```{r}
+cb <- read.csv("/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/counterbalancing_PIntenWi2.csv")
+```
+
+```{r}
+cb <- cb %>%
+  mutate(order_question = rep(c("Wind-Ruder", "Ruder-Wind"),32))
+```
+
+
+# create 1 sheet - based on a dataset
+```{r}
+f = 1
+cb.1 <- data.frame(id = cb$id[1], order_question = cb$order_question[1], trial.nr = 1:12, links = "", rechts = "", 
+                   consis = NA, outcome = NA, tb.fb = NA,
+                   left = NA, right = NA)
+for (i in 1:4) {
+  l = i+5
+  
+  if(cb[f,l] == "crown_comb_L") {
+    cb.1$left[i] <- "crown"
+    cb.1$right[i] <- "comb"
+    
+  } else if(cb[f,l] == "cup_drum_R") {
+    cb.1$left[i] <- "cup"
+    cb.1$right[i] <- "drum"
+    
+  } else if(cb[f,l] == "die_telescope_R") {
+    cb.1$left[i] <- "die"
+    cb.1$right[i] <- "telescope"
+    
+  } else if(cb[f,l] == "flower_coin_L") {
+    cb.1$left[i] <- "flower"
+    cb.1$right[i] <- "coin"
+    
+  }
+}
+  
+for (i in 1:4) {
+  cb.1$consis[i] <- substring(cb$consis.fam[f],i,i)
+  cb.1$outcome[i] <- substring(cb$outcome.fam[f],i,i)
+  cb.1$tb.fb[i] <- "na"
+}
+
+for (k in 1:8) {
+    l = k + 4
+    cb.1$consis[l] <- substring(cb$consis[f],k,k)
+    cb.1$outcome[l] <- substring(cb$outcome[f],k,k)
+    cb.1$tb.fb[l] <- substring(cb$tb.fb[f],k,k)
+}
+
+for (i in 1:8) {
+  l = i+12
+  
+  #ball = rattle
+  if(cb[f,l] == "TB_ball_rattle_R") {
+    cb.1$left[i+4] <- "ball"
+    cb.1$right[i+4] <- "rattle"
+    
+  } else if(cb[f,l] == "FB_ball_rattle_R") {
+    cb.1$left[i+4] <- "ball"
+    cb.1$right[i+4] <- "rattle"
+    
+  } else if(cb[f,l] == "FB_ball_rattle_L") {
+    cb.1$left[i+4] <- "rattle"
+    cb.1$right[i+4] <- "ball"
+    
+  } else if(cb[f,l] == "TB_ball_rattle_L") {
+    cb.1$left[i+4] <- "rattle"
+    cb.1$right[i+4] <- "ball"
+    
+    #magnifier
+   } else if(cb[f,l] == "TB_magnifier_tröte_R") {
+    cb.1$left[i+4] <- "magnifier"
+    cb.1$right[i+4] <- "tröte"
+    
+  } else if(cb[f,l] == "FB_magnifier_tröte_R") {
+    cb.1$left[i+4] <- "magnifier"
+    cb.1$right[i+4] <- "tröte"
+    
+  } else if(cb[f,l] == "FB_magnifier_tröte_L") {
+    cb.1$left[i+4] <- "tröte"
+    cb.1$right[i+4] <- "magnifier"
+    
+  } else if(cb[f,l] == "TB_magnifier_tröte_L") {
+    cb.1$left[i+4] <- "tröte"
+    cb.1$right[i+4] <- "magnifier"
+    
+    #pen
+   } else if(cb[f,l] == "TB_pen_whistle_R") {
+    cb.1$left[i+4] <- "pen"
+    cb.1$right[i+4] <- "whistle"
+    
+  } else if(cb[f,l] == "FB_pen_whistle_R") {
+    cb.1$left[i+4] <- "pen"
+    cb.1$right[i+4] <- "whistle"
+    
+  } else if(cb[f,l] == "FB_pen_whistle_L") {
+    cb.1$left[i+4] <- "whistle"
+    cb.1$right[i+4] <- "pen"
+    
+  } else if(cb[f,l] == "TB_pen_whistle_L") {
+    cb.1$left[i+4] <- "whistle"
+    cb.1$right[i+4] <- "pen"
+    
+     #compass
+   } else if(cb[f,l] == "TB_compass_bell_R") {
+    cb.1$left[i+4] <- "compass"
+    cb.1$right[i+4] <- "bell"
+    
+  } else if(cb[f,l] == "FB_compass_bell_R") {
+    cb.1$left[i+4] <- "compass"
+    cb.1$right[i+4] <- "bell"
+    
+  } else if(cb[f,l] == "FB_compass_bell_L") {
+    cb.1$left[i+4] <- "bell"
+    cb.1$right[i+4] <- "compass"
+    
+  } else if(cb[f,l] == "TB_compass_bell_L") {
+    cb.1$left[i+4] <- "bell"
+    cb.1$right[i+4] <- "compass"
+    
+     #bottle
+   } else if(cb[f,l] == "TB_bottle_R") {
+    cb.1$left[i+4] <- "bottle"
+    cb.1$right[i+4] <- NA
+    
+  } else if(cb[f,l] == "FB_bottle_R") {
+    cb.1$left[i+4] <- "bottle"
+    cb.1$right[i+4] <- NA
+    
+  } else if(cb[f,l] == "FB_bottle_L") {
+    cb.1$left[i+4] <- NA
+    cb.1$right[i+4] <- "bottle"
+    
+  } else if(cb[f,l] == "TB_bottle_L") {
+    cb.1$left[i+4] <- NA
+    cb.1$right[i+4] <- "bottle"
+    
+     #map
+   } else if(cb[f,l] == "TB_map_R") {
+    cb.1$left[i+4] <- "map"
+    cb.1$right[i+4] <- NA
+    
+  } else if(cb[f,l] == "FB_map_R") {
+    cb.1$left[i+4] <- "map"
+    cb.1$right[i+4] <- NA
+    
+  } else if(cb[f,l] == "FB_map_L") {
+    cb.1$left[i+4] <- NA
+    cb.1$right[i+4] <- "map"
+    
+  } else if(cb[f,l] == "TB_map_L") {
+    cb.1$left[i+4] <- NA
+    cb.1$right[i+4] <- "map"
+    
+     #sword
+   } else if(cb[f,l] == "TB_sword_R") {
+    cb.1$left[i+4] <- "sword"
+    cb.1$right[i+4] <- NA
+    
+  } else if(cb[f,l] == "FB_sword_R") {
+    cb.1$left[i+4] <- "sword"
+    cb.1$right[i+4] <- NA
+    
+  } else if(cb[f,l] == "FB_sword_L") {
+    cb.1$left[i+4] <- NA
+    cb.1$right[i+4] <- "sword"
+    
+  } else if(cb[f,l] == "TB_sword_L") {
+    cb.1$left[i+4] <- NA
+    cb.1$right[i+4] <- "sword"
+    
+       #necklace
+   } else if(cb[f,l] == "TB_necklace_R") {
+    cb.1$left[i+4] <- "necklace"
+    cb.1$right[i+4] <- NA
+    
+  } else if(cb[f,l] == "FB_necklace_R") {
+    cb.1$left[i+4] <- "necklace"
+    cb.1$right[i+4] <- NA
+    
+  } else if(cb[f,l] == "FB_necklace_L") {
+    cb.1$left[i+4] <- NA
+    cb.1$right[i+4] <- "necklace"
+    
+  } else if(cb[f,l] == "TB_necklace_L") {
+    cb.1$left[i+4] <- NA
+    cb.1$right[i+4] <- "necklace"
+    
+  }
+}
+
+```
+
+
+```{r}
+for (i in 1:nrow(cb.1)) {
+  if(!is.na(cb.1$left[i])) {
+    if(cb.1$left[i] == "flower") {
+      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/flower.png"
+    } else if (cb.1$left[i] == "sword") {
+      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/sword.png"
+    } else if (cb.1$left[i] == "crown") {
+      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/crown.png"
+    } else if (cb.1$left[i] == "drum") {
+      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/drum.png"
+    } else if (cb.1$left[i] == "map") {
+      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/map.png"
+    } else if (cb.1$left[i] == "magnifier") {
+      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/magnifier.png"
+    } else if (cb.1$left[i] == "ball") {
+      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/ball.png"
+    } else if (cb.1$left[i] == "necklace") {
+      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/necklace.png"
+    } else if (cb.1$left[i] == "compass") {
+      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/compass.png"
+    } else if (cb.1$left[i] == "telescope") {
+      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/telescope.png"
+    } else if (cb.1$left[i] == "pen") {
+      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/pen.png"
+    } else if (cb.1$left[i] == "tröte") {
+      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/tröte.png"
+    } else if (cb.1$left[i] == "bell") {
+      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/bell.png"
+    } else if (cb.1$left[i] == "whistle") {
+      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/whistle.png"
+    } else if (cb.1$left[i] == "cup") {
+      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/cup.png"
+    } else if (cb.1$left[i] == "rattle") {
+      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/rattle.png"
+    } else if (cb.1$left[i] == "coin") {
+      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/coin.png"
+    } else if (cb.1$left[i] == "die") {
+      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/die.png"
+    } else if (cb.1$left[i] == "bottle") {
+      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/bottle.png"
+    } else if (cb.1$left[i] == "comb") {
+      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/comb.png"
+    } else {
+      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWI/NA.png"
+    }
+  } else if(is.na(cb.1$left[i])) {
+    cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWI/NA.png"
+  }
+  
+  if(!is.na(cb.1$right[i])) {
+    if(cb.1$right[i] == "flower") {
+      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/flower.png"
+    } else if (cb.1$right[i] == "sword") {
+      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/sword.png"
+    } else if (cb.1$right[i] == "crown") {
+      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/crown.png"
+    } else if (cb.1$right[i] == "drum") {
+      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/drum.png"
+    } else if (cb.1$right[i] == "map") {
+      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/map.png"
+    } else if (cb.1$right[i] == "magnifier") {
+      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/magnifier.png"
+    } else if (cb.1$right[i] == "ball") {
+      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/ball.png"
+    } else if (cb.1$right[i] == "necklace") {
+      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/necklace.png"
+    } else if (cb.1$right[i] == "compass") {
+      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/compass.png"
+    } else if (cb.1$right[i] == "telescope") {
+      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/telescope.png"
+    } else if (cb.1$right[i] == "pen") {
+      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/pen.png"
+    } else if (cb.1$right[i] == "tröte") {
+      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/tröte.png"
+    } else if (cb.1$right[i] == "bell") {
+      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/bell.png"
+    } else if (cb.1$right[i] == "whistle") {
+      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/whistle.png"
+    } else if (cb.1$right[i] == "cup") {
+      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/cup.png"
+    } else if (cb.1$right[i] == "rattle") {
+      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/rattle.png"
+    } else if (cb.1$right[i] == "coin") {
+      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/coin.png"
+    } else if (cb.1$right[i] == "die") {
+      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/die.png"
+    } else if (cb.1$right[i] == "bottle") {
+      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/bottle.png"
+    } else if (cb.1$right[i] == "comb") {
+      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/comb.png"
+    } else {
+      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWI/NA.png" 
+    }
+  } else if(is.na(cb.1$right[i])) {
+    cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWI/NA.png"
+  }
+  
+}
+ 
+```
+
+
+```{r}
+title = paste0("CB_",cb.1$id[1]," ", "(", cb.1$order_question[1], ")")
+
+cb.1[3:6] %>%
+  kable(col.names = NULL, align = "c") %>% 
+  kable_styling(full_width = FALSE, position = "left") %>%
+  column_spec(2, background =  ifelse(cb.1$outcome == "L" & cb.1$trial.nr <= 4, "red", ifelse(cb.1$outcome == "L" & cb.1$trial.nr > 4, "#f2f2f2","white")), 
+              image = spec_image(cb.1$left.img,150,150)) %>%
+  column_spec(3, background =  ifelse(cb.1$outcome == "R" & cb.1$trial.nr <= 4, "red", ifelse(cb.1$outcome == "R" & cb.1$trial.nr > 4, "#f2f2f2","white")), 
+              image = spec_image(cb.1$right.img,150,150)) %>%
+  column_spec(1, background = ifelse(cb.1$tb.fb == "t" , "#c8efc2",
+                                     ifelse(cb.1$tb.fb == "f" , "#ffa3a8", "white"))) %>%
+  add_header_above(setNames(4, title))
+```
+
+
+
+# now into a loop
+```{r }
+dfs <- list()
+
+for (f in 1:nrow(cb)) {
+  
+  
+  dfs[[f]] <- data.frame(id = cb$id[f], order_question = cb$order_question[f], trial.nr = 1:12, links = "", rechts = "", 
+                         consis = NA, outcome = NA, tb.fb = NA,
+                         left = NA, right = NA)
+  
+  for (i in 1:4) {
+  l = i+5
+  
+  if(cb[f,l] == "crown_comb_L") {
+    dfs[[f]]$left[i] <- "crown"
+    dfs[[f]]$right[i] <- "comb"
+    
+  } else if(cb[f,l] == "cup_drum_R") {
+    dfs[[f]]$left[i] <- "cup"
+    dfs[[f]]$right[i] <- "drum"
+    
+  } else if(cb[f,l] == "die_telescope_R") {
+    dfs[[f]]$left[i] <- "die"
+    dfs[[f]]$right[i] <- "telescope"
+    
+  } else if(cb[f,l] == "flower_coin_L") {
+    dfs[[f]]$left[i] <- "flower"
+    dfs[[f]]$right[i] <- "coin"
+    
+  }
+}
+  
+for (i in 1:4) {
+  dfs[[f]]$consis[i] <- substring(cb$consis.fam[f],i,i)
+  dfs[[f]]$outcome[i] <- substring(cb$outcome.fam[f],i,i)
+  dfs[[f]]$tb.fb[i] <- "na"
+}
+
+for (k in 1:8) {
+    l = k + 4
+    dfs[[f]]$consis[l] <- substring(cb$consis[f],k,k)
+    dfs[[f]]$outcome[l] <- substring(cb$outcome[f],k,k)
+    dfs[[f]]$tb.fb[l] <- substring(cb$tb.fb[f],k,k)
+}
+  
+  for (i in 1:8) {
+  l = i+12
+  
+  #ball = rattle
+  if(cb[f,l] == "TB_ball_rattle_R") {
+    dfs[[f]]$left[i+4] <- "ball"
+    dfs[[f]]$right[i+4] <- "rattle"
+    
+  } else if(cb[f,l] == "FB_ball_rattle_R") {
+    dfs[[f]]$left[i+4] <- "ball"
+    dfs[[f]]$right[i+4] <- "rattle"
+    
+  } else if(cb[f,l] == "FB_ball_rattle_L") {
+    dfs[[f]]$left[i+4] <- "rattle"
+    dfs[[f]]$right[i+4] <- "ball"
+    
+  } else if(cb[f,l] == "TB_ball_rattle_L") {
+    dfs[[f]]$left[i+4] <- "rattle"
+    dfs[[f]]$right[i+4] <- "ball"
+    
+    #magnifier
+   } else if(cb[f,l] == "TB_magnifier_tröte_R") {
+    dfs[[f]]$left[i+4] <- "magnifier"
+    dfs[[f]]$right[i+4] <- "tröte"
+    
+  } else if(cb[f,l] == "FB_magnifier_tröte_R") {
+    dfs[[f]]$left[i+4] <- "magnifier"
+    dfs[[f]]$right[i+4] <- "tröte"
+    
+  } else if(cb[f,l] == "FB_magnifier_tröte_L") {
+    dfs[[f]]$left[i+4] <- "tröte"
+    dfs[[f]]$right[i+4] <- "magnifier"
+    
+  } else if(cb[f,l] == "TB_magnifier_tröte_L") {
+    dfs[[f]]$left[i+4] <- "tröte"
+    dfs[[f]]$right[i+4] <- "magnifier"
+    
+    #pen
+   } else if(cb[f,l] == "TB_pen_whistle_R") {
+    dfs[[f]]$left[i+4] <- "pen"
+    dfs[[f]]$right[i+4] <- "whistle"
+    
+  } else if(cb[f,l] == "FB_pen_whistle_R") {
+    dfs[[f]]$left[i+4] <- "pen"
+    dfs[[f]]$right[i+4] <- "whistle"
+    
+  } else if(cb[f,l] == "FB_pen_whistle_L") {
+    dfs[[f]]$left[i+4] <- "whistle"
+    dfs[[f]]$right[i+4] <- "pen"
+    
+  } else if(cb[f,l] == "TB_pen_whistle_L") {
+    dfs[[f]]$left[i+4] <- "whistle"
+    dfs[[f]]$right[i+4] <- "pen"
+    
+     #compass
+   } else if(cb[f,l] == "TB_compass_bell_R") {
+    dfs[[f]]$left[i+4] <- "compass"
+    dfs[[f]]$right[i+4] <- "bell"
+    
+  } else if(cb[f,l] == "FB_compass_bell_R") {
+    dfs[[f]]$left[i+4] <- "compass"
+    dfs[[f]]$right[i+4] <- "bell"
+    
+  } else if(cb[f,l] == "FB_compass_bell_L") {
+    dfs[[f]]$left[i+4] <- "bell"
+    dfs[[f]]$right[i+4] <- "compass"
+    
+  } else if(cb[f,l] == "TB_compass_bell_L") {
+    dfs[[f]]$left[i+4] <- "bell"
+    dfs[[f]]$right[i+4] <- "compass"
+    
+     #bottle
+   } else if(cb[f,l] == "TB_bottle_R") {
+    dfs[[f]]$left[i+4] <- "bottle"
+    dfs[[f]]$right[i+4] <- NA
+    
+  } else if(cb[f,l] == "FB_bottle_R") {
+    dfs[[f]]$left[i+4] <- "bottle"
+    dfs[[f]]$right[i+4] <- NA
+    
+  } else if(cb[f,l] == "FB_bottle_L") {
+    dfs[[f]]$left[i+4] <- NA
+    dfs[[f]]$right[i+4] <- "bottle"
+    
+  } else if(cb[f,l] == "TB_bottle_L") {
+    dfs[[f]]$left[i+4] <- NA
+    dfs[[f]]$right[i+4] <- "bottle"
+    
+     #map
+   } else if(cb[f,l] == "TB_map_R") {
+    dfs[[f]]$left[i+4] <- "map"
+    dfs[[f]]$right[i+4] <- NA
+    
+  } else if(cb[f,l] == "FB_map_R") {
+    dfs[[f]]$left[i+4] <- "map"
+    dfs[[f]]$right[i+4] <- NA
+    
+  } else if(cb[f,l] == "FB_map_L") {
+    dfs[[f]]$left[i+4] <- NA
+    dfs[[f]]$right[i+4] <- "map"
+    
+  } else if(cb[f,l] == "TB_map_L") {
+    dfs[[f]]$left[i+4] <- NA
+    dfs[[f]]$right[i+4] <- "map"
+    
+     #sword
+   } else if(cb[f,l] == "TB_sword_R") {
+    dfs[[f]]$left[i+4] <- "sword"
+    dfs[[f]]$right[i+4] <- NA
+    
+  } else if(cb[f,l] == "FB_sword_R") {
+    dfs[[f]]$left[i+4] <- "sword"
+    dfs[[f]]$right[i+4] <- NA
+    
+  } else if(cb[f,l] == "FB_sword_L") {
+    dfs[[f]]$left[i+4] <- NA
+    dfs[[f]]$right[i+4] <- "sword"
+    
+  } else if(cb[f,l] == "TB_sword_L") {
+    dfs[[f]]$left[i+4] <- NA
+    dfs[[f]]$right[i+4] <- "sword"
+    
+       #necklace
+   } else if(cb[f,l] == "TB_necklace_R") {
+    dfs[[f]]$left[i+4] <- "necklace"
+    dfs[[f]]$right[i+4] <- NA
+    
+  } else if(cb[f,l] == "FB_necklace_R") {
+    dfs[[f]]$left[i+4] <- "necklace"
+    dfs[[f]]$right[i+4] <- NA
+    
+  } else if(cb[f,l] == "FB_necklace_L") {
+    dfs[[f]]$left[i+4] <- NA
+    dfs[[f]]$right[i+4] <- "necklace"
+    
+  } else if(cb[f,l] == "TB_necklace_L") {
+    dfs[[f]]$left[i+4] <- NA
+    dfs[[f]]$right[i+4] <- "necklace"
+    
+  }
+  }
+  
+  for (i in 1:nrow(dfs[[f]])) {
+  if(!is.na(dfs[[f]]$left[i])) {
+    if(dfs[[f]]$left[i] == "flower") {
+      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/flower.png"
+    } else if (dfs[[f]]$left[i] == "sword") {
+      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/sword.png"
+    } else if (dfs[[f]]$left[i] == "crown") {
+      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/crown.png"
+    } else if (dfs[[f]]$left[i] == "drum") {
+      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/drum.png"
+    } else if (dfs[[f]]$left[i] == "map") {
+      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/map.png"
+    } else if (dfs[[f]]$left[i] == "magnifier") {
+      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/magnifier.png"
+    } else if (dfs[[f]]$left[i] == "ball") {
+      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/ball.png"
+    } else if (dfs[[f]]$left[i] == "necklace") {
+      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/necklace.png"
+    } else if (dfs[[f]]$left[i] == "compass") {
+      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/compass.png"
+    } else if (dfs[[f]]$left[i] == "telescope") {
+      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/telescope.png"
+    } else if (dfs[[f]]$left[i] == "pen") {
+      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/pen.png"
+    } else if (dfs[[f]]$left[i] == "tröte") {
+      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/tröte.png"
+    } else if (dfs[[f]]$left[i] == "bell") {
+      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/bell.png"
+    } else if (dfs[[f]]$left[i] == "whistle") {
+      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/whistle.png"
+    } else if (dfs[[f]]$left[i] == "cup") {
+      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/cup.png"
+    } else if (dfs[[f]]$left[i] == "rattle") {
+      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/rattle.png"
+    } else if (dfs[[f]]$left[i] == "coin") {
+      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/coin.png"
+    } else if (dfs[[f]]$left[i] == "die") {
+      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/die.png"
+    } else if (dfs[[f]]$left[i] == "bottle") {
+      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/bottle.png"
+    } else if (dfs[[f]]$left[i] == "comb") {
+      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/comb.png"
+    } else {
+      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWI/NA.png"
+    }
+  } else if(is.na(dfs[[f]]$left[i])) {
+    dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWI/NA.png"
+  }
+  
+  if(!is.na(dfs[[f]]$right[i])) {
+    if(dfs[[f]]$right[i] == "flower") {
+      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/flower.png"
+    } else if (dfs[[f]]$right[i] == "sword") {
+      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/sword.png"
+    } else if (dfs[[f]]$right[i] == "crown") {
+      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/crown.png"
+    } else if (dfs[[f]]$right[i] == "drum") {
+      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/drum.png"
+    } else if (dfs[[f]]$right[i] == "map") {
+      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/map.png"
+    } else if (dfs[[f]]$right[i] == "magnifier") {
+      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/magnifier.png"
+    } else if (dfs[[f]]$right[i] == "ball") {
+      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/ball.png"
+    } else if (dfs[[f]]$right[i] == "necklace") {
+      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/necklace.png"
+    } else if (dfs[[f]]$right[i] == "compass") {
+      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/compass.png"
+    } else if (dfs[[f]]$right[i] == "telescope") {
+      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/telescope.png"
+    } else if (dfs[[f]]$right[i] == "pen") {
+      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/pen.png"
+    } else if (dfs[[f]]$right[i] == "tröte") {
+      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/tröte.png"
+    } else if (dfs[[f]]$right[i] == "bell") {
+      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/bell.png"
+    } else if (dfs[[f]]$right[i] == "whistle") {
+      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/whistle.png"
+    } else if (dfs[[f]]$right[i] == "cup") {
+      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/cup.png"
+    } else if (dfs[[f]]$right[i] == "rattle") {
+      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/rattle.png"
+    } else if (dfs[[f]]$right[i] == "coin") {
+      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/coin.png"
+    } else if (dfs[[f]]$right[i] == "die") {
+      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/die.png"
+    } else if (dfs[[f]]$right[i] == "bottle") {
+      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/bottle.png"
+    } else if (dfs[[f]]$right[i] == "comb") {
+      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/comb.png"
+    } else {
+      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWI/NA.png" 
+    }
+  } else if(is.na(dfs[[f]]$right[i])) {
+    dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWI/NA.png"
+  }
+  
+}
+ 
+}
+```
+
+
+```{r results='asis'}
+for (f in 1:nrow(cb)) {
+  title = paste0("CB_",dfs[[f]]$id[1]," ", "(", dfs[[f]]$order_question[1], ")")
+  
+  print(dfs[[f]][3:6] %>%
+    kbl(col.names = NULL, align = "c") %>% 
+    kable_styling(full_width = FALSE, position = "left") %>%
+    column_spec(2, background = ifelse(dfs[[f]]$outcome == "L" & dfs[[f]]$trial.nr <= 4, "red", ifelse(dfs[[f]]$outcome == "L" & dfs[[f]]$trial.nr > 4, "#f2f2f2","white")), 
+                image = spec_image(dfs[[f]]$left.img,170,140)) %>%
+    column_spec(3, background = ifelse(dfs[[f]]$outcome == "R" & dfs[[f]]$trial.nr <= 4, "red", ifelse(dfs[[f]]$outcome == "R" & dfs[[f]]$trial.nr > 4, "#f2f2f2","white")), 
+                image = spec_image(dfs[[f]]$right.img,170,140)) %>%
+      column_spec(1, background = ifelse(dfs[[f]]$tb.fb == "t" , "#c8efc2",
+                                     ifelse(dfs[[f]]$tb.fb == "f" , "#ffa3a8", "white"))) %>%
+      column_spec(1:4, border_left = "1.5px solid black", border_right = "1.5px solid black", 
+                  extra_css = c("border-top:1.5px solid black;", "border-bottom:1.5px solid black;")) %>%
+    add_header_above(setNames(4, title), extra_css = "border-bottom:1.5px solid black;") %>%
+      row_spec(12, extra_css = "border-bottom:1.5px solid black;") %>%
+      column_spec(c(1,4), width = "0.3cm") %>%
+    column_spec(2:3, width = "1.8cm"))
+    cat('\n\n<!-- -->\n\n')
+}
+
+```
+
+
+

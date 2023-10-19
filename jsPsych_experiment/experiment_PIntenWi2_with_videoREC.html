@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My experiment</title>
+    <script src="https://unpkg.com/jspsych@7.3.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-multi-choice@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-image-button-response@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-video-button-response@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-preload@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-multi-choice@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-browser-check@1.0.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-video-keyboard-response@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-initialize-camera@1.0.1"></script>
+    <script src="https://unpkg.com/@jspsych/extension-record-video@1.0.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-initialize-microphone@1.0.2"></script>
+
+    
+    
+    <script src="stimuli.js"></script>
+
+    <link href="https://unpkg.com/jspsych@7.3.1/css/jspsych.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+<script>
+    
+    var jsPsych = initJsPsych({
+        use_webaudio: false,
+        extensions: [
+            {type: jsPsychExtensionRecordVideo, 
+            include_audio: true}
+        ],
+        on_finish: function () {
+            jsPsych.data.displayData();
+            jsPsych.data.get().localSave('csv', 'mydata.csv');
+        }
+    });
+
+    var init_camera = {
+    type: jsPsychInitializeCamera,
+    include_audio: true
+    };
+    
+    var init_micro = {
+    type: jsPsychInitializeMicrophone
+    };
+
+    var browsercheck = {
+        type: jsPsychBrowserCheck,
+        features: ["width", "height", "browser"],
+        data: { tag: 'browser_check' }
+    };
+
+    var widths_desktop = function () {
+        return jsPsych.data.get().filter({ tag: 'browser_check' }).last(1).values()[0].width / 1.04;
+    };
+
+    // store participants counterbalancing here
+
+    var group = 1
+    //var data = test_stimuli[group - 1].data;
+
+    // the "auto_preload: true" setting tells the plugin to automatically find 
+    // stimuli to preload based the main experiment timeline (used in jsPsych.run)
+    /*  var preload = {
+          type: jsPsychPreload,
+          auto_preload: true, // automatically preload the image and audio files
+          // manually preload the videos used with timeline variables
+          images: images,
+          video: video
+      }
+*/
+    // full screen mode (but will not work with Safari)
+
+    var cb_group = {
+        type: jsPsychSurveyText,
+        questions: [
+            { prompt: 'Versuchspersonennummer:', name: 'subj_id' },
+            { prompt: 'heutiges Datum (TT.MM.JJJJ):', name: 'date' },
+            { prompt: 'Balancierungsreihenfolge:', name: 'cb_group' },
+        ],
+        button_label: 'Weiter',
+        on_finish: function (data) {
+            data.tag = "cb_group" //data tag, so we can search later for the entry by that tag
+        }
+    }
+
+    var group_id = function () {
+        return jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].response.cb_group;
+    };
+
+    var enter_fullscreen = {
+        timeline: [
+            {
+                type: jsPsychFullscreen,
+                fullscreen_mode: true,
+                message: "Studie wird gestartet",
+                button_label: 'Weiter'
+            }
+        ],
+        data: function () {
+            group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].response.cb_group;
+            data = test_stimuli[group_id - 1].data;
+            return data
+        },
+        on_finish: function (data) {
+            data.tag = "cb_group" //data tag, so we can search later for the entry by that tag
+        }
+    };
+
+
+    var intro = {
+        type: jsPsychVideoKeyboardResponse,
+        stimulus: [
+            'videos/fam/Intro_Party.mp4'
+        ],
+        choices: " ",
+        width: widths_desktop,
+        trial_ends_after_video: false,
+        extensions: [
+                    {type: jsPsychExtensionRecordVideo,
+                    include_audio: true}
+                ],
+    };
+
+    // video test trial    
+    var video_fam_1 = {
+        type: jsPsychVideoKeyboardResponse,
+        // from the test_stimuli Object (which contains all the counterbalancing info an video links) 
+        //take n entry -1 (because in js all numbers start with 0) and then select the variables video_x and data and store them in variables here
+        // so test_stimuli[0] is actually the first entry. This works only because test_stimuli is numerically ordered by group! 
+        stimulus: function () {
+            group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+            stimulus = test_stimuli[group_id - 1].video_1;
+            return stimulus;
+        },
+        choices: [" "],
+        prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:12px;text-align:left;position:absolute; left:10px; top:-60px;">1</p> </div>',
+        response_allowed_while_playing: true,
+        trial_ends_after_video: true,
+        width: widths_desktop,
+        data: function () {
+            group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+            data = test_stimuli[group_id - 1].data;
+            return data
+        },
+        on_finish: function (data) {
+            data.tag = "video", //data tag, so we can search later for the entry by that tag
+                data.v_trial = 1
+        }
+    };
+
+    var outcome_v_fam = function () {
+        var index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial - 1
+        consis = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].consisfam
+        outcome = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].outcomefam
+        if (consis.substring(index, index + 1) == "I" && outcome.substring(index, index + 1) == "L") {
+            v = ['videos/fam/outcome_FAM_right.mp4']
+        } else if (consis.substring(index, index + 1) == "K" && outcome.substring(index, index + 1) == "L") {
+            v = ['videos/fam/outcome_FAM_left.mp4']
+        } else if (consis.substring(index, index + 1) == "I" && outcome.substring(index, index + 1) == "R") {
+            v = ['videos/fam/outcome_FAM_left.mp4']
+        } else if (consis.substring(index, index + 1) == "K" && outcome.substring(index, index + 1) == "R") {
+            v = ['videos/fam/outcome_FAM_right.mp4']
+        }
+        return v
+    };
+
+    var reaction_fam = function () {
+        var index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial - 1
+        consis = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].consisfam
+        outcome = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].outcomefam
+        if (consis.substring(index, index + 1) == "I" && outcome.substring(index, index + 1) == "L") {
+            v = ['videos/fam/right_sad.mp4']
+        } else if (consis.substring(index, index + 1) == "K" && outcome.substring(index, index + 1) == "L") {
+            v = ['videos/fam/left_happy.mp4']
+        } else if (consis.substring(index, index + 1) == "I" && outcome.substring(index, index + 1) == "R") {
+            v = ['videos/fam/left_sad.mp4']
+        } else if (consis.substring(index, index + 1) == "K" && outcome.substring(index, index + 1) == "R") {
+            v = ['videos/fam/right_happy.mp4']
+        }
+        return v
+    };
+
+    var outcome_fam = {
+        type: jsPsychVideoKeyboardResponse,
+        stimulus: outcome_v_fam,
+        choices: [" "],
+        stop: 8,
+        
+        response_allowed_while_playing: true,
+        trial_ends_after_video: true,
+        width: widths_desktop,
+        on_finish: function (data) {
+            data.index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial
+        }
+    };
+
+    var cq_FAM_object = {
+        timeline: [
+            {
+                type: jsPsychVideoKeyboardResponse,
+                width: widths_desktop,
+                stimulus: outcome_v_fam,
+                //f = false, k = correct
+                choices: ['f', 'k', 'Enter'],
+                prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:16px;text-align:left;position:absolute; left:10px; top:-60px;">Was(f/k)</p> </div>',
+                start: 8.5,
+                extensions: [
+                    {type: jsPsychExtensionRecordVideo}
+                ],
+                data: { correct: jsPsych.timelineVariable('correct'), tag: 'CQ_object'},
+                on_finish: function (data) {
+                    if (data.response == jsPsych.timelineVariable('correct')) {
+                        data.correct_response = true;
+                    } else {
+                        data.correct_response = false;
+                    }; 
+                    
+                    if (data.response == 'enter'){
+                        data.check = 'check child´s answer in this trial again'
+                    }
+                    data.index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial
+
+                }
+            }
+        ],
+        timeline_variables: [
+            { correct: 'k' }
+        ]
+
+    };
+    var cq_FAM_location = {
+        timeline: [
+            {
+                type: jsPsychVideoKeyboardResponse,
+                width: widths_desktop,
+                stimulus: outcome_v_fam,
+                //q = left side, ü = right side
+                choices: ['q', 'ü', 'Enter'],
+                prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:16px;text-align:left;position:absolute; left:10px; top:-60px;">Wo(q/ü)</p> </div>',
+                start: 8.5,
+                extensions: [
+                    {type: jsPsychExtensionRecordVideo}
+                ],
+                data: { correct: jsPsych.timelineVariable('correct'), tag: 'CQ_location' },
+                on_finish: function (data) {
+                    var correctValue = jsPsych.timelineVariable('correct', true)();
+                    if (data.response == correctValue) {
+                        data.correct_response = true;
+                    } else {
+                        data.correct_response = false;
+                    }; 
+                    
+                    if (data.response == 'enter'){
+                        data.check = 'check child´s answer in this trial again'
+                    }
+                    data.index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial
+                }
+
+            }
+        ],
+        timeline_variables: [
+            {
+                correct: function () {
+                    var index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial - 1;
+                    var outcome = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].outcomefam;
+                    var correct_here;
+                    if (outcome.substring(index, index + 1) == "R") {
+                        correct_here = 'ü';
+                    } else if (outcome.substring(index, index + 1) == "L") {
+                        correct_here = 'q';
+                    }
+                    return correct_here;
+                }
+            }
+
+        ]
+    };
+
+    var tq_FAM = { 
+        timeline: [
+            {
+                type: jsPsychVideoKeyboardResponse,
+            width: widths_desktop,
+            stimulus: outcome_v_fam,
+            //w = wind, p = paddle
+            choices: ['w', 'p', 'Enter'],
+            prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:16px;text-align:left;position:absolute; left:10px; top:-60px;">w/p</p> </div>',
+            start: 8.5,
+            extensions: [
+                    {type: jsPsychExtensionRecordVideo}
+                ],
+            data: { correct: jsPsych.timelineVariable('correct'), tag: 'TQ' },
+                on_finish: function (data) {
+                    var correctValue = jsPsych.timelineVariable('correct', true)();
+                    if (data.response == correctValue) {
+                        data.correct_response = true;
+                    } else {
+                        data.correct_response = false;
+                    }; 
+                    
+                    if (data.response == 'enter'){
+                        data.check = 'check child´s answer in this trial again'
+                    }
+                    data.index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial
+                }
+
+            }
+        ],
+        timeline_variables: [
+            {
+                correct: function () {
+                    var index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial - 1;
+                    var consis = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].consisfam;
+                    var correct_here;
+                    if (consis.substring(index, index + 1) == "I") {
+                        correct_here = 'w';
+                    } else if (consis.substring(index, index + 1) == "K") {
+                        correct_here = 'p';
+                    }
+                    return correct_here;
+                }
+            }
+
+        ]
+    };
+
+    var reaction_v_fam = {
+        type: jsPsychVideoKeyboardResponse,
+        stimulus: reaction_fam,
+        choices: [" "],
+        
+        response_allowed_while_playing: true,
+        trial_ends_after_video: false,
+        width: widths_desktop,
+        on_finish: function (data) {
+            data.index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial
+        }
+    };
+
+    var famQ_timeline = {
+        timeline: [outcome_fam, cq_FAM_object, cq_FAM_location, tq_FAM, reaction_v_fam]
+    };
+
+    // video test trial    
+    var video_fam_2 = {
+        type: jsPsychVideoKeyboardResponse,
+        stimulus: function () {
+            group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+            stimulus = test_stimuli[group_id - 1].video_2;
+            return stimulus;
+        },
+        choices: [" "],
+        response_allowed_while_playing: true,
+        trial_ends_after_video: true,
+        prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:12px;text-align:left;position:absolute; left:10px; top:-60px;">2</p> </div>',
+        width: widths_desktop,
+        data: function () {
+            group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+            data = test_stimuli[group_id - 1].data;
+            return data
+        },
+        on_finish: function (data) {
+            data.tag = "video", //data tag, so we can search later for the entry by that tag
+                data.v_trial = 2
+        }
+    };
+
+    // video test trial    
+    var video_fam_3 = {
+        type: jsPsychVideoKeyboardResponse,
+        stimulus: function () {
+            group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+            stimulus = test_stimuli[group_id - 1].video_3;
+            return stimulus;
+        },
+        choices: [" "],
+        response_allowed_while_playing: true,
+        trial_ends_after_video: true,
+        width: widths_desktop,
+        prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:12px;text-align:left;position:absolute; left:10px; top:-60px;">3</p> </div>',
+        data: function () {
+            group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+            data = test_stimuli[group_id - 1].data;
+            return data
+        },
+        on_finish: function (data) {
+            data.tag = "video", //data tag, so we can search later for the entry by that tag
+                data.v_trial = 3
+        }
+    };
+
+    // video test trial    
+    var video_fam_4 = {
+        type: jsPsychVideoKeyboardResponse,
+        stimulus: function () {
+            group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+            stimulus = test_stimuli[group_id - 1].video_4;
+            return stimulus;
+        },
+        choices: [" "],
+        response_allowed_while_playing: true,
+        trial_ends_after_video: true,
+        prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:12px;text-align:left;position:absolute; left:10px; top:-60px;">4</p> </div>',
+        width: widths_desktop,
+        data: function () {
+            group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+            data = test_stimuli[group_id - 1].data;
+            return data
+        },
+        on_finish: function (data) {
+            data.tag = "video", //data tag, so we can search later for the entry by that tag
+                data.v_trial = 4
+        }
+    };
+
+     // show this timeline only if child made a mistake in 2nd FAM trial
+     var fam3_timeline = {
+            timeline: [video_fam_3, famQ_timeline],
+            conditional_function: function () {
+                var cq1 = jsPsych.data.get().filter({tag: 'CQ_object', index:2}).last(1).values()[0].correct_response;
+                var cq2 = jsPsych.data.get().filter({tag: 'CQ_location', index:2}).last(1).values()[0].correct_response;
+                var tq = jsPsych.data.get().filter({tag: 'TQ', index:2}).last(1).values()[0].correct_response;
+                if (cq1 == false || cq2 == false || tq == false) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        };
+
+        // show this timeline only if child made a mistake in 1st FAM trial
+     var fam4_timeline = {
+            timeline: [video_fam_4, famQ_timeline],
+            conditional_function: function () {
+                var cq1 = jsPsych.data.get().filter({tag: 'CQ_object', index:1}).last(1).values()[0].correct_response;
+                var cq2 = jsPsych.data.get().filter({tag: 'CQ_location', index:1}).last(1).values()[0].correct_response;
+                var tq = jsPsych.data.get().filter({tag: 'TQ', index:1}).last(1).values()[0].correct_response;
+                if (cq1 == false || cq2 == false || tq == false) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        };
+
+        var fam_timeline = {
+            timeline: [video_fam_1, famQ_timeline, video_fam_2, famQ_timeline, fam3_timeline, fam4_timeline]
+        }
+
+ // video test trial 
+ // Variable to store the video duration
+   
+ var video_5 = {
+        type: jsPsychVideoKeyboardResponse,
+        stimulus: function () {
+        group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+        stimulus = test_stimuli[group_id - 1].video_5;
+        return stimulus;
+    },
+        choices: [" "],
+        response_allowed_while_playing: true,
+        trial_ends_after_video: true,
+        width: widths_desktop,
+        prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:12px;text-align:left;position:absolute; left:10px; top:-60px;">5</p> </div>',
+        data: function () {
+            group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+            data = test_stimuli[group_id - 1].data;
+            return data
+        },
+        on_finish: function (data) {
+            data.tag = "video"; //data tag, so we can search later for the entry by that tag
+                data.v_trial = 1;
+    },
+    };
+    
+    var cq_TEST_object = {
+        timeline: [
+            {
+                type: jsPsychVideoKeyboardResponse,
+                width: widths_desktop,
+                stimulus: ['videos/outcome_TT_right.mp4'], // i put here one video, but since it wont be played it doesn'T matter which you put here
+                //f = false, k = correct
+                choices: ['f', 'k', 'Enter'],
+                prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:16px;text-align:left;position:absolute; left:10px; top:-60px;">Was(f/k)</p> </div>',
+                start: 0,
+                stop:0.00001,
+                extensions: [
+                    {type: jsPsychExtensionRecordVideo}
+                ],
+                data: { correct: jsPsych.timelineVariable('correct'), tag: 'CQ_object'},
+                on_finish: function (data) {
+                    var correctValue = jsPsych.timelineVariable('correct', true)();
+                    if (data.response == correctValue) {
+                        data.correct_response = true;
+                    } else {
+                        data.correct_response = false;
+                    }; 
+                    
+                    if (data.response == 'enter'){
+                        data.check = 'check child´s answer in this trial again'
+                    }
+                    data.index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial
+                    var index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial - 1
+                    data.outcome = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].outcome.substring(index, index+1)
+                    data.consis = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].consis.substring(index, index+1)
+                    data.tb_fb = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].tb_fb_order.substring(index, index+1)
+                    data.a_c_order = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].order.substring(index, index+1)
+                }
+            }
+        ],
+        timeline_variables: [
+            { correct: 'k' }
+        ]
+
+    };
+
+    var outcome_v_test = function () {
+        var index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial - 1
+        consis = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].consis
+        outcome = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].outcome
+        tb_fb = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].tb_fb_order
+        
+        // true belief cases
+        if (consis.substring(index, index + 1) == "K" && outcome.substring(index, index + 1) == "L" && tb_fb.substring(index, index + 1) == "t") {
+            v = ['videos/outcome_TT_left.mp4']
+        } else if (consis.substring(index, index + 1) == "K" && outcome.substring(index, index + 1) == "R" && tb_fb.substring(index, index + 1) == "t") {
+            v = ['videos/outcome_TT_right.mp4']
+        } else if (consis.substring(index, index + 1) == "I" && outcome.substring(index, index + 1) == "R" && tb_fb.substring(index, index + 1) == "t") {
+            v = ['videos/outcome_TT_left.mp4']
+        } else if (consis.substring(index, index + 1) == "I" && outcome.substring(index, index + 1) == "L" && tb_fb.substring(index, index + 1) == "t") {
+            v = ['videos/outcome_TT_right.mp4']
+
+            // false belief cases
+        } else if (consis.substring(index, index + 1) == "K" && outcome.substring(index, index + 1) == "R" && tb_fb.substring(index, index + 1) == "f") {
+            v = ['videos/outcome_TT_left.mp4']
+        } else if (consis.substring(index, index + 1) == "K" && outcome.substring(index, index + 1) == "L" && tb_fb.substring(index, index + 1) == "f") {
+            v = ['videos/outcome_TT_right.mp4']
+        } else if (consis.substring(index, index + 1) == "I" && outcome.substring(index, index + 1) == "R" && tb_fb.substring(index, index + 1) == "f") {
+            v = ['videos/outcome_TT_right.mp4']
+        } else if (consis.substring(index, index + 1) == "I" && outcome.substring(index, index + 1) == "L" && tb_fb.substring(index, index + 1) == "f") {
+            v = ['videos/outcome_TT_left.mp4']
+        }
+        return v
+    };
+
+    var outcome_test = {
+        type: jsPsychVideoKeyboardResponse,
+        stimulus: outcome_v_test,
+        choices: [" "],
+        response_allowed_while_playing: true,
+        trial_ends_after_video: true,
+        width: widths_desktop,
+        on_finish: function (data) {
+            data.index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial
+        }
+    };
+    var tq_test = { 
+        timeline: [
+            {
+                type: jsPsychVideoKeyboardResponse,
+            width: widths_desktop,
+            stimulus: outcome_v_test,
+            //w = wind, p = paddle
+            choices: ['w', 'p', 'Enter'],
+            prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:16px;text-align:left;position:absolute; left:10px; top:-60px;">w/p</p> </div>',
+            start: 8.5,
+            extensions: [
+                    {type: jsPsychExtensionRecordVideo}
+                ],
+            data: { correct: jsPsych.timelineVariable('correct'), tag: 'TQ' },
+                on_finish: function (data) {
+                    var correctValue = jsPsych.timelineVariable('correct', true)();
+                    if (data.response == correctValue) {
+                        data.correct_response = true;
+                    } else {
+                        data.correct_response = false;
+                    }; 
+                    
+                    if (data.response == 'enter'){
+                        data.check = 'check child´s answer in this trial again'
+                    }
+                    data.index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial
+                    var index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial - 1
+                    data.outcome = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].outcome.substring(index, index+1)
+                    data.consis = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].consis.substring(index, index+1)
+                    data.tb_fb = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].tb_fb_order.substring(index, index+1)
+                    data.a_c_order = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].order.substring(index, index+1)
+                }
+
+            }
+        ],
+        timeline_variables: [
+            {
+                correct: function () {
+                    var index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial - 1;
+                    var consis = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].consis;
+                    var correct_here;
+                    if (consis.substring(index, index + 1) == "I") {
+                        correct_here = 'w';
+                    } else if (consis.substring(index, index + 1) == "K") {
+                        correct_here = 'p';
+                    }
+                    return correct_here;
+                }
+            }
+
+        ]
+    };
+
+    var cq_TEST_location = {
+        timeline: [
+            {
+                type: jsPsychVideoKeyboardResponse,
+                width: widths_desktop,
+                stimulus: outcome_v_test,
+                //q = left side, ü = right side
+                choices: ['q', 'ü', 'Enter'],
+                prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:16px;text-align:left;position:absolute; left:10px; top:-60px;">Wo(q/ü)</p> </div>',
+                start: 8.5,
+                extensions: [
+                    {type: jsPsychExtensionRecordVideo}
+                ],
+                data: { correct: jsPsych.timelineVariable('correct'), tag: 'CQ_location' },
+                on_finish: function (data) {
+                    var correctValue = jsPsych.timelineVariable('correct', true)();
+                    if (data.response == correctValue) {
+                        data.correct_response = true;
+                    } else {
+                        data.correct_response = false;
+                    }; 
+                    if (data.response == 'enter'){
+                        data.check = 'check child´s answer in this trial again'
+                    }
+                    data.index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial
+                    var index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial - 1
+                    data.outcome = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].outcome.substring(index, index+1)
+                    data.consis = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].consis.substring(index, index+1)
+                    data.tb_fb = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].tb_fb_order.substring(index, index+1)
+                    data.a_c_order = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].order.substring(index, index+1)
+                }
+
+            }
+        ],
+        timeline_variables: [
+            {
+                correct: function () {
+                    var index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial - 1;
+                    var outcome = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].outcome;
+                    var tb_fb = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].tb_fb_order
+                    var correct_here;
+                    if (outcome.substring(index, index + 1) == "R" && tb_fb.substring(index, index + 1) == "t") {
+                        correct_here = 'ü';
+                    } else if (outcome.substring(index, index + 1) == "L" && tb_fb.substring(index, index + 1) == "t") {
+                        correct_here = 'q';
+                        // for false belief trials it is reversed
+                    } else if (outcome.substring(index, index + 1) == "L" && tb_fb.substring(index, index + 1) == "f") {
+                        correct_here = 'ü';
+                    } else if (outcome.substring(index, index + 1) == "R" && tb_fb.substring(index, index + 1) == "f") {
+                        correct_here = 'q';
+                    }
+                    return correct_here;
+                }
+            }
+
+        ]
+    };
+    var cq_knowledge = { 
+        timeline: [
+            {
+                type: jsPsychVideoKeyboardResponse,
+            width: widths_desktop,
+            stimulus: outcome_v_test,
+            // y = yes (he has seen it/he knows it), n = no (he hasn't seen it/does't know)
+            choices: ['y', 'n', 'Enter'],
+            prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:16px;text-align:left;position:absolute; left:10px; top:-60px;">weiß/gesehen(y/n)</p> </div>',
+            start: 8.5,
+            extensions: [
+                    {type: jsPsychExtensionRecordVideo}
+                ],
+            data: { correct: jsPsych.timelineVariable('correct'), tag: 'CQ_knowledge/access' },
+                on_finish: function (data) {
+                    var correctValue = jsPsych.timelineVariable('correct', true)();
+                    if (data.response == correctValue) {
+                        data.correct_response = true;
+                    } else {
+                        data.correct_response = false;
+                    }; 
+                    
+                    if (data.response == 'enter'){
+                        data.check = 'check child´s answer in this trial again'
+                    }
+                    data.index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial
+                    var index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial - 1
+                    data.outcome = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].outcome.substring(index, index+1)
+                    data.consis = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].consis.substring(index, index+1)
+                    data.tb_fb = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].tb_fb_order.substring(index, index+1)
+                    data.a_c_order = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].order.substring(index, index+1)
+                }
+
+            }
+        ],
+        timeline_variables: [
+            {
+                correct: function () {
+                    var index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial - 1;
+                    var tb_fb = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].tb_fb_order
+                    var correct_here;
+                    // y = yes (he has seen it/he knows it), n = no (he hasn't seen it/does't know)
+                    if (tb_fb.substring(index, index + 1) == "t") {
+                        correct_here = 'y';
+                    } else if (tb_fb.substring(index, index + 1) == "f") {
+                        correct_here = 'n';
+                    }
+                    return correct_here;
+                }
+            }
+
+        ]
+    };
+
+    var Q_testtrials_timeline = {
+        timeline: [cq_TEST_object,outcome_test,tq_test, cq_TEST_location,cq_knowledge]
+    };
+
+    var video_6 = {
+        type: jsPsychVideoKeyboardResponse,
+        stimulus: function () {
+        group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+        stimulus = test_stimuli[group_id - 1].video_6;
+        return stimulus;
+    },
+        choices: [" "],
+        response_allowed_while_playing: true,
+        trial_ends_after_video: true,
+        width: widths_desktop,
+        prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:12px;text-align:left;position:absolute; left:10px; top:-60px;">6</p> </div>',
+        data: function () {
+            group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+            data = test_stimuli[group_id - 1].data;
+            return data
+        },
+        on_finish: function (data) {
+            data.tag = "video"; //data tag, so we can search later for the entry by that tag
+                data.v_trial = 2;
+    },
+    };
+
+    var video_7 = {
+        type: jsPsychVideoKeyboardResponse,
+        stimulus: function () {
+        group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+        stimulus = test_stimuli[group_id - 1].video_7;
+        return stimulus;
+    },
+        choices: [" "],
+        response_allowed_while_playing: true,
+        trial_ends_after_video: true,
+        width: widths_desktop,
+        prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:12px;text-align:left;position:absolute; left:10px; top:-60px;">7</p> </div>',
+        data: function () {
+            group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+            data = test_stimuli[group_id - 1].data;
+            return data
+        },
+        on_finish: function (data) {
+            data.tag = "video"; //data tag, so we can search later for the entry by that tag
+                data.v_trial = 3;
+    },
+    };
+    var video_8 = {
+        type: jsPsychVideoKeyboardResponse,
+        stimulus: function () {
+        group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+        stimulus = test_stimuli[group_id - 1].video_8;
+        return stimulus;
+    },
+        choices: [" "],
+        response_allowed_while_playing: true,
+        trial_ends_after_video: true,
+        width: widths_desktop,
+        prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:12px;text-align:left;position:absolute; left:10px; top:-60px;">8</p> </div>',
+        data: function () {
+            group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+            data = test_stimuli[group_id - 1].data;
+            return data
+        },
+        on_finish: function (data) {
+            data.tag = "video"; //data tag, so we can search later for the entry by that tag
+                data.v_trial = 4;
+    },
+    };
+    var video_9 = {
+        type: jsPsychVideoKeyboardResponse,
+        stimulus: function () {
+        group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+        stimulus = test_stimuli[group_id - 1].video_9;
+        return stimulus;
+    },
+        choices: [" "],
+        response_allowed_while_playing: true,
+        trial_ends_after_video: true,
+        width: widths_desktop,
+        prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:12px;text-align:left;position:absolute; left:10px; top:-60px;">9</p> </div>',
+        data: function () {
+            group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+            data = test_stimuli[group_id - 1].data;
+            return data
+        },
+        on_finish: function (data) {
+            data.tag = "video"; //data tag, so we can search later for the entry by that tag
+                data.v_trial = 5;
+    },
+    };
+    var video_10 = {
+        type: jsPsychVideoKeyboardResponse,
+        stimulus: function () {
+        group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+        stimulus = test_stimuli[group_id - 1].video_10;
+        return stimulus;
+    },
+        choices: [" "],
+        response_allowed_while_playing: true,
+        trial_ends_after_video: true,
+        width: widths_desktop,
+        prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:12px;text-align:left;position:absolute; left:10px; top:-60px;">10</p> </div>',
+        data: function () {
+            group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+            data = test_stimuli[group_id - 1].data;
+            return data
+        },
+        on_finish: function (data) {
+            data.tag = "video"; //data tag, so we can search later for the entry by that tag
+                data.v_trial = 6;
+    },
+    };
+    var video_11 = {
+        type: jsPsychVideoKeyboardResponse,
+        stimulus: function () {
+        group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+        stimulus = test_stimuli[group_id - 1].video_11;
+        return stimulus;
+    },
+        choices: [" "],
+        response_allowed_while_playing: true,
+        trial_ends_after_video: true,
+        width: widths_desktop,
+        prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:12px;text-align:left;position:absolute; left:10px; top:-60px;">11</p> </div>',
+        data: function () {
+            group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+            data = test_stimuli[group_id - 1].data;
+            return data
+        },
+        on_finish: function (data) {
+            data.tag = "video"; //data tag, so we can search later for the entry by that tag
+                data.v_trial = 7;
+    },
+    };
+    var video_12 = {
+        type: jsPsychVideoKeyboardResponse,
+        stimulus: function () {
+        group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+        stimulus = test_stimuli[group_id - 1].video_12;
+        return stimulus;
+    },
+        choices: [" "],
+        response_allowed_while_playing: true,
+        trial_ends_after_video: true,
+        width: widths_desktop,
+        prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:12px;text-align:left;position:absolute; left:10px; top:-60px;">12</p> </div>',
+        data: function () {
+            group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
+            data = test_stimuli[group_id - 1].data;
+            return data
+        },
+        on_finish: function (data) {
+            data.tag = "video"; //data tag, so we can search later for the entry by that tag
+                data.v_trial = 8;
+    },
+    };
+
+    var break_trial = {
+    type: jsPsychVideoKeyboardResponse,
+    stimulus: ['videos/break.mp4'],
+    width: widths_desktop,
+    choices: [' '],
+};
+
+var outro = {
+    type: jsPsychVideoKeyboardResponse,
+    stimulus: ['videos/outro.mp4'],
+    choices: [' '],
+    width: widths_desktop,
+        trial_ends_after_video: false
+};
+
+var test_trials_timeline = {
+    timeline: [video_5, Q_testtrials_timeline, video_6, Q_testtrials_timeline, video_7, Q_testtrials_timeline, video_8, Q_testtrials_timeline, break_trial, video_9, Q_testtrials_timeline, video_10, Q_testtrials_timeline, 
+    video_11, Q_testtrials_timeline, video_12, Q_testtrials_timeline]
+}
+    // exit full screen mode (but will not work with Safari)
+    var exit_fullscreen = {
+        timeline: [{
+            type: jsPsychFullscreen,
+            fullscreen_mode: false,
+            delay_after: 0
+        }]
+    };
+
+    //var timeline = [test_procedure];
+
+    var timeline = [browsercheck, cb_group,init_camera,init_micro, enter_fullscreen, intro, break_trial, 
+    //fam_timeline, test_trials_timeline, 
+    outro, exit_fullscreen];
+
+    // run the experiment:
+    //jsPsych.run(timeline);
+
+
+    jsPsych.run(timeline);
+
+
+        // to simulate some timelines
+        //jsPsych.simulate(timeline, "visual");
+
+   // });
+
+</script>
+</body>
+</html>
