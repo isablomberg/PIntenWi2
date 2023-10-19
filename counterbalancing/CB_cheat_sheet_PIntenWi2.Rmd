@@ -1,7 +1,7 @@
 ---
 title: "CB_cheat_sheet_PIntenWi2"
 author: "Isa Garbisch"
-date: '2023-10-10'
+date: "`r Sys.Date()`"
 output:
   html_document: default
 ---
@@ -14,7 +14,7 @@ library(kableExtra)
 ```
 
 ```{r}
-cb <- read.csv("/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/counterbalancing_PIntenWi2.csv")
+cb <- read.csv("./counterbalancing_PIntenWi2.csv")
 ```
 
 ```{r}
@@ -213,98 +213,98 @@ for (i in 1:8) {
 for (i in 1:nrow(cb.1)) {
   if(!is.na(cb.1$left[i])) {
     if(cb.1$left[i] == "flower") {
-      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/flower.png"
+      cb.1$left.img[i] = "./objects/flower.png"
     } else if (cb.1$left[i] == "sword") {
-      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/sword.png"
+      cb.1$left.img[i] = "./objects/sword.png"
     } else if (cb.1$left[i] == "crown") {
-      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/crown.png"
+      cb.1$left.img[i] = "./objects/crown.png"
     } else if (cb.1$left[i] == "drum") {
-      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/drum.png"
+      cb.1$left.img[i] = "./objects/drum.png"
     } else if (cb.1$left[i] == "map") {
-      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/map.png"
+      cb.1$left.img[i] = "./objects/map.png"
     } else if (cb.1$left[i] == "magnifier") {
-      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/magnifier.png"
+      cb.1$left.img[i] = "./objects/magnifier.png"
     } else if (cb.1$left[i] == "ball") {
-      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/ball.png"
+      cb.1$left.img[i] = "./objects/ball.png"
     } else if (cb.1$left[i] == "necklace") {
-      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/necklace.png"
+      cb.1$left.img[i] = "./objects/necklace.png"
     } else if (cb.1$left[i] == "compass") {
-      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/compass.png"
+      cb.1$left.img[i] = "./objects/compass.png"
     } else if (cb.1$left[i] == "telescope") {
-      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/telescope.png"
+      cb.1$left.img[i] = "./objects/telescope.png"
     } else if (cb.1$left[i] == "pen") {
-      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/pen.png"
+      cb.1$left.img[i] = "./objects/pen.png"
     } else if (cb.1$left[i] == "tröte") {
-      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/tröte.png"
+      cb.1$left.img[i] = "./objects/tröte.png"
     } else if (cb.1$left[i] == "bell") {
-      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/bell.png"
+      cb.1$left.img[i] = "./objects/bell.png"
     } else if (cb.1$left[i] == "whistle") {
-      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/whistle.png"
+      cb.1$left.img[i] = "./objects/whistle.png"
     } else if (cb.1$left[i] == "cup") {
-      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/cup.png"
+      cb.1$left.img[i] = "./objects/cup.png"
     } else if (cb.1$left[i] == "rattle") {
-      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/rattle.png"
+      cb.1$left.img[i] = "./objects/rattle.png"
     } else if (cb.1$left[i] == "coin") {
-      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/coin.png"
+      cb.1$left.img[i] = "./objects/coin.png"
     } else if (cb.1$left[i] == "die") {
-      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/die.png"
+      cb.1$left.img[i] = "./objects/die.png"
     } else if (cb.1$left[i] == "bottle") {
-      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/bottle.png"
+      cb.1$left.img[i] = "./objects/bottle.png"
     } else if (cb.1$left[i] == "comb") {
-      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/comb.png"
+      cb.1$left.img[i] = "./objects/comb.png"
     } else {
-      cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWI/NA.png"
+      cb.1$left.img[i] = "./objects/NA.png"
     }
   } else if(is.na(cb.1$left[i])) {
-    cb.1$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWI/NA.png"
+    cb.1$left.img[i] = "./objects/NA.png"
   }
   
   if(!is.na(cb.1$right[i])) {
     if(cb.1$right[i] == "flower") {
-      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/flower.png"
+      cb.1$right.img[i] = "./objects/flower.png"
     } else if (cb.1$right[i] == "sword") {
-      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/sword.png"
+      cb.1$right.img[i] = "./objects/sword.png"
     } else if (cb.1$right[i] == "crown") {
-      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/crown.png"
+      cb.1$right.img[i] = "./objects/crown.png"
     } else if (cb.1$right[i] == "drum") {
-      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/drum.png"
+      cb.1$right.img[i] = "./objects/drum.png"
     } else if (cb.1$right[i] == "map") {
-      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/map.png"
+      cb.1$right.img[i] = "./objects/map.png"
     } else if (cb.1$right[i] == "magnifier") {
-      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/magnifier.png"
+      cb.1$right.img[i] = "./objects/magnifier.png"
     } else if (cb.1$right[i] == "ball") {
-      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/ball.png"
+      cb.1$right.img[i] = "./objects/ball.png"
     } else if (cb.1$right[i] == "necklace") {
-      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/necklace.png"
+      cb.1$right.img[i] = "./objects/necklace.png"
     } else if (cb.1$right[i] == "compass") {
-      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/compass.png"
+      cb.1$right.img[i] = "./objects/compass.png"
     } else if (cb.1$right[i] == "telescope") {
-      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/telescope.png"
+      cb.1$right.img[i] = "./objects/telescope.png"
     } else if (cb.1$right[i] == "pen") {
-      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/pen.png"
+      cb.1$right.img[i] = "./objects/pen.png"
     } else if (cb.1$right[i] == "tröte") {
-      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/tröte.png"
+      cb.1$right.img[i] = "./objects/tröte.png"
     } else if (cb.1$right[i] == "bell") {
-      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/bell.png"
+      cb.1$right.img[i] = "./objects/bell.png"
     } else if (cb.1$right[i] == "whistle") {
-      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/whistle.png"
+      cb.1$right.img[i] = "./objects/whistle.png"
     } else if (cb.1$right[i] == "cup") {
-      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/cup.png"
+      cb.1$right.img[i] = "./objects/cup.png"
     } else if (cb.1$right[i] == "rattle") {
-      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/rattle.png"
+      cb.1$right.img[i] = "./objects/rattle.png"
     } else if (cb.1$right[i] == "coin") {
-      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/coin.png"
+      cb.1$right.img[i] = "./objects/coin.png"
     } else if (cb.1$right[i] == "die") {
-      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/die.png"
+      cb.1$right.img[i] = "./objects/die.png"
     } else if (cb.1$right[i] == "bottle") {
-      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/bottle.png"
+      cb.1$right.img[i] = "./objects/bottle.png"
     } else if (cb.1$right[i] == "comb") {
-      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/comb.png"
+      cb.1$right.img[i] = "./objects/comb.png"
     } else {
-      cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWI/NA.png" 
+      cb.1$right.img[i] = "./objects/NA.png" 
     }
   } else if(is.na(cb.1$right[i])) {
-    cb.1$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWI/NA.png"
+    cb.1$right.img[i] = "./objects/NA.png"
   }
   
 }
@@ -520,98 +520,98 @@ for (k in 1:8) {
   for (i in 1:nrow(dfs[[f]])) {
   if(!is.na(dfs[[f]]$left[i])) {
     if(dfs[[f]]$left[i] == "flower") {
-      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/flower.png"
+      dfs[[f]]$left.img[i] = "./objects/flower.png"
     } else if (dfs[[f]]$left[i] == "sword") {
-      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/sword.png"
+      dfs[[f]]$left.img[i] = "./objects/sword.png"
     } else if (dfs[[f]]$left[i] == "crown") {
-      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/crown.png"
+      dfs[[f]]$left.img[i] = "./objects/crown.png"
     } else if (dfs[[f]]$left[i] == "drum") {
-      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/drum.png"
+      dfs[[f]]$left.img[i] = "./objects/drum.png"
     } else if (dfs[[f]]$left[i] == "map") {
-      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/map.png"
+      dfs[[f]]$left.img[i] = "./objects/map.png"
     } else if (dfs[[f]]$left[i] == "magnifier") {
-      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/magnifier.png"
+      dfs[[f]]$left.img[i] = "./objects/magnifier.png"
     } else if (dfs[[f]]$left[i] == "ball") {
-      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/ball.png"
+      dfs[[f]]$left.img[i] = "./objects/ball.png"
     } else if (dfs[[f]]$left[i] == "necklace") {
-      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/necklace.png"
+      dfs[[f]]$left.img[i] = "./objects/necklace.png"
     } else if (dfs[[f]]$left[i] == "compass") {
-      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/compass.png"
+      dfs[[f]]$left.img[i] = "./objects/compass.png"
     } else if (dfs[[f]]$left[i] == "telescope") {
-      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/telescope.png"
+      dfs[[f]]$left.img[i] = "./objects/telescope.png"
     } else if (dfs[[f]]$left[i] == "pen") {
-      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/pen.png"
+      dfs[[f]]$left.img[i] = "./objects/pen.png"
     } else if (dfs[[f]]$left[i] == "tröte") {
-      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/tröte.png"
+      dfs[[f]]$left.img[i] = "./objects/tröte.png"
     } else if (dfs[[f]]$left[i] == "bell") {
-      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/bell.png"
+      dfs[[f]]$left.img[i] = "./objects/bell.png"
     } else if (dfs[[f]]$left[i] == "whistle") {
-      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/whistle.png"
+      dfs[[f]]$left.img[i] = "./objects/whistle.png"
     } else if (dfs[[f]]$left[i] == "cup") {
-      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/cup.png"
+      dfs[[f]]$left.img[i] = "./objects/cup.png"
     } else if (dfs[[f]]$left[i] == "rattle") {
-      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/rattle.png"
+      dfs[[f]]$left.img[i] = "./objects/rattle.png"
     } else if (dfs[[f]]$left[i] == "coin") {
-      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/coin.png"
+      dfs[[f]]$left.img[i] = "./objects/coin.png"
     } else if (dfs[[f]]$left[i] == "die") {
-      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/die.png"
+      dfs[[f]]$left.img[i] = "./objects/die.png"
     } else if (dfs[[f]]$left[i] == "bottle") {
-      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/bottle.png"
+      dfs[[f]]$left.img[i] = "./objects/bottle.png"
     } else if (dfs[[f]]$left[i] == "comb") {
-      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/comb.png"
+      dfs[[f]]$left.img[i] = "./objects/comb.png"
     } else {
-      dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWI/NA.png"
+      dfs[[f]]$left.img[i] = "./objects/NA.png"
     }
   } else if(is.na(dfs[[f]]$left[i])) {
-    dfs[[f]]$left.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWI/NA.png"
+    dfs[[f]]$left.img[i] = "./objects/NA.png"
   }
   
   if(!is.na(dfs[[f]]$right[i])) {
     if(dfs[[f]]$right[i] == "flower") {
-      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/flower.png"
+      dfs[[f]]$right.img[i] = "./objects/flower.png"
     } else if (dfs[[f]]$right[i] == "sword") {
-      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/sword.png"
+      dfs[[f]]$right.img[i] = "./objects/sword.png"
     } else if (dfs[[f]]$right[i] == "crown") {
-      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/crown.png"
+      dfs[[f]]$right.img[i] = "./objects/crown.png"
     } else if (dfs[[f]]$right[i] == "drum") {
-      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/drum.png"
+      dfs[[f]]$right.img[i] = "./objects/drum.png"
     } else if (dfs[[f]]$right[i] == "map") {
-      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/map.png"
+      dfs[[f]]$right.img[i] = "./objects/map.png"
     } else if (dfs[[f]]$right[i] == "magnifier") {
-      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/magnifier.png"
+      dfs[[f]]$right.img[i] = "./objects/magnifier.png"
     } else if (dfs[[f]]$right[i] == "ball") {
-      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/ball.png"
+      dfs[[f]]$right.img[i] = "./objects/ball.png"
     } else if (dfs[[f]]$right[i] == "necklace") {
-      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/necklace.png"
+      dfs[[f]]$right.img[i] = "./objects/necklace.png"
     } else if (dfs[[f]]$right[i] == "compass") {
-      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/compass.png"
+      dfs[[f]]$right.img[i] = "./objects/compass.png"
     } else if (dfs[[f]]$right[i] == "telescope") {
-      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/telescope.png"
+      dfs[[f]]$right.img[i] = "./objects/telescope.png"
     } else if (dfs[[f]]$right[i] == "pen") {
-      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/pen.png"
+      dfs[[f]]$right.img[i] = "./objects/pen.png"
     } else if (dfs[[f]]$right[i] == "tröte") {
-      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/tröte.png"
+      dfs[[f]]$right.img[i] = "./objects/tröte.png"
     } else if (dfs[[f]]$right[i] == "bell") {
-      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/bell.png"
+      dfs[[f]]$right.img[i] = "./objects/bell.png"
     } else if (dfs[[f]]$right[i] == "whistle") {
-      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/whistle.png"
+      dfs[[f]]$right.img[i] = "./objects/whistle.png"
     } else if (dfs[[f]]$right[i] == "cup") {
-      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/cup.png"
+      dfs[[f]]$right.img[i] = "./objects/cup.png"
     } else if (dfs[[f]]$right[i] == "rattle") {
-      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/rattle.png"
+      dfs[[f]]$right.img[i] = "./objects/rattle.png"
     } else if (dfs[[f]]$right[i] == "coin") {
-      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/coin.png"
+      dfs[[f]]$right.img[i] = "./objects/coin.png"
     } else if (dfs[[f]]$right[i] == "die") {
-      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/die.png"
+      dfs[[f]]$right.img[i] = "./objects/die.png"
     } else if (dfs[[f]]$right[i] == "bottle") {
-      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/bottle.png"
+      dfs[[f]]$right.img[i] = "./objects/bottle.png"
     } else if (dfs[[f]]$right[i] == "comb") {
-      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWi2/prereg:simulation/objects/comb.png"
+      dfs[[f]]$right.img[i] = "./objects/comb.png"
     } else {
-      dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWI/NA.png" 
+      dfs[[f]]$right.img[i] = "./objects/NA.png" 
     }
   } else if(is.na(dfs[[f]]$right[i])) {
-    dfs[[f]]$right.img[i] = "/Users/isagarbisch/ownCloud work/Promotion/Studien/PIntenWI/NA.png"
+    dfs[[f]]$right.img[i] = "./objects/NA.png"
   }
   
 }
