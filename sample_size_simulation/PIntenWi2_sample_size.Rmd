@@ -1,5 +1,5 @@
 ---
-title: "PIntenWI_sample_size"
+title: "PIntenWi2_sample_size"
 output: html_document
 date: "`r Sys.Date()`"
 bibliography: references.bib
@@ -29,6 +29,7 @@ data_long <- read_delim("./data_long.csv")
 ```
 
 ### Previous Study (PIntenWi1)
+
 ```{r}
 data_long %>% 
   filter(!(is.na(t_correct))) %>%
@@ -38,55 +39,58 @@ data_long %>%
   filter(t_correct == "1")
 ```
 
+### We simulate 3 possible scenarios:
 
-We simulate 3 possible scenarios:
-
-1) Same results as in previous study (PIntenWi1)
-2) Children perform similar in dual-identity and Change-of-Location condition
-2a) Children perform in the new version of the dual-identity condition as in the old change-of-location condition (above chance performance from ca. 6 years on)
-2b) Children perform in the new version of the change-of-location condition as in the old dual-identity condition (above chance performance from ca. 5 years on)
-3) Children conduct the "True Belief Error" (see Schidelko et al.)
-3a) 4-year-old's are at around 70% correct and later around 50%
-3b) 4 year-old's are also at around 50% correct
+1)  Similar results to previous study (PIntenWi1)
+2)  Children perform similar in dual-identity and Change-of-Location condition
+    a)  Children perform in the new version of the dual-identity condition as in the old change-of-location condition (above chance performance from ca. 6 years on)
+    b)  Children perform in the new version of the change-of-location condition as in the old dual-identity condition (above chance performance from ca. 5 years on)
+3)  Children conduct the "True Belief Error" [@schidelko_why_2022]
+    a)  4-year-old's are at around 70% correct and later around 50%
+    b)  all age groups are at around 50% correct
+4)  The last simulation will be a power analysis for main effect of condition (dual-identity vs. change-of-location) observed in the previous study
 
 The respective values are:
 
 #### Scenario 1:
 
-+ 4 year-old's: 0.293 probability of correct choices in *Change-of-Location condition*
-+ 4 year-old's: 0.558 probability of correct choices in *aspectual condition*
-+ 4 year-old's: 0.769 probability of correct choices in *control condition*
-+ 7 year-old's: 0.867 probability of correct choices in *Change-of-Location condition*
-+ 7 year-old's: 0.931 probability of correct choices in *aspectual condition*
-+ 7 year-old's: 0.850 probability of correct choices in *control condition*
+-   4 year-old's: 0.293 probability of correct choices in *Change-of-Location condition*
+-   4 year-old's: 0.558 probability of correct choices in *aspectual condition*
+-   4 year-old's: 0.769 probability of correct choices in *control condition* --\> TB conditions
+-   7 year-old's: 0.867 probability of correct choices in *Change-of-Location condition*
+-   7 year-old's: 0.931 probability of correct choices in *aspectual condition*
+-   7 year-old's: 0.850 probability of correct choices in *control condition* --\> TB conditions
 
 #### Scenario 2a:
-+ 4 year-old's: (0.558 -->) 0.3 probability of correct choices in *aspectual condition*
+
+-   4 year-old's: (0.558 --\>) 0.3 probability of correct choices in *aspectual condition*
 
 #### Scenario 2b:
-+ 4 year-old's: (0.293 -->) 0.56 probability of correct choices in *Change-of-Location condition*
 
-#### Scenario 2a:
-+ 4 year-old's: TB performance --> .70 of correct choices in both conditions
-+ 7 year-old's: TB performance --> .50 of correct choices in both conditions
+-   4 year-old's: (0.293 --\>) 0.56 probability of correct choices in *Change-of-Location condition*
 
-#### Scenario 2b:
-+ 4 year-old's: TB performance --> .50 of correct choices in both conditions
-+ 7 year-old's: TB performance --> .50 of correct choices in both conditions
+#### Scenario 3a:
 
+-   4 year-old's: TB performance --\> .70 of correct choices in both conditions
+-   7 year-old's: TB performance --\> .50 of correct choices in both conditions
 
+#### Scenario 3b:
+
+-   4 year-old's: TB performance --\> .50 of correct choices in both conditions
+-   7 year-old's: TB performance --\> .50 of correct choices in both conditions
 
 #### Settings for simulation
 
 Here we will look at two different model comparisons: full vs. reduced model ***and*** reduced vs. null model.
 
-+ ***full model***: full = glmer(rv ~ belief * age + type + (1+belief|subj), data = xdata, family = binomial)
-+ ***reduced model***: red = glmer(rv ~ belief + age + type + (1+belief|subj), data = xdata, family = binomial)
-+ ***null model***: null = glmer(rv ~ age + (1+belief|subj), data = xdata, family = binomial)
+-   ***full model***: full = glmer(rv \~ belief \* age + type + (1+belief\|subj), data = xdata, family = binomial)
+-   ***reduced model***: red = glmer(rv \~ belief + age + type + (1+belief\|subj), data = xdata, family = binomial)
+-   ***null model***: null = glmer(rv \~ age + (1+belief\|subj), data = xdata, family = binomial)
 
 The probabilities from the control condition are taken to estimate children's performance in the True-Belief versions (dual-identity & change-of-location) of the experiment.
 
 #### Check if Parameterization is correct
+
 ```{r}
 # values from PIntenWi1
 FB_asp.4 = 0.558
@@ -157,11 +161,10 @@ xdata
 
 ```{r}
 # sample size 
-N = seq(72, 120, by = 8)
-#N = 100
+N = c(seq(72, 120, by = 8),108)
 
 # how many simulations
-n.sims = 100
+n.sims = 1000
 
 # how many trials per subject
 trial.per.subj = 8
@@ -171,11 +174,11 @@ random.slope = 1.04199
 
 to.do = data.frame(expand_grid(n = N, sim = 1:n.sims))
 
-to.do = cbind(to.do, p = NA, comp.sign = NA, red.null.p = NA, IE.belief.age.p = NA, subset.full.null = NA, ME.type.p = NA)
+to.do = cbind(to.do, p = NA, comp.sign = NA, red.null.p = NA, IE.belief.age.p = NA)
 ```
 
-
 ### Simulation
+
 ```{r echo=T, message=FALSE, warning=FALSE, results='hide'}
 
 sim.fun <- function(ri) {
@@ -183,8 +186,8 @@ sim.fun <- function(ri) {
   #generate the xdata based on the number of combinations we have
   age =  runif(n = to.do[ri,"n"], min = 0, max = 3)
   xdata = data.frame(age = age)
-  
   subj=as.factor(paste("subj", 1:nrow(xdata), sep="."))
+  
   #get them together in a data frame:
   xdata=data.frame(subj = rep(x = subj, times = trial.per.subj), 
                    age = rep(x = age, times = trial.per.subj))
@@ -208,30 +211,20 @@ sim.fun <- function(ri) {
   #generate the response
   xdata$rv = rbinom(n = nrow(xdata), size = 1, prob = exp(xdata$solved)/(1+exp(xdata$solved)))
   
-  #model
+  #full model
   full = glmer(rv ~ belief * age + type + (1+belief|subj), data = xdata, family = binomial)
   #reduced model
   red = glmer(rv ~ belief + age + type + (1+belief|subj), data = xdata, family = binomial)
   #null model
   null = glmer(rv ~ age + (1+belief|subj), data = xdata, family = binomial)
-  
-  #subset analysis
-  xdata.subset <- xdata %>%
-    filter(belief == "FB")
 
-  m.subset = glmer(rv ~ age + type + (1|subj), data = xdata.subset, family = binomial)
-  m.subset.null = glmer(rv ~ age + (1|subj), data = xdata.subset, family = binomial)
-  #summary(m.subset)
-  
+  # store values  
     p = as.data.frame(anova(red, full, test = "Chisq"))[2,"Pr(>Chisq)"]
     comp.sign = as.data.frame(anova(red, full, test = "Chisq"))[2,"Pr(>Chisq)"]< 0.05
     IE.belief.age.p = summary(full)$coefficients["beliefTB:age","Pr(>|z|)"]
     red.null.p = as.data.frame(anova(null, red, test = "Chisq"))[2,"Pr(>Chisq)"]
-    subset.full.null = as.data.frame(anova(m.subset, m.subset.null, test = "Chisq"))[2,"Pr(>Chisq)"]
-    ME.type.p = summary(m.subset)$coefficients["typeCoL","Pr(>|z|)"]
 
-  return(list(p = p, comp.sign = comp.sign, IE.belief.age.p = IE.belief.age.p, red.null.p = red.null.p, subset.full.null = subset.full.null,
-              ME.type.p = ME.type.p))
+  return(list(p = p, comp.sign = comp.sign, IE.belief.age.p = IE.belief.age.p, red.null.p = red.null.p))
 }
 
 ```
@@ -248,7 +241,7 @@ clusterExport(cl = cl, varlist = c("to.do", "trial.per.subj", "belief", "type",
                                    "N", "n.sims", "random.intercept", "random.slope"))
 
 parSapply(X = 1:length(cl), cl = cl, FUN = function(x) {
-  library(lme4); library(car); library(tidyverse)
+  library(lme4); library(car)
 })
 ```
 
@@ -258,6 +251,10 @@ set.seed(1)
 all.res = parLapply(cl = cl, X = 1:nrow(to.do), fun = sim.fun)
 t2 <- Sys.time()
 difftime(t1,t2)
+
+parLapply(X = 1:length(cl), cl = cl, fun = function(x) {
+  rm(list = ls())
+})
 ```
 
 ```{r echo=T, message=FALSE, warning=FALSE, results='hide', eval=FALSE}
@@ -274,77 +271,37 @@ red.null.p = matrix(unlist(red.null.p), nrow=length(red.null.p), byrow=T)
 IE.belief.age.p = lapply(X=all.res, FUN="[[", "IE.belief.age.p")
 IE.belief.age.p = matrix(unlist(IE.belief.age.p), nrow=length(IE.belief.age.p), byrow=T)
 
-subset.full.null = lapply(X=all.res, FUN="[[", "subset.full.null")
-subset.full.null = matrix(unlist(subset.full.null), nrow=length(subset.full.null), byrow=T)
-
-ME.type.p = lapply(X=all.res, FUN="[[", "ME.type.p")
-ME.type.p = matrix(unlist(ME.type.p), nrow=length(ME.type.p), byrow=T)
-
 for(i in 1:nrow(to.do)) {
   to.do[i, "p"] <- p[i]
   to.do[i, "comp.sign"] <- comp.sign[i]
   to.do[i, "IE.belief.age.p"] <- IE.belief.age.p[i]
-  to.do[i, "subset.full.null"] <- subset.full.null[i]
-  to.do[i, "ME.type.p"] <- ME.type.p[i]
   to.do[i, "red.null.p"] <- red.null.p[i]
 }
 
-for (i in 1:nrow(to.do)) {
-  to.do[i, "p"] <- ifelse(to.do[i, "p"]<0.05, TRUE, FALSE)
-  to.do[i, "IE.belief.age.p"] <- ifelse(to.do[i, "IE.belief.age.p"]<0.05, TRUE, FALSE)
-  to.do[i, "subset.full.null"] <- ifelse(to.do[i, "subset.full.null"]<0.05, TRUE, FALSE)
-  to.do[i, "ME.type.p"] <- ifelse(to.do[i, "ME.type.p"]<0.05, TRUE, FALSE)
-  to.do[i, "red.null.p"] <- ifelse(to.do[i, "red.null.p"]<0.05, TRUE, FALSE)
-}
+to.do <- to.do %>%
+  mutate(IE.belief.age.sign = NA, red.null.sign = NA)
 
-parLapply(X = 1:length(cl), cl = cl, fun = function(x) {
-  rm(list = ls())
-})
+for (i in 1:nrow(to.do)) {
+  to.do[i, "IE.belief.age.sign"] <- ifelse(to.do[i, "IE.belief.age.p"]<0.05, TRUE, FALSE)
+  to.do[i, "red.null.sign"] <- ifelse(to.do[i, "red.null.p"]<0.05, TRUE, FALSE)
+}
 
 to.do.s1 <- to.do
 ```
 
+```{r eval=FALSE, include=FALSE, message=FALSE, warning=FALSE, results='hide'}
+write_csv2(to.do.s1, file=paste("./to.do.s1.csv"))
+write_csv2(to.do.s1_108, file=paste("./to.do.s1_108.csv"))
+```
+
 ```{r include=FALSE, message=FALSE, warning=FALSE, results='hide'}
-write_csv2(to.do.s1, file=paste("./to.do.s1", date(),".csv"))
+to.do.s1 <- read_csv2(file="./to.do.s1.csv")
+to.do.s1_108 <- read_csv2(file="./to.do.s1_108.csv")
+
+to.do.s1 <- rbind(to.do.s1, to.do.s1_108)
 ```
 
-
-```{r include=FALSE, message=FALSE, warning=FALSE, results='hide'}
-to.do <- read_csv2(file=" ")
-```
-
-
-```{r echo=T, message=FALSE, warning=FALSE, results='hide'}
-# for full reduced comparison
-to.do.full <- to.do.s1
-
-to.do.full %>%
-  group_by(n) %>% 
-  summarise(mean(comp.sign))
-
-to.do.full %>%
-  group_by(n) %>% 
-  summarise(mean(red.null.p))
-
-to.do.full %>%
-  group_by(n) %>%
-  summarise(mean(IE.belief.age.p))
-
-to.do.full %>%
-  group_by(n) %>%
-  summarise(mean(ME.type.p))
-
-to.do.full %>%
-  group_by(n) %>%
-  summarise(mean(subset.full.null))
-
-```
-
-### Results
-
-The Table shows the results of the simulation at `r n.sims` runs per sample size.
-
-```{r echo=FALSE}
+```{r include=TRUE, message=FALSE, warning=FALSE}
 to.do.full <- to.do.s1
 
 power.full <- to.do.full %>%
@@ -353,31 +310,29 @@ power.full <- to.do.full %>%
 
 power.IE <- to.do.full %>%
   group_by(n) %>%
-  summarise(mean(IE.belief.age.p))
+  summarise(mean(IE.belief.age.sign))
 
 power <- left_join(power.full, power.IE)
-
-power.subset <- to.do.full %>%
-  group_by(n) %>%
-  summarise(mean(subset.full.null))
-
-power <- left_join(power, power.subset)
-
-
-kable(power,caption="Simulation results to determine the power for the full-reduced-model comparison",
-      col.names = c("N", "power full-reduced model comparison", "power interaction-effect", "full-null model comparison for subset")) %>%
-  kable_styling(bootstrap_options = "striped", full_width = F)
 ```
 
+### Results
+
+The Table shows the results of the simulation at `r n.sims` runs per sample size.
+
+```{r echo=FALSE}
+kable(power,caption="Simulation results to determine the power for Scenario 1",
+     col.names = c("N", "Power full-reduced model comparison", "Power interaction effect (belief x age)")) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+```
 
 ## Sceanrio 2a
 
 Changed such that children's performance in dual-identity condition is as in CoL condition
 
 #### Check if Parameterization is correct
+
 ```{r}
 # values from PIntenWi1
-
 FB_CoL.4 = 0.293
 FB_CoL.7 = 0.867
 
@@ -439,10 +394,8 @@ xdata
 # sample size 
 N = seq(72, 120, by = 8)
 
-#N = 100
-
 # how many simulations
-n.sims = 100
+n.sims = 1000
 
 # how many trials per subject
 trial.per.subj = 8
@@ -452,10 +405,11 @@ random.slope = 1.04199
 
 to.do = data.frame(expand_grid(n = N, sim = 1:n.sims))
 
-to.do = cbind(to.do, p = NA, comp.sign = NA, red.null.p = NA, IE.belief.age.p = NA, subset.full.null = NA, ME.type.p = NA)
+to.do = cbind(to.do, p = NA, comp.sign = NA, red.null.p = NA, IE.belief.age.p = NA)
 ```
 
 ### Simulation
+
 ```{r eval=FALSE, message=FALSE, warning=FALSE, results='hide'}
 # parallelization
 library(parallel)
@@ -468,7 +422,7 @@ clusterExport(cl = cl, varlist = c("to.do", "trial.per.subj", "belief", "type",
                                    "N", "n.sims", "random.intercept", "random.slope"))
 
 parSapply(X = 1:length(cl), cl = cl, FUN = function(x) {
-  library(lme4); library(car); library(tidyverse)
+  library(lme4); library(car)
 })
 ```
 
@@ -478,6 +432,10 @@ set.seed(1)
 all.res = parLapply(cl = cl, X = 1:nrow(to.do), fun = sim.fun)
 t2 <- Sys.time()
 difftime(t1,t2)
+
+parLapply(X = 1:length(cl), cl = cl, fun = function(x) {
+  rm(list = ls())
+})
 ```
 
 ```{r echo=T, message=FALSE, warning=FALSE, results='hide', eval=FALSE}
@@ -494,44 +452,33 @@ red.null.p = matrix(unlist(red.null.p), nrow=length(red.null.p), byrow=T)
 IE.belief.age.p = lapply(X=all.res, FUN="[[", "IE.belief.age.p")
 IE.belief.age.p = matrix(unlist(IE.belief.age.p), nrow=length(IE.belief.age.p), byrow=T)
 
-subset.full.null = lapply(X=all.res, FUN="[[", "subset.full.null")
-subset.full.null = matrix(unlist(subset.full.null), nrow=length(subset.full.null), byrow=T)
-
-ME.type.p = lapply(X=all.res, FUN="[[", "ME.type.p")
-ME.type.p = matrix(unlist(ME.type.p), nrow=length(ME.type.p), byrow=T)
-
 for(i in 1:nrow(to.do)) {
   to.do[i, "p"] <- p[i]
   to.do[i, "comp.sign"] <- comp.sign[i]
   to.do[i, "IE.belief.age.p"] <- IE.belief.age.p[i]
-  to.do[i, "subset.full.null"] <- subset.full.null[i]
-  to.do[i, "ME.type.p"] <- ME.type.p[i]
   to.do[i, "red.null.p"] <- red.null.p[i]
 }
 
-for (i in 1:nrow(to.do)) {
-  to.do[i, "p"] <- ifelse(to.do[i, "p"]<0.05, TRUE, FALSE)
-  to.do[i, "IE.belief.age.p"] <- ifelse(to.do[i, "IE.belief.age.p"]<0.05, TRUE, FALSE)
-  to.do[i, "subset.full.null"] <- ifelse(to.do[i, "subset.full.null"]<0.05, TRUE, FALSE)
-  to.do[i, "ME.type.p"] <- ifelse(to.do[i, "ME.type.p"]<0.05, TRUE, FALSE)
-  to.do[i, "red.null.p"] <- ifelse(to.do[i, "red.null.p"]<0.05, TRUE, FALSE)
-}
+to.do <- to.do %>%
+  mutate(IE.belief.age.sign = NA, red.null.sign = NA)
 
-parLapply(X = 1:length(cl), cl = cl, fun = function(x) {
-  rm(list = ls())
-})
+for (i in 1:nrow(to.do)) {
+  to.do[i, "IE.belief.age.sign"] <- ifelse(to.do[i, "IE.belief.age.p"]<0.05, TRUE, FALSE)
+  to.do[i, "red.null.sign"] <- ifelse(to.do[i, "red.null.p"]<0.05, TRUE, FALSE)
+}
 
 to.do.s2a <- to.do
 ```
 
-```{r include=FALSE, message=FALSE, warning=FALSE, results='hide'}
-write_csv2(to.do.s2a, file=paste("./to.do.s2a", date(),".csv"))
+```{r eval=FALSE, include=FALSE, message=FALSE, warning=FALSE, results='hide'}
+write_csv2(to.do.s2a, file=paste("./to.do.s2a.csv"))
 ```
 
-### Results
-The Table shows the results of the simulation at `r n.sims` runs per sample size.
+```{r include=FALSE, message=FALSE, warning=FALSE, results='hide'}
+to.do.s2a <- read_csv2(file="./to.do.s2a.csv")
+```
 
-```{r echo=FALSE}
+```{r include=TRUE, message=FALSE, warning=FALSE}
 to.do.full <- to.do.s2a
 
 power.full <- to.do.full %>%
@@ -540,29 +487,27 @@ power.full <- to.do.full %>%
 
 power.IE <- to.do.full %>%
   group_by(n) %>%
-  summarise(mean(IE.belief.age.p))
+  summarise(mean(IE.belief.age.sign))
 
 power <- left_join(power.full, power.IE)
-
-power.subset <- to.do.full %>%
-  group_by(n) %>%
-  summarise(mean(subset.full.null))
-
-power <- left_join(power, power.subset)
-
-
-kable(power,caption="Simulation results to determine the power for the full-reduced-model comparison",
-      col.names = c("N", "power full-reduced model comparison", "power interaction-effect", "full-null model comparison for subset")) %>%
-  kable_styling(bootstrap_options = "striped", full_width = F)
 ```
 
+### Results
+
+The Table shows the results of the simulation at `r n.sims` runs per sample size.
+
+```{r echo=FALSE}
+kable(power,caption="Simulation results to determine the power for Scenario 2a",
+     col.names = c("N", "Power full-reduced model comparison", "Power interaction effect (belief x age)")) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+```
 
 ## Scenario 2b
 
 Changed such that children's performance in CoL condition is as in dual-identity condition
+
 ```{r}
 # values from PIntenWi1
-
 FB_asp.4 = 0.558
 FB_asp.7 = 0.931
 
@@ -597,10 +542,8 @@ int.beliefTB.age = (((logit(mean(c(TB_asp.7, TB_CoL.7))) - logit(mean(c(FB_asp.7
 # sample size 
 N = seq(72, 120, by = 8)
 
-#N = 100
-
 # how many simulations
-n.sims = 100
+n.sims = 1000
 
 # how many trials per subject
 trial.per.subj = 8
@@ -610,10 +553,11 @@ random.slope = 1.04199
 
 to.do = data.frame(expand_grid(n = N, sim = 1:n.sims))
 
-to.do = cbind(to.do, p = NA, comp.sign = NA, red.null.p = NA, IE.belief.age.p = NA, subset.full.null = NA, ME.type.p = NA)
+to.do = cbind(to.do, p = NA, comp.sign = NA, red.null.p = NA, IE.belief.age.p = NA)
 ```
 
 ### Simulation
+
 ```{r eval=FALSE, message=FALSE, warning=FALSE, results='hide'}
 # parallelization
 library(parallel)
@@ -636,6 +580,10 @@ set.seed(1)
 all.res = parLapply(cl = cl, X = 1:nrow(to.do), fun = sim.fun)
 t2 <- Sys.time()
 difftime(t1,t2)
+
+parLapply(X = 1:length(cl), cl = cl, fun = function(x) {
+  rm(list = ls())
+})
 ```
 
 ```{r echo=T, message=FALSE, warning=FALSE, results='hide', eval=FALSE}
@@ -652,44 +600,33 @@ red.null.p = matrix(unlist(red.null.p), nrow=length(red.null.p), byrow=T)
 IE.belief.age.p = lapply(X=all.res, FUN="[[", "IE.belief.age.p")
 IE.belief.age.p = matrix(unlist(IE.belief.age.p), nrow=length(IE.belief.age.p), byrow=T)
 
-subset.full.null = lapply(X=all.res, FUN="[[", "subset.full.null")
-subset.full.null = matrix(unlist(subset.full.null), nrow=length(subset.full.null), byrow=T)
-
-ME.type.p = lapply(X=all.res, FUN="[[", "ME.type.p")
-ME.type.p = matrix(unlist(ME.type.p), nrow=length(ME.type.p), byrow=T)
-
 for(i in 1:nrow(to.do)) {
   to.do[i, "p"] <- p[i]
   to.do[i, "comp.sign"] <- comp.sign[i]
   to.do[i, "IE.belief.age.p"] <- IE.belief.age.p[i]
-  to.do[i, "subset.full.null"] <- subset.full.null[i]
-  to.do[i, "ME.type.p"] <- ME.type.p[i]
   to.do[i, "red.null.p"] <- red.null.p[i]
 }
+
+to.do <- to.do %>%
+  mutate(IE.belief.age.sign = NA, red.null.sign = NA)
+
 for (i in 1:nrow(to.do)) {
-  to.do[i, "p"] <- ifelse(to.do[i, "p"]<0.05, TRUE, FALSE)
-  to.do[i, "IE.belief.age.p"] <- ifelse(to.do[i, "IE.belief.age.p"]<0.05, TRUE, FALSE)
-  to.do[i, "subset.full.null"] <- ifelse(to.do[i, "subset.full.null"]<0.05, TRUE, FALSE)
-  to.do[i, "ME.type.p"] <- ifelse(to.do[i, "ME.type.p"]<0.05, TRUE, FALSE)
-  to.do[i, "red.null.p"] <- ifelse(to.do[i, "red.null.p"]<0.05, TRUE, FALSE)
+  to.do[i, "IE.belief.age.sign"] <- ifelse(to.do[i, "IE.belief.age.p"]<0.05, TRUE, FALSE)
+  to.do[i, "red.null.sign"] <- ifelse(to.do[i, "red.null.p"]<0.05, TRUE, FALSE)
 }
 
-parLapply(X = 1:length(cl), cl = cl, fun = function(x) {
-  rm(list = ls())
-})
 to.do.s2b <- to.do
 ```
 
-```{r include=FALSE, message=FALSE, warning=FALSE, results='hide'}
-write_csv2(to.do.s2b, file=paste("./to.do.s2b", date(),".csv"))
+```{r eval=FALSE, include=FALSE, message=FALSE, warning=FALSE, results='hide'}
+write_csv2(to.do.s2b, file=paste("./to.do.s2b.csv"))
 ```
 
+```{r include=FALSE, message=FALSE, warning=FALSE, results='hide'}
+to.do.s2b <- read_csv2(file="./to.do.s2b.csv")
+```
 
-### Results
-
-The Table shows the results of the simulation at `r n.sims` runs per sample size.
-
-```{r echo=FALSE}
+```{r include=TRUE, message=FALSE, warning=FALSE}
 to.do.full <- to.do.s2b
 
 power.full <- to.do.full %>%
@@ -698,25 +635,25 @@ power.full <- to.do.full %>%
 
 power.IE <- to.do.full %>%
   group_by(n) %>%
-  summarise(mean(IE.belief.age.p))
+  summarise(mean(IE.belief.age.sign))
 
 power <- left_join(power.full, power.IE)
+```
 
-power.subset <- to.do.full %>%
-  group_by(n) %>%
-  summarise(mean(subset.full.null))
+### Results
 
-power <- left_join(power, power.subset)
+The Table shows the results of the simulation at `r n.sims` runs per sample size.
 
-
-kable(power,caption="Simulation results to determine the power for the full-reduced-model comparison",
-      col.names = c("N", "power full-reduced model comparison", "power interaction-effect", "full-null model comparison for subset")) %>%
+```{r echo=FALSE}
+kable(power,caption="Simulation results to determine the power for Scenario 2b",
+     col.names = c("N", "Power full-reduced model comparison", "Power interaction effect (belief x age)")) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 ```
 
-
 ## Scenario 3a
+
 Changed such that 4 year-old's are better in TB, but 7 year old's are at .50
+
 ```{r}
 # values from PIntenWi1
 FB_asp.4 = 0.558
@@ -749,14 +686,12 @@ slope.typeCoL = (logit(mean(c(FB_CoL.4, TB_CoL.4))) - logit(mean(c(FB_asp.4, TB_
 int.beliefTB.age = (((logit(mean(c(TB_asp.7, TB_CoL.7))) - logit(mean(c(FB_asp.7, FB_CoL.7)))) / (1-0)) - slope.beliefTB) / (3-0)
 ```
 
-
 ```{r}
 # sample size 
-N = c(72,80,84,88,92,96,100,104,108,112,116,120)
-#N = 100
+N = seq(72, 120, by = 8)
 
 # how many simulations
-n.sims = 100
+n.sims = 1000
 
 # how many trials per subject
 trial.per.subj = 8
@@ -766,7 +701,7 @@ random.slope = 1.04199
 
 to.do = data.frame(expand_grid(n = N, sim = 1:n.sims))
 
-to.do = cbind(to.do, p = NA, comp.sign = NA, red.null.p = NA, IE.belief.age.p = NA, subset.full.null = NA, ME.type.p = NA)
+to.do = cbind(to.do, p = NA, comp.sign = NA, red.null.p = NA, IE.belief.age.p = NA)
 ```
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE, results='hide'}
@@ -791,6 +726,10 @@ set.seed(1)
 all.res = parLapply(cl = cl, X = 1:nrow(to.do), fun = sim.fun)
 t2 <- Sys.time()
 difftime(t1,t2)
+
+parLapply(X = 1:length(cl), cl = cl, fun = function(x) {
+  rm(list = ls())
+})
 ```
 
 ```{r echo=T, message=FALSE, warning=FALSE, results='hide', eval=FALSE}
@@ -807,45 +746,33 @@ red.null.p = matrix(unlist(red.null.p), nrow=length(red.null.p), byrow=T)
 IE.belief.age.p = lapply(X=all.res, FUN="[[", "IE.belief.age.p")
 IE.belief.age.p = matrix(unlist(IE.belief.age.p), nrow=length(IE.belief.age.p), byrow=T)
 
-subset.full.null = lapply(X=all.res, FUN="[[", "subset.full.null")
-subset.full.null = matrix(unlist(subset.full.null), nrow=length(subset.full.null), byrow=T)
-
-ME.type.p = lapply(X=all.res, FUN="[[", "ME.type.p")
-ME.type.p = matrix(unlist(ME.type.p), nrow=length(ME.type.p), byrow=T)
-
 for(i in 1:nrow(to.do)) {
   to.do[i, "p"] <- p[i]
   to.do[i, "comp.sign"] <- comp.sign[i]
   to.do[i, "IE.belief.age.p"] <- IE.belief.age.p[i]
-  to.do[i, "subset.full.null"] <- subset.full.null[i]
-  to.do[i, "ME.type.p"] <- ME.type.p[i]
   to.do[i, "red.null.p"] <- red.null.p[i]
 }
-for (i in 1:nrow(to.do)) {
-  to.do[i, "p"] <- ifelse(to.do[i, "p"]<0.05, TRUE, FALSE)
-  to.do[i, "IE.belief.age.p"] <- ifelse(to.do[i, "IE.belief.age.p"]<0.05, TRUE, FALSE)
-  to.do[i, "subset.full.null"] <- ifelse(to.do[i, "subset.full.null"]<0.05, TRUE, FALSE)
-  to.do[i, "ME.type.p"] <- ifelse(to.do[i, "ME.type.p"]<0.05, TRUE, FALSE)
-  to.do[i, "red.null.p"] <- ifelse(to.do[i, "red.null.p"]<0.05, TRUE, FALSE)
-}
 
-parLapply(X = 1:length(cl), cl = cl, fun = function(x) {
-  rm(list = ls())
-})
+to.do <- to.do %>%
+  mutate(IE.belief.age.sign = NA, red.null.sign = NA)
+
+for (i in 1:nrow(to.do)) {
+  to.do[i, "IE.belief.age.sign"] <- ifelse(to.do[i, "IE.belief.age.p"]<0.05, TRUE, FALSE)
+  to.do[i, "red.null.sign"] <- ifelse(to.do[i, "red.null.p"]<0.05, TRUE, FALSE)
+}
 
 to.do.s3a <- to.do
 ```
 
-```{r include=FALSE, message=FALSE, warning=FALSE, results='hide'}
-write_csv2(to.do.s3a, file=paste("./to.do.s3a", date(),".csv"))
+```{r eval=FALSE, include=FALSE, message=FALSE, warning=FALSE, results='hide'}
+write_csv2(to.do.s3a, file=paste("./to.do.s3a.csv"))
 ```
 
+```{r include=FALSE, message=FALSE, warning=FALSE, results='hide'}
+to.do.s3a <- read_csv2(file="./to.do.s3a.csv")
+```
 
-### Results
-
-The Table shows the results of the simulation at `r n.sims` runs per sample size.
-
-```{r echo=FALSE}
+```{r include=TRUE, message=FALSE, warning=FALSE}
 to.do.full <- to.do.s3a
 
 power.full <- to.do.full %>%
@@ -854,25 +781,25 @@ power.full <- to.do.full %>%
 
 power.IE <- to.do.full %>%
   group_by(n) %>%
-  summarise(mean(IE.belief.age.p))
+  summarise(mean(IE.belief.age.sign))
 
 power <- left_join(power.full, power.IE)
+```
 
-power.subset <- to.do.full %>%
-  group_by(n) %>%
-  summarise(mean(subset.full.null))
+### Results
 
-power <- left_join(power, power.subset)
+The Table shows the results of the simulation at `r n.sims` runs per sample size.
 
-
-kable(power,caption="Simulation results to determine the power for the full-reduced-model comparison",
-      col.names = c("N", "power full-reduced model comparison", "power interaction-effect", "full-null model comparison for subset")) %>%
+```{r echo=FALSE}
+kable(power,caption="Simulation results to determine the power for Scenario 3a",
+     col.names = c("N", "Power full-reduced model comparison", "Power interaction effect (belief x age)")) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 ```
 
-
 ## Sceanrio 3b
+
 Cahnged such thath children make the TB error across all ages
+
 ```{r}
 # values from PIntenWi1
 FB_asp.4 = 0.558
@@ -905,14 +832,12 @@ slope.typeCoL = (logit(mean(c(FB_CoL.4, TB_CoL.4))) - logit(mean(c(FB_asp.4, TB_
 int.beliefTB.age = (((logit(mean(c(TB_asp.7, TB_CoL.7))) - logit(mean(c(FB_asp.7, FB_CoL.7)))) / (1-0)) - slope.beliefTB) / (3-0)
 ```
 
-
 ```{r}
 # sample size 
-N = c(72,80,84,88,92,96,100,104,108,112,116,120)
-#N = 100
+N = seq(72, 120, by = 8)
 
 # how many simulations
-n.sims = 100
+n.sims = 1000
 
 # how many trials per subject
 trial.per.subj = 8
@@ -922,9 +847,8 @@ random.slope = 1.04199
 
 to.do = data.frame(expand_grid(n = N, sim = 1:n.sims))
 
-to.do = cbind(to.do, p = NA, comp.sign = NA, red.null.p = NA, IE.belief.age.p = NA, subset.full.null = NA, ME.type.p = NA)
+to.do = cbind(to.do, p = NA, comp.sign = NA, red.null.p = NA, IE.belief.age.p = NA)
 ```
-
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE, results='hide'}
 # parallelization
@@ -948,6 +872,10 @@ set.seed(1)
 all.res = parLapply(cl = cl, X = 1:nrow(to.do), fun = sim.fun)
 t2 <- Sys.time()
 difftime(t1,t2)
+
+parLapply(X = 1:length(cl), cl = cl, fun = function(x) {
+  rm(list = ls())
+})
 ```
 
 ```{r echo=T, message=FALSE, warning=FALSE, results='hide', eval=FALSE}
@@ -964,45 +892,34 @@ red.null.p = matrix(unlist(red.null.p), nrow=length(red.null.p), byrow=T)
 IE.belief.age.p = lapply(X=all.res, FUN="[[", "IE.belief.age.p")
 IE.belief.age.p = matrix(unlist(IE.belief.age.p), nrow=length(IE.belief.age.p), byrow=T)
 
-subset.full.null = lapply(X=all.res, FUN="[[", "subset.full.null")
-subset.full.null = matrix(unlist(subset.full.null), nrow=length(subset.full.null), byrow=T)
-
-ME.type.p = lapply(X=all.res, FUN="[[", "ME.type.p")
-ME.type.p = matrix(unlist(ME.type.p), nrow=length(ME.type.p), byrow=T)
-
 for(i in 1:nrow(to.do)) {
   to.do[i, "p"] <- p[i]
   to.do[i, "comp.sign"] <- comp.sign[i]
   to.do[i, "IE.belief.age.p"] <- IE.belief.age.p[i]
-  to.do[i, "subset.full.null"] <- subset.full.null[i]
-  to.do[i, "ME.type.p"] <- ME.type.p[i]
   to.do[i, "red.null.p"] <- red.null.p[i]
 }
+
+to.do <- to.do %>%
+  mutate(IE.belief.age.sign = NA, red.null.sign = NA)
+
 for (i in 1:nrow(to.do)) {
-  to.do[i, "p"] <- ifelse(to.do[i, "p"]<0.05, TRUE, FALSE)
-  to.do[i, "IE.belief.age.p"] <- ifelse(to.do[i, "IE.belief.age.p"]<0.05, TRUE, FALSE)
-  to.do[i, "subset.full.null"] <- ifelse(to.do[i, "subset.full.null"]<0.05, TRUE, FALSE)
-  to.do[i, "ME.type.p"] <- ifelse(to.do[i, "ME.type.p"]<0.05, TRUE, FALSE)
-  to.do[i, "red.null.p"] <- ifelse(to.do[i, "red.null.p"]<0.05, TRUE, FALSE)
+  to.do[i, "IE.belief.age.sign"] <- ifelse(to.do[i, "IE.belief.age.p"]<0.05, TRUE, FALSE)
+  to.do[i, "red.null.sign"] <- ifelse(to.do[i, "red.null.p"]<0.05, TRUE, FALSE)
 }
 
-parLapply(X = 1:length(cl), cl = cl, fun = function(x) {
-  rm(list = ls())
-})
 
 to.do.s3b <- to.do
 ```
 
-```{r include=FALSE, message=FALSE, warning=FALSE, results='hide'}
-write_csv2(to.do.s3b, file=paste("./to.do.s3b", date(),".csv"))
+```{r eval=FALSE, include=FALSE, message=FALSE, warning=FALSE, results='hide'}
+write_csv2(to.do.s3b, file=paste("./to.do.s3b.csv"))
 ```
 
+```{r include=FALSE, message=FALSE, warning=FALSE, results='hide'}
+to.do.s3b <- read_csv2(file="./to.do.s3b.csv")
+```
 
-### Results
-
-The Table shows the results of the simulation at `r n.sims` runs per sample size.
-
-```{r echo=FALSE}
+```{r include=TRUE, message=FALSE, warning=FALSE}
 to.do.full <- to.do.s3b
 
 power.full <- to.do.full %>%
@@ -1011,25 +928,186 @@ power.full <- to.do.full %>%
 
 power.IE <- to.do.full %>%
   group_by(n) %>%
-  summarise(mean(IE.belief.age.p))
+  summarise(mean(IE.belief.age.sign))
 
 power <- left_join(power.full, power.IE)
+```
 
-power.subset <- to.do.full %>%
-  group_by(n) %>%
-  summarise(mean(subset.full.null))
+### Results
 
-power <- left_join(power, power.subset)
+The Table shows the results of the simulation at `r n.sims` runs per sample size.
 
+```{r echo=FALSE}
+kable(power,caption="Simulation results to determine the power for Scenario 3b",
+      col.names = c("N", "Power full-reduced model comparison", "Power interaction effect (belief x age)")) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F)
+```
 
-kable(power,caption="Simulation results to determine the power for the full-reduced-model comparison",
-      col.names = c("N", "power full-reduced model comparison", "power interaction-effect", "full-null model comparison for subset")) %>%
+## Main effect of condition
+
+```{r}
+data_long_subset <- data_long %>%
+  filter(condition != "kon") %>%
+  mutate(z_age = scale(age_years),
+         condition = factor(condition))
+
+ME.model <- glmer(t_correct ~ z_age + condition + (1|Vp_nr), data = data_long_subset, family = binomial)
+summary.ME.model <- summary(ME.model)
+```
+
+### Parameterization
+
+```{r include=TRUE}
+icpt = summary.ME.model[["coefficients"]]["(Intercept)",1]
+
+slope.age = summary.ME.model[["coefficients"]]["z_age",1]
+
+slope.typeCoL = summary.ME.model[["coefficients"]]["conditionn.asp",1]
+
+random.intercept = as.numeric(attributes(VarCorr(ME.model)[["Vp_nr"]])$stddev)
+```
+
+```{r}
+# sample size 
+N = seq(72, 120, by = 8)
+
+# how many simulations
+n.sims = 1000
+
+# how many trials per subject
+trial.per.subj = 4
+
+type = as.factor(c("asp","CoL", "CoL","asp"))
+levels(type) <- c("asp","CoL")
+
+to.do = data.frame(expand_grid(n = N, sim = 1:n.sims))
+
+to.do = cbind(to.do, subset.full.null = NA, ME.type.p = NA)
+```
+
+```{r}
+sim2.fun <- function(ri) {
+  
+  #generate the xdata based on the number of combinations we have
+  age =  runif(n = to.do[ri,"n"], min = 0, max = 3)
+  xdata = data.frame(age = age)
+  subj=as.factor(paste("subj", 1:nrow(xdata), sep="."))
+  
+  #get them together in a data frame:
+  xdata=data.frame(subj = rep(x = subj, times = trial.per.subj), 
+                   age = rep(x = age, times = trial.per.subj))
+  
+  xdata = xdata[order(xdata$subj),]
+  xdata$type = rep(type, times = to.do[ri,"n"])
+  
+  coefs = c("(Intercept)" = icpt,
+            "typeCoL" = slope.typeCoL,
+            "age" = slope.age)
+  
+  #generate linear predictor
+  m.mat = model.matrix(object = ~ age + type, data = xdata)
+  xdata = data.frame(xdata, solved = m.mat[, names(coefs)] %*% coefs
+                     + rnorm(n=nrow(xdata), sd=random.intercept)[as.numeric(xdata$subj)])#rand. icpt
+  
+  #generate the response
+  xdata$rv = rbinom(n = nrow(xdata), size = 1, prob = exp(xdata$solved)/(1+exp(xdata$solved)))
+  
+  #subset analysis
+  m.subset = glmer(rv ~ age + type + (1|subj), data = xdata, family = binomial)
+  m.subset.null = glmer(rv ~ age + (1|subj), data = xdata, family = binomial)
+
+  # store values  
+    subset.full.null = as.data.frame(anova(m.subset, m.subset.null, test = "Chisq"))[2,"Pr(>Chisq)"]
+    ME.type.p = summary(m.subset)$coefficients["typeCoL","Pr(>|z|)"]
+
+  return(list(subset.full.null = subset.full.null, ME.type.p = ME.type.p))
+}
+```
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, results='hide'}
+# parallelization
+library(parallel)
+cl <- makeCluster(getOption("cl.cores", detectCores()))
+
+cl = cl[1:(length(cl)-1)]
+
+clusterExport(cl = cl, varlist = c("to.do", "trial.per.subj", "type",
+                                   "icpt", "slope.typeCoL", "slope.age", 
+                                   "N", "n.sims", "random.intercept"))
+
+parSapply(X = 1:length(cl), cl = cl, FUN = function(x) {
+  library(lme4); library(car); 
+})
+```
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=TRUE}
+t1 <- Sys.time()
+set.seed(1)
+all.res2 = parLapply(cl = cl, X = 1:nrow(to.do), fun = sim2.fun)
+t2 <- Sys.time()
+difftime(t1,t2)
+
+parLapply(X = 1:length(cl), cl = cl, fun = function(x) {
+  rm(list = ls())
+})
+```
+
+```{r include=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
+# merge back into to.do
+subset.full.null = lapply(X=all.res2, FUN="[[", "subset.full.null")
+subset.full.null = matrix(unlist(subset.full.null), nrow=length(subset.full.null), byrow=T)
+
+ME.type.p = lapply(X=all.res2, FUN="[[", "ME.type.p")
+ME.type.p = matrix(unlist(ME.type.p), nrow=length(ME.type.p), byrow=T)
+
+for(i in 1:nrow(to.do)) {
+  to.do[i, "ME.type.p"] <- ME.type.p[i]
+  to.do[i, "subset.full.null"] <- subset.full.null[i]
+}
+
+to.do <- to.do %>%
+  mutate(subset.full.null.sign = NA, ME.type.sign = NA)
+
+for (i in 1:nrow(to.do)) {
+  to.do[i, "subset.full.null.sign"] <- ifelse(to.do[i, "subset.full.null"]<0.05, TRUE, FALSE)
+  to.do[i, "ME.type.sign"] <- ifelse(to.do[i, "ME.type.p"]<0.05, TRUE, FALSE)
+}
+
+to.do.ME <- to.do
+```
+
+```{r eval=FALSE, include=FALSE, message=FALSE, warning=FALSE, results='hide'}
+write_csv2(to.do.ME, file=paste("./to.do.ME.csv"))
+```
+
+```{r include=FALSE, message=FALSE, warning=FALSE, results='hide'}
+to.do.ME <- read_csv2(file="./to.do.ME.csv")
+```
+
+```{r include=TRUE, echo=FALSE, message=FALSE}
+power.full <- to.do.ME %>%
+  group_by(n) %>% 
+  summarise(mean(subset.full.null.sign))
+
+power.ME <- to.do.ME %>%
+  group_by(n) %>% 
+  summarise(mean(ME.type.sign))
+
+power <- left_join(power.full, power.ME)
+```
+
+### Results
+
+The Table shows the results of the simulation at `r n.sims` runs per sample size.
+
+```{r echo=FALSE}
+kable(power,caption="Simulation results to determine the power for Scenario 1",
+      col.names = c("N", "Power full-null model comparison for subset analysis", "Power for main effect condition")) %>%
   kable_styling(bootstrap_options = "striped", full_width = F)
 ```
 
 
 ## References
 
-<div id="refs"></div>
-
-
+::: {#refs}
+:::
