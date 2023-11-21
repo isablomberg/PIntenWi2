@@ -18,9 +18,6 @@
     <script src="https://unpkg.com/@jspsych/plugin-initialize-camera@1.0.1"></script>
     <script src="https://unpkg.com/@jspsych/extension-record-video@1.0.1"></script>
     <script src="https://unpkg.com/@jspsych/plugin-initialize-microphone@1.0.2"></script>
-
-
-
     <script src="stimuli.js"></script>
 
     <link href="https://unpkg.com/jspsych@7.3.1/css/jspsych.css" rel="stylesheet" type="text/css" />
@@ -39,7 +36,6 @@
             }
         });
 
-
         var browsercheck = {
             type: jsPsychBrowserCheck,
             features: ["width", "height", "browser"],
@@ -49,19 +45,6 @@
         var widths_desktop = function () {
             return jsPsych.data.get().filter({ tag: 'browser_check' }).last(1).values()[0].width / 1.04;
         };
-
-
-        // the "auto_preload: true" setting tells the plugin to automatically find 
-        // stimuli to preload based the main experiment timeline (used in jsPsych.run)
-        /*  var preload = {
-              type: jsPsychPreload,
-              auto_preload: true, // automatically preload the image and audio files
-              // manually preload the videos used with timeline variables
-              images: images,
-              video: video
-          }
-    */
-        // full screen mode (but will not work with Safari)
 
         var cb_group = {
             type: jsPsychSurveyText,
@@ -105,10 +88,9 @@
             stimulus: [
                 'videos/fam/Intro_Party.mp4'
             ],
-            choices: " ",
+            choices: [" ","r"],
             width: widths_desktop,
-            trial_ends_after_video: false,
-
+            trial_ends_after_video: false
         };
 
         // filler trials, such that videos don't start immediately
@@ -117,6 +99,29 @@
             stimulus: ' ',
             choices: ['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp', " "]
         }
+
+        var replay = {
+            type: jsPsychVideoKeyboardResponse,
+            stimulus: function(){
+                stimulus = jsPsych.data.get().filter({trial_type: 'video-keyboard-response'}).last(1).values()[0].stimulus;
+                return stimulus
+            },
+            choices: [" ","r"],
+            width: widths_desktop,
+            trial_ends_after_video: false
+        };
+
+        var replay_tl = {
+            timeline:[replay],
+        conditional_function: function () {
+                var lastresponse = jsPsych.data.get().last(1).values()[0].response;
+                if (lastresponse == 'r') {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        };
 
 
         // video test trial    
@@ -130,7 +135,7 @@
                 stimulus = test_stimuli[group_id - 1].video_1;
                 return stimulus;
             },
-            choices: [" "],
+            choices: [" ", "r"],
             prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:12px;text-align:left;position:absolute; left:10px; top:-60px;">1</p> </div>',
             response_allowed_while_playing: true,
             trial_ends_after_video: true,
@@ -181,7 +186,7 @@
         var outcome_fam = {
             type: jsPsychVideoKeyboardResponse,
             stimulus: outcome_v_fam,
-            choices: ['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp', " "],
+            choices: ['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp', " ", 'r'],
             stop: 8,
 
             response_allowed_while_playing: true,
@@ -355,7 +360,7 @@
         var reaction_v_fam = {
             type: jsPsychVideoKeyboardResponse,
             stimulus: reaction_fam,
-            choices: [" "],
+            choices: [" ", "r"],
 
             response_allowed_while_playing: true,
             trial_ends_after_video: false,
@@ -380,7 +385,7 @@
         };
 
         var famQ_timeline = {
-            timeline: [outcome_fam, cq_FAM_object, cq_FAM_object_timeline, cq_FAM_location, tq_FAM, reaction_v_fam]
+            timeline: [outcome_fam,replay_tl, cq_FAM_object, cq_FAM_object_timeline, cq_FAM_location, tq_FAM, reaction_v_fam, replay_tl]
         };
 
         // video test trial    
@@ -391,7 +396,7 @@
                 stimulus = test_stimuli[group_id - 1].video_2;
                 return stimulus;
             },
-            choices: [" "],
+            choices: [" ", "r"],
             response_allowed_while_playing: true,
             trial_ends_after_video: true,
             prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:12px;text-align:left;position:absolute; left:10px; top:-60px;">2</p> </div>',
@@ -415,7 +420,7 @@
                 stimulus = test_stimuli[group_id - 1].video_3;
                 return stimulus;
             },
-            choices: [" "],
+            choices: [" ", "r"],
             response_allowed_while_playing: true,
             trial_ends_after_video: true,
             width: widths_desktop,
@@ -439,7 +444,7 @@
                 stimulus = test_stimuli[group_id - 1].video_4;
                 return stimulus;
             },
-            choices: [" "],
+            choices: [" ", "r"],
             response_allowed_while_playing: true,
             trial_ends_after_video: true,
             prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:12px;text-align:left;position:absolute; left:10px; top:-60px;">4</p> </div>',
@@ -457,7 +462,7 @@
 
         // show this timeline only if child made a mistake in 2nd FAM trial
         var fam3_timeline = {
-            timeline: [video_fam_3, famQ_timeline],
+            timeline: [video_fam_3, replay_tl, famQ_timeline],
             conditional_function: function () {
                 var cq1 = jsPsych.data.get().filter({ tag: 'CQ_object', index: 2 }).last(1).values()[0].correct_response;
                 var cq2 = jsPsych.data.get().filter({ tag: 'CQ_location', index: 2 }).last(1).values()[0].correct_response;
@@ -472,7 +477,7 @@
 
         // show this timeline only if child made a mistake in 1st FAM trial
         var fam4_timeline = {
-            timeline: [video_fam_4, famQ_timeline],
+            timeline: [video_fam_4,replay_tl, famQ_timeline],
             conditional_function: function () {
                 var cq1 = jsPsych.data.get().filter({ tag: 'CQ_object', index: 1 }).last(1).values()[0].correct_response;
                 var cq2 = jsPsych.data.get().filter({ tag: 'CQ_location', index: 1 }).last(1).values()[0].correct_response;
@@ -497,7 +502,7 @@
         }
 
         var fam_timeline = {
-            timeline: [filler, video_fam_1, famQ_timeline, video_fam_2, famQ_timeline, fam3_timeline, fam4_timeline, save_data_fam]
+            timeline: [filler, video_fam_1, replay_tl, famQ_timeline, video_fam_2,replay_tl, famQ_timeline, fam3_timeline, fam4_timeline, save_data_fam]
         }
 
         // video test trial 
@@ -511,7 +516,7 @@
                 stimulus = test_stimuli[group_id - 1].video_5;
                 return stimulus;
             },
-            choices: [" "],
+            choices: [" ","r"],
             response_allowed_while_playing: true,
             trial_ends_after_video: true,
             width: widths_desktop,
@@ -537,29 +542,37 @@
                     var stimulus = test_stimuli[group_id - 1][videoProperty]; // Using bracket notation
                     return stimulus;
                 },
-                choices: [" "],
+                choices: [" ","r"],
                 response_allowed_while_playing: true,
                 trial_ends_after_video: true,
                 width: widths_desktop,
-                prompt: function(){
+                prompt: function () {
                     var video_nr = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial + 4;
-                return `<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:13px;text-align:left;position:absolute; left:10px; top:-60px;">${video_nr}</p> </div>`;
-            },
+                    return `<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:13px;text-align:left;position:absolute; left:10px; top:-60px;">${video_nr}</p> </div>`;
+                },
                 data: function () {
                     group_id = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].group;
                     data = test_stimuli[group_id - 1].data;
                     return data
-                },
-                on_finish: function (data) {
-                    data.tag = "video"; //data tag, so we can search later for the entry by that tag
-                    data.v_trial = 1;
-                },
+                }
             }],
             conditional_function: function () {
                 var index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial - 1
                 var a_c_here = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].order.substring(index, index + 1)
 
                 if (a_c_here == "a") {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        };
+
+        var replay_video_asp_2 = {
+            timeline: [video_asp_2],
+        conditional_function: function () {
+                var lastresponse = jsPsych.data.get().last(1).values()[0].response;
+                if (lastresponse == 'r') {
                     return true;
                 } else {
                     return false;
@@ -802,7 +815,7 @@
         var outcome_test = {
             type: jsPsychVideoKeyboardResponse,
             stimulus: outcome_v_test,
-            choices: [" "],
+            choices: [" ", "r"],
             response_allowed_while_playing: true,
             trial_ends_after_video: true,
             width: widths_desktop,
@@ -920,7 +933,7 @@
         };
 
         var Q_testtrials_timeline_CoL = {
-            timeline: [cq_TEST_object, cq_TEST_object_timeline, cq_knowledge_CoL, outcome_test, tq_test, cq_TEST_location],
+            timeline: [cq_TEST_object, cq_TEST_object_timeline, cq_knowledge_CoL, outcome_test, replay_tl, tq_test, cq_TEST_location],
             conditional_function: function () {
                 var index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial - 1
                 var a_c_here = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].order.substring(index, index + 1)
@@ -934,7 +947,7 @@
         };
 
         var Q_testtrials_timeline_asp = {
-            timeline: [cq_knowledge_asp, video_asp_2, cq_TEST_object, cq_TEST_object_timeline, outcome_test, tq_test, cq_TEST_location],
+            timeline: [cq_knowledge_asp, video_asp_2,replay_video_asp_2, cq_TEST_object, cq_TEST_object_timeline, outcome_test,replay_tl, tq_test, cq_TEST_location],
             conditional_function: function () {
                 var index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial - 1
                 var a_c_here = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].order.substring(index, index + 1)
@@ -958,7 +971,7 @@
                 stimulus = test_stimuli[group_id - 1].video_6;
                 return stimulus;
             },
-            choices: [" "],
+            choices: [" ", "r"],
             response_allowed_while_playing: true,
             trial_ends_after_video: true,
             width: widths_desktop,
@@ -981,7 +994,7 @@
                 stimulus = test_stimuli[group_id - 1].video_7;
                 return stimulus;
             },
-            choices: [" "],
+            choices: [" ", "r"],
             response_allowed_while_playing: true,
             trial_ends_after_video: true,
             width: widths_desktop,
@@ -1004,7 +1017,7 @@
                 stimulus = test_stimuli[group_id - 1].video_8;
                 return stimulus;
             },
-            choices: [" "],
+            choices: [" ", "r"],
             response_allowed_while_playing: true,
             trial_ends_after_video: true,
             width: widths_desktop,
@@ -1027,7 +1040,7 @@
                 stimulus = test_stimuli[group_id - 1].video_9;
                 return stimulus;
             },
-            choices: [" "],
+            choices: [" ", "r"],
             response_allowed_while_playing: true,
             trial_ends_after_video: true,
             width: widths_desktop,
@@ -1050,7 +1063,7 @@
                 stimulus = test_stimuli[group_id - 1].video_10;
                 return stimulus;
             },
-            choices: [" "],
+            choices: [" ", "r"],
             response_allowed_while_playing: true,
             trial_ends_after_video: true,
             width: widths_desktop,
@@ -1073,7 +1086,7 @@
                 stimulus = test_stimuli[group_id - 1].video_11;
                 return stimulus;
             },
-            choices: [" "],
+            choices: [" ", "r"],
             response_allowed_while_playing: true,
             trial_ends_after_video: true,
             width: widths_desktop,
@@ -1096,7 +1109,7 @@
                 stimulus = test_stimuli[group_id - 1].video_12;
                 return stimulus;
             },
-            choices: [" "],
+            choices: [" ", "r"],
             response_allowed_while_playing: true,
             trial_ends_after_video: true,
             width: widths_desktop,
@@ -1111,9 +1124,6 @@
                 data.v_trial = 8;
             },
         };
-
-       
-
 
         var break_trial = {
             type: jsPsychVideoKeyboardResponse,
@@ -1140,8 +1150,9 @@
         }
 
         var test_trials_timeline = {
-            timeline: [video_5, Q_testtrials_timeline, filler, video_6, Q_testtrials_timeline, filler, video_7, Q_testtrials_timeline, filler, video_8, Q_testtrials_timeline, break_trial, video_9, Q_testtrials_timeline, filler,
-                video_10, Q_testtrials_timeline, filler, video_11, Q_testtrials_timeline, filler, video_12, Q_testtrials_timeline]
+            timeline: [video_5,replay_tl, Q_testtrials_timeline, filler, video_6,replay_tl, Q_testtrials_timeline, filler, video_7,replay_tl, Q_testtrials_timeline, filler, video_8, replay_tl, 
+            Q_testtrials_timeline, break_trial, video_9,replay_tl, Q_testtrials_timeline, filler,
+                video_10,replay_tl, Q_testtrials_timeline, filler, video_11,replay_tl, Q_testtrials_timeline, filler, video_12,replay_tl, Q_testtrials_timeline]
         }
         // exit full screen mode (but will not work with Safari)
         var exit_fullscreen = {
@@ -1154,7 +1165,7 @@
 
         //var timeline = [test_procedure];
 
-        var timeline = [browsercheck, cb_group, enter_fullscreen, intro,
+        var timeline = [browsercheck, cb_group, enter_fullscreen, intro, replay_tl,
             fam_timeline,
             test_trials_timeline,
             outro, exit_fullscreen, anything_else];
