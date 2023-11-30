@@ -724,6 +724,69 @@
             ]
         };
 
+        var cq_believe = {
+            timeline: [
+                {
+                    type: jsPsychVideoKeyboardResponse,
+                    width: widths_desktop,
+                    stimulus: ['videos/outcome_TT_right.mp4'], // i put here one video, but since it wont be played it doesn'T matter which you put here
+                    start: 0,
+                    stop: 0.00000001,
+                    autoplay: false,
+                    // y = yes (he has seen it/he knows it), n = no (he hasn't seen it/does't know)
+                    choices: ['q', 'ü', 'Enter'],
+                    prompt: '<div style="position: relative; width: 100%; height: 100%;"> <p style="font-size:13px;text-align:left;position:absolute; left:10px; top:-60px;">glaubt(q/ü)</p> </div>',
+                    data: { correct: jsPsych.timelineVariable('correct'), tag: 'CQ_believe' },
+                    on_finish: function (data) {
+                        var correctValue = jsPsych.timelineVariable('correct', true)();
+                        if (data.response == correctValue) {
+                            data.correct_response = true;
+                        } else {
+                            data.correct_response = false;
+                        };
+
+                        if (data.response == 'enter') {
+                            data.check = 'check child´s answer in this trial again'
+                        }
+                        data.index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial
+                        var index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial - 1
+                        data.outcome = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].outcome.substring(index, index + 1)
+                        data.consis = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].consis.substring(index, index + 1)
+                        data.tb_fb = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].tb_fb_order.substring(index, index + 1)
+                        data.outcome = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].outcome.substring(index, index + 1)
+                        data.a_c_order = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].order.substring(index, index + 1)
+                    }
+
+                }
+            ],
+            timeline_variables: [
+                {
+                    correct: function () {
+                        var index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial - 1;
+                        var tb_fb = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].tb_fb_order
+                        var outcome = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].outcome
+                        var correct_here;
+                        // y = yes (he has seen it/he knows it), n = no (he hasn't seen it/does't know)
+                        if (tb_fb.substring(index, index + 1) == "t") {
+                            if(outcome.substring(index, index +1) == "L") {
+                                correct_here = 'q'
+                            } else if (outcome.substring(index, index +1) == "R"){
+                                correct_here = 'ü'
+                            }
+                        } else if (tb_fb.substring(index, index + 1) == "f") {
+                            if(outcome.substring(index, index +1) == "L") {
+                                correct_here = 'ü'
+                            } else if (outcome.substring(index, index +1) == "R"){
+                                correct_here = 'q'
+                            }
+                        }
+                        return correct_here;
+                    }
+                }
+
+            ]
+        };
+
         var cq_knowledge_asp = {
             timeline: [
                 {
@@ -933,7 +996,7 @@
         };
 
         var Q_testtrials_timeline_CoL = {
-            timeline: [cq_TEST_object, cq_TEST_object_timeline, cq_knowledge_CoL, outcome_test, replay_tl, tq_test, cq_TEST_location],
+            timeline: [cq_TEST_object, cq_TEST_object_timeline, cq_knowledge_CoL,cq_believe, outcome_test, replay_tl, tq_test, cq_TEST_location],
             conditional_function: function () {
                 var index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial - 1
                 var a_c_here = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].order.substring(index, index + 1)
@@ -947,7 +1010,7 @@
         };
 
         var Q_testtrials_timeline_asp = {
-            timeline: [cq_knowledge_asp, video_asp_2,replay_video_asp_2, cq_TEST_object, cq_TEST_object_timeline, outcome_test,replay_tl, tq_test, cq_TEST_location],
+            timeline: [cq_knowledge_asp, video_asp_2,replay_video_asp_2, cq_TEST_object, cq_TEST_object_timeline,cq_believe, outcome_test,replay_tl, tq_test, cq_TEST_location],
             conditional_function: function () {
                 var index = jsPsych.data.get().filter({ tag: 'video' }).last(1).values()[0].v_trial - 1
                 var a_c_here = jsPsych.data.get().filter({ tag: 'cb_group' }).last(1).values()[0].order.substring(index, index + 1)
