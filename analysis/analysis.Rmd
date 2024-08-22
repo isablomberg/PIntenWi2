@@ -1,0 +1,1910 @@
+---
+title: "PIntenWi_analysis"
+output:
+  bookdown::html_document2: 
+    toc: true
+    toc_float: true
+    code_download: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+load("./workspaces/workspace_PIntenWi1_prep.RData")
+```
+
+# Study 1
+
+## Peparations
+
+### load packages and functions
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(lme4)
+library(kableExtra)
+library(papaja)
+```
+
+```{r}
+source("./functions/glmm_stability.r") # model stability
+source("./functions/diagnostic_fcns.r") # diagnostic functions
+source("./functions/boot_glmm.r") # bootstrapping
+```
+
+### prepare data
+```{r}
+#load data
+data_fam <- read.csv2("./data/study1/data_fam.csv", stringsAsFactors=TRUE)
+data_fam_long <- read.csv2("./data/study1/data_fam_long.csv", stringsAsFactors=TRUE)
+data_long <- read.csv2("./data/study1/data_long.csv", stringsAsFactors=TRUE)
+
+data_long$trial.f <- as.factor(data_long$trial)
+data_long$condition <- relevel(data_long$condition, ref = "dual_identity")
+
+data_long <- data_long %>%
+  mutate(condition_ref_control = relevel(data_long$condition, ref = "control"),
+         condition_ref_CoL = relevel(data_long$condition, ref = "change_of_location"))
+```
+
+## Descriptives
+```{r}
+# N
+length(unique(data_long$id))
+
+mean_age <- mean(unique(data_long$age_years))
+mean_age
+sd_age <- sd(unique(data_long$age_years))
+sd_age
+
+#z-transformation
+data_long$z_age_years <- as.numeric(scale(data_long$age_years, center = mean_age, scale = sd_age))
+
+min(data_long$age_years)
+max(data_long$age_years)
+```
+
+### Probability of correct choices as a function of condition and age
+```{r}
+correct.choice <- data_long %>% 
+  filter(!(is.na(t_correct))) %>%
+  group_by(condition, age_years_full) %>% 
+  count(t_correct) %>% 
+  mutate(prop = n/sum(n))%>% 
+  filter(t_correct == "1")
+
+correct.choice
+
+ggplot(data = correct.choice, aes(x = as.factor(age_years_full), y = prop, group = condition, color = condition)) +
+  geom_point(aes(group = condition)) +
+  geom_line(aes(group = condition)) +
+  ylim(0,1)
+```
+
+```{r}
+table(data_wide_s1$age_years_full)
+```
+
+```{r}
+# as a table
+correct.choice.s1 <- data_long %>%
+  filter(!is.na(t_correct)) %>%
+  group_by(condition_ref_control, age_years_full) %>% 
+  summarise(prop = mean(t_correct == "1")) %>%
+  mutate(across(where(is.numeric), ~round(., 2))) %>%
+  pivot_wider(names_from = condition_ref_control, values_from = prop, values_fill = 0)
+
+correct.choice.s1$age_years_full[1] <- paste0(correct.choice.s1$age_years_full[1], " (n = ", table(data_wide_s1$age_years_full)[1], ")")
+correct.choice.s1$age_years_full[2] <- paste0(correct.choice.s1$age_years_full[2], " (n = ", table(data_wide_s1$age_years_full)[2], ")")
+correct.choice.s1$age_years_full[3] <- paste0(correct.choice.s1$age_years_full[3], " (n = ", table(data_wide_s1$age_years_full)[3], ")")
+correct.choice.s1$age_years_full[4] <- paste0(correct.choice.s1$age_years_full[4], " (n = ", table(data_wide_s1$age_years_full)[4], ")")
+
+kable(correct.choice.s1, "html",
+      booktabs = T,
+      escape = F,
+      align = c(rep("c")),
+      caption = "Probability of correct intentionality judgments per age groups and condition",
+      col.names = c("Age in years","Control","Dual identity", "Change of location")) %>%
+  add_header_above(c(" " = 1, "Condition" = 3), bold = T, italic = T) %>%
+  kable_styling(full_width = T)
+```
+
+### consistency
+```{r}
+consis <- data_long %>%
+  filter(!is.na(t_correct)) %>%
+  group_by(consis) %>% 
+  summarise(prop = mean(t_correct == "1")) %>%
+  mutate(across(where(is.numeric), ~round(., 3)))
+consis
+
+# as a table
+correct.choice.s1.c <- data_long %>%
+  filter(!is.na(t_correct)) %>%
+  group_by(condition_ref_CoL, consis, age_years_full) %>% 
+  summarise(prop = mean(t_correct == "1")) %>%
+  mutate(across(where(is.numeric), ~round(., 2))) %>%
+  pivot_wider(names_from = c("condition_ref_CoL","consis"), values_from = prop, values_fill = 0)
+
+correct.choice.s1.c$age_years_full[1] <- paste0(correct.choice.s1.c$age_years_full[1], " (n = ", table(data_wide_s1$age_years_full)[1], ")")
+correct.choice.s1.c$age_years_full[2] <- paste0(correct.choice.s1.c$age_years_full[2], " (n = ", table(data_wide_s1$age_years_full)[2], ")")
+correct.choice.s1.c$age_years_full[3] <- paste0(correct.choice.s1.c$age_years_full[3], " (n = ", table(data_wide_s1$age_years_full)[3], ")")
+correct.choice.s1.c$age_years_full[4] <- paste0(correct.choice.s1.c$age_years_full[4], " (n = ", table(data_wide_s1$age_years_full)[4], ")")
+
+kable(correct.choice.s1.c, "html",
+      booktabs = T,
+      escape = F,
+      align = c(rep("c")),
+      caption = "Probability of correct intentionality judgments per age groups and condition",
+      col.names = c("Age in years","Consistent","Inconsistent", "Consistent","Inconsistent","Consistent","Inconsistent")) %>%
+  add_header_above(c(" " = 1, "Change of location" = 2, "Dual identity" = 2, "Control" = 2), bold = T) %>%
+  kable_styling(full_width = T)
+```
+
+### Probability of correct choices in consistent trials as a function of condition and age
+```{r}
+correct.choice_C <- data_long %>% 
+  filter(!(is.na(t_correct))) %>%
+  filter(consis == "C") %>%
+  group_by(condition, age_years_full) %>% 
+  count(t_correct) %>% 
+  mutate(prop = n/sum(n))%>% 
+  filter(t_correct == "1")
+
+correct.choice_C
+
+ggplot(data = correct.choice_C, aes(x = as.factor(age_years_full), y = prop, group = condition, color = condition)) +
+  geom_point(aes(group = condition)) +
+  geom_line(aes(group = condition)) +
+  ylim(0,1)
+```
+
+### Probability of correct choices in inconsistent trials as a function of condition and age
+```{r}
+correct.choice_I <- data_long %>% 
+  filter(!(is.na(t_correct))) %>%
+  filter(consis == "I") %>%
+  group_by(condition, age_years_full) %>% 
+  count(t_correct) %>% 
+  mutate(prop = n/sum(n))%>% 
+  filter(t_correct == "1")
+
+correct.choice_I
+
+ggplot(data = correct.choice_I, aes(x = as.factor(age_years_full), y = prop, group = condition, color = condition)) +
+  geom_point(aes(group = condition)) +
+  geom_line(aes(group = condition)) +
+  ylim(0,1)
+```
+
+### Plot: raw responses as a function of condition and age groups
+```{r}
+# Calculate percentages
+raw_responses <- data_long %>% 
+  filter(!is.na(res_t)) %>%
+  group_by(age_years_full, condition_ref_control, consis) %>% 
+  count(res_t) %>%
+  mutate(percentage = n / sum(n) * 100)
+
+# Convert factors
+raw_responses$res_t <- factor(raw_responses$res_t, labels = c("self", "wind"))
+raw_responses$consis <- factor(raw_responses$consis, labels = c("C", "I"))
+```
+
+
+```{r include=FALSE, eval=FALSE}
+# Plot
+plot <- ggplot(data = raw_responses, aes(fill = res_t, y = n, x = consis)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = paste0(round(percentage), "%")), 
+            position = position_stack(vjust = 0.5), size = 3, color = "black") +  # Add data labels
+  labs(fill = "Response") +
+  xlab("Outcome type") +
+  ylab("Number of Children") +
+  scale_fill_manual(values = c("#c1e7bb", "#4472C4")) +
+  facet_wrap(~condition_ref_control + age_years_full, 
+             labeller = labeller(condition_ref_control = c("control" = "Control", "dual_identity" = "Dual identity", "change_of_location" = "Change of location"),
+                                 age_years_full = c("4" = "Age 4", "5" = "Age 5", "6" = "Age 6", "7" = "Age 7"))) +
+  theme_classic() + 
+  theme(panel.grid.major = element_blank(),
+        panel.background = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line = element_line(colour = "black"),
+        text = element_text(size = 12))  # Adjust text size
+plot
+```
+
+```{r}
+# Plot
+ggplot(data = raw_responses, aes(fill = res_t, y = n, x = consis)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = paste0(round(percentage), "%")), 
+            position = position_stack(vjust = 0.5), size = 3, color = "black") +  # Add data labels
+  labs(fill = "Response") +
+  xlab("Outcome type") +
+  ylab("Number of Children") +
+  scale_fill_manual(values = c("#c1e7bb", "#4472C4")) +
+  facet_wrap(~condition_ref_control + age_years_full, 
+             labeller = labeller(condition_ref_control = c("control" = "Control", "dual_identity" = "Dual identity", "change_of_location" = "Change of location"),
+                                 age_years_full = c("4" = "Age 4", "5" = "Age 5", "6" = "Age 6", "7" = "Age 7"))) +
+  theme_classic() + 
+  theme(panel.grid.major = element_blank(),
+        panel.background = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line = element_line(colour = "black"),
+        text = element_text(size = 12),
+        #strip.text.x = element_blank(),  # Remove x-axis facet labels
+        strip.background = element_blank())  # Remove background for facet labels
+
+```
+
+```{r include=FALSE}
+svg(file = "plots/raw_responses_s1.svg", width = 7, height = 7)
+pdf(file = "plots/raw_responses_s1.pdf", width = 7, height = 7)
+
+# Plot
+ggplot(data = raw_responses, aes(fill = res_t, y = n, x = consis)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = paste0(round(percentage), "%")), 
+            position = position_stack(vjust = 0.5), size = 3, color = "black") +  # Add data labels
+  labs(fill = "Response") +
+  xlab("Outcome type") +
+  ylab("Number of Children") +
+  scale_fill_manual(values = c("#c1e7bb", "#4472C4")) +
+  facet_wrap(~condition_ref_control + age_years_full, 
+             labeller = labeller(condition_ref_control = c("control" = "Control", "dual_identity" = "Dual identity", "change_of_location" = "Change of location"),
+                                 age_years_full = c("4" = "Age 4", "5" = "Age 5", "6" = "Age 6", "7" = "Age 7"))) +
+  theme_classic() + 
+  theme(panel.grid.major = element_blank(),
+        panel.background = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line = element_line(colour = "black"),
+        text = element_text(size = 12),
+        #strip.text.x = element_blank(),  # Remove x-axis facet labels
+        strip.background = element_blank())  # Remove background for facet labels
+```
+
+```{r}
+svg(file = "plots/raw_res_s1.svg", width = 7, height = 7)
+pdf(file = "plots/raw_res_s1.pdf", width = 7, height = 7)
+# Change the reference group for the res_t factor
+raw_responses$res_t <- factor(raw_responses$res_t, levels = c("wind", "self"))
+
+# Define colors
+colors <- c("#4472C4", "#c1e7bb")  # Corresponding to "wind" and "self"
+
+# Split data by facets
+facets <- split(raw_responses, list(raw_responses$condition_ref_control))
+
+# Set up the plotting area with multiple facets and ensure enough space for the custom label
+par(mfrow = c(3, 4), mar = c(2, 2, 3, 1), oma = c(5, 4, 2, 2))  # Adjusted outer margin (oma)
+
+ages <- unique(raw_responses$age_years_full)
+
+# Create plots
+for(i in seq_along(facets)) {
+  for(age in ages) {
+    data <- facets[[i]]
+    data <- data[data$age_years_full == age,]
+    
+    # Create barplot
+    bar_heights <- tapply(data$n, list(data$res_t, data$consis), sum)
+    bar_labels <- tapply(data$percentage, list(data$res_t, data$consis), function(x) paste0(round(x), "%"))
+    
+    barplot_heights <- barplot(
+      height = bar_heights, 
+      beside = FALSE, 
+      border = NA,  # Remove black borders around bars
+      col = colors, 
+      ylim = c(0, max(raw_responses$n) + 5),
+      xlab = "", 
+      ylab = "", 
+      main = "",
+      cex.names = 1.2,
+      yaxt = "n" 
+    )
+    # Add custom y-axis ticks
+    axis(2, at = seq(0, max(raw_responses$n) + 5, by = 10), las = 1, cex.axis = 1.2)
+   
+     # Add text labels
+    cumulative_height <- apply(bar_heights, 2, cumsum)
+    midpoints <- barplot_heights
+    
+    for (j in 1:ncol(bar_heights)) {
+      for (k in 1:nrow(bar_heights)) {
+        # Only add label if percentage is 10% or higher
+        if (as.numeric(sub("%", "", bar_labels[k, j])) >= 10) {
+          text(
+            x = midpoints[j], 
+            y = cumulative_height[k, j] - bar_heights[k, j] / 2, 
+            labels = bar_labels[k, j], 
+            cex = 1.1, 
+            col = "black"
+          )
+        }
+      }
+    }
+  }
+}
+
+# Centered age labels below each row of plots
+mtext(text = "Age", side = 1, line = 3, outer = TRUE, at = 0, cex = 1.2)
+mtext(text = ages[1], side = 1, line = 3, outer = TRUE, at = 0.135, cex = 1.2)
+mtext(text = ages[2], side = 1, line = 3, outer = TRUE, at = 0.39, cex = 1.2)
+mtext(text = ages[3], side = 1, line = 3, outer = TRUE, at = 0.64, cex = 1.2)
+mtext(text = ages[4], side = 1, line = 3, outer = TRUE, at = 0.89, cex = 1.2)
+
+mtext(text = "Number of Children", side = 2, line = 2, outer = TRUE, at = 0.5, cex = 1, las = 0)
+mtext(text = "Outcome type", side = 1, line = 1, outer = TRUE, at = 0.5, cex = 1, las = 0)
+
+
+# Add "Change of location" and "Dual Identity" labels above the columns
+mtext(text = "Control", side = 3, line = -1, outer = TRUE, at = 0.5, cex = 1.2, las = 0)
+mtext(text = "Dual Identity", side = 3, line = -17, outer = TRUE, at = 0.5, cex = 1.2, las = 0)
+mtext(text = "Change of location", side = 3, line = -32, outer = TRUE, at = 0.5, cex = 1.2, las = 0)
+```
+
+
+## Statistical analyses
+
+### fit null and reduced model
+```{r}
+null = glmer(t_correct ~ z_age_years + trial.f + consis + (1+condition + consis|id) + (1|experimenter), 
+                 family = "binomial", 
+                 data = data_long,
+             control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000)))
+
+red = glmer(t_correct ~ condition + z_age_years + trial.f + consis + (1+condition + consis|id) + (1|experimenter), 
+                 family = "binomial", 
+                 data = data_long,
+            control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000)))
+```
+
+### fit full model
+```{r include=FALSE, eval=FALSE}
+xx.fe.re1 = fe.re.tab(fe.model = "t_correct ~ condition * z_age_years + trial.f + consis",
+                  re = "(1|id) + (1|experimenter)", data = data_long)
+
+xx.fe.re1$summary
+```
+
+
+```{r}
+full = glmer(t_correct ~ condition * z_age_years + trial.f + consis + (1+ condition + consis |id) + (1|experimenter), 
+                 family = "binomial", 
+                 data = data_long,
+             control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000)))
+```
+
+### full-null model comparisons
+```{r}
+as.data.frame(anova(null, full, test="Chisq"))
+```
+
+### Test assumptions
+```{r}
+# Normal distribution of random effects 
+ranef.diagn.plot(full)
+```
+
+
+```{r eval=FALSE}
+# Model stability 
+m.stab = glmm.model.stab(model.res = full, para = T)
+
+saveRDS(m.stab, file = "workspaces/PIntenWi_m_stab.RData")
+```
+
+```{r include=FALSE}
+m.stab <- readRDS("./workspaces/PIntenWi_m_stab.RData")
+```
+
+```{r eval=TRUE}
+round(m.stab$summary[, -1], 3)
+m.stab.plot(m.stab$summary[, -1])
+```
+
+
+```{r}
+# Collinearity
+full.coll <- glmer(t_correct ~ condition + z_age_years + trial.f + consis + (1+condition + consis|id) + (1|experimenter), 
+                   data = data_long,
+                   family = binomial,
+                   control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000))) # model without interaction
+car::vif(full.coll) 
+
+# Overdispersion
+overdisp.test(full)
+```
+
+### model results
+```{r}
+summary(full)
+```
+
+
+```{r eval=FALSE}
+# Confidence intervals
+boot.res = boot.glmm.pred(model.res = full, excl.warnings = T, nboots = 1000, para = T)
+
+saveRDS(boot.res, file = "workspaces/PIntenWi_boot_m1.RData")
+```
+
+```{r include=FALSE, eval=TRUE}
+boot.res <- readRDS(file = "workspaces/PIntenWi_boot_m1.RData")
+```
+
+```{r}
+# save model results in data frame
+table.model.1 <- tibble(coefs = c("(Intercept)", "CoL","control",
+                             "z_age_years", "trial.f2","consisI",
+                             "CoL:z_age_years", "control:z_age_years"),
+                      estimate = c(summary(full)$coefficients[,1]),
+                      SE = c(summary(full)$coefficients[,2]),
+                      z = c(summary(full)$coefficients[,3]),
+                      boot_lower = boot.res[["ci.estimates"]][["X2.5."]],
+                      boot_upper = boot.res[["ci.estimates"]][["X97.5."]],
+                      OR = exp(estimate),
+                      p = c(summary(full)$coefficients[,4]))
+
+table.model.1[,2:8] <- round(table.model.1[,2:8],3)
+
+table.model.1$p <- printp(table.model.1$p)
+
+table.model.1
+```
+
+
+#### Model results for other reference groups (using recoded variables)
+```{r}
+full_ref_control = glmer(t_correct ~ condition_ref_control * z_age_years + trial.f + consis + (1+condition + consis|id) + (1|experimenter), 
+                 family = "binomial", 
+                 data = data_long,
+             control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000)))
+
+summary(full_ref_control)
+
+full_ref_CoL = glmer(t_correct ~ condition_ref_CoL * z_age_years + trial.f + consis + (1+condition + consis|id) + (1|experimenter), 
+                 family = "binomial", 
+                 data = data_long,
+             control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000)))
+
+summary(full_ref_CoL)
+```
+
+```{r eval=FALSE}
+# Confidence intervals
+boot.res.rec = boot.glmm.pred(model.res = full_ref_CoL, excl.warnings = T, nboots = 1000, para = T)
+
+saveRDS(boot.res.rec, file = "workspaces/PIntenWi_boot_m1_rec.RData")
+```
+
+```{r include=FALSE, eval=TRUE}
+boot.res.rec <- readRDS("./workspaces/PIntenWi_boot_m1_rec.RData")
+```
+
+```{r}
+# save model results in data frame
+table.model.1.rec <- tibble(coefs = c("(Intercept)", "dual_identity","control",
+                             "z_age_years", "trial.f2","consisI",
+                             "dual_identity:z_age_years", "control:z_age_years"),
+                      estimate = c(summary(full_ref_CoL)$coefficients[,1]),
+                      SE = c(summary(full_ref_CoL)$coefficients[,2]),
+                      z = c(summary(full_ref_CoL)$coefficients[,3]),
+                      boot_lower = boot.res.rec[["ci.estimates"]][["X2.5."]],
+                      boot_upper = boot.res.rec[["ci.estimates"]][["X97.5."]],
+                      OR = exp(estimate),
+                      p = c(summary(full_ref_CoL)$coefficients[,4]))
+
+table.model.1.rec[,2:8] <- round(table.model.1.rec[,2:8],3)
+
+table.model.1.rec$p <- printp(table.model.1.rec$p)
+
+table.model.1.rec
+```
+
+### Bootstrapping 
+```{r eval = F}
+# Model for the plot - simplified
+plot.res = glmer(t_correct ~ condition * z_age_years + (1+condition+consis|id) + (1|experimenter), 
+                 family = "binomial", 
+                 data = data_long,
+                 control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000)))
+
+timeStart<-Sys.time()
+
+# Fitted values + CIs
+boot.res.plot = boot.glmm.pred(model.res = plot.res, 
+                               excl.warnings = F, 
+                               nboots = 10000, 
+                               para = T, 
+                               resol = 1000, 
+                               level = 0.95, 
+                               use = c("condition", "z_age_years"))
+
+timeEnd<-Sys.time()
+
+difftime(timeEnd, timeStart)
+
+saveRDS(boot.res.plot, file = "workspaces/PIntenWi_boot_plot_s1.RData")
+```
+
+```{r include=FALSE, eval=TRUE}
+boot.res.plot <- readRDS(file = "workspaces/PIntenWi_boot_plot_s1.RData")
+```
+
+### Plot: correct response as a function of age and condition
+```{r}
+#Define variables
+vars = c("condition", "z_age_years", "id")
+
+# calculate probabilities for each age per condition
+xx = aggregate(x = as.numeric(as.character(data_long$t_correct)), by = data_long[, vars], FUN = mean)
+```
+
+```{r}
+# x-values
+plot.xvals = seq(from = min(data_long$z_age_years), to = max(data_long$z_age_years), length.out = 1000)
+
+# Plot settings
+par(mar = c(3, 4.5, 0.2, 0.2), 
+    mgp = c(1.7, 0.3, 0), 
+    las = 1, 
+    tcl = -0.2)
+
+# Create plot
+min <- (min(data_long$age_years) - mean(data_long$age_years)) / sd(data_long$age_years)
+plot(x = data_long$z_age_years, y = data_long$t_correct, 
+     pch = 19, 
+     las = 1, 
+     ylim = c(0, 1),
+     xlim = c(min, max(data_long$z_age_years)),
+     col = c("white"), 
+     xlab = "Age in years", ylab = "", 
+     xaxt = "n",# no x-axis
+     cex.lab = 1.1,
+     cex.axis = 1.1) 
+
+# Add CI for condition Dual identity
+polygon(x = c(plot.xvals, rev(plot.xvals)), 
+        y = c(boot.res.plot$ci.predicted$lower.cl[boot.res.plot$ci.predicted$condition == "asp"],
+              rev(boot.res.plot$ci.predicted$upper.cl[boot.res.plot$ci.predicted$condition == "asp"])), 
+        border = NA, 
+        col = alpha("#F0BF1B", 0.3))
+
+# Add CI for condition Control
+polygon(x = c(plot.xvals, rev(plot.xvals)), 
+        y = c(boot.res.plot$ci.predicted$lower.cl[boot.res.plot$ci.predicted$condition == "kon"],
+              rev(boot.res.plot$ci.predicted$upper.cl[boot.res.plot$ci.predicted$condition == "kon"])), 
+        border = NA, 
+        col = alpha(3, 0.3))
+
+# Add CI for condition Change of location
+polygon(x = c(plot.xvals, rev(plot.xvals)), 
+        y = c(boot.res.plot$ci.predicted$lower.cl[boot.res.plot$ci.predicted$condition == "n.asp"],
+              rev(boot.res.plot$ci.predicted$upper.cl[boot.res.plot$ci.predicted$condition == "n.asp"])), 
+        border = NA, 
+        col = alpha("#4682B4", 0.3))
+
+# add dots
+points(x = xx$z_age_years, y = xx$x, 
+       pch = c(17,19,18)[as.numeric(xx$condition)], 
+       las = 1, 
+       ylim = c(0, 1),
+       col = alpha(c("#F0BF1B",3,"#4682B4"), 0.7)[as.numeric(xx$condition)],  
+       cex = 1.5,) 
+
+# Add line for condition Dual identity
+lines(x = plot.xvals, y = boot.res.plot$ci.predicted$fitted[boot.res.plot$ci.predicted$condition == "asp"], lty = 2, lwd = 2, col = "#CEA620")
+
+# Add line for condition Control
+lines(x = plot.xvals, y = boot.res.plot$ci.predicted$fitted[boot.res.plot$ci.predicted$condition == "kon"], lty = 1, lwd = 2, col = 3)
+
+# Add line for condition Change of location
+lines(x = plot.xvals, y = boot.res.plot$ci.predicted$fitted[boot.res.plot$ci.predicted$condition == "n.asp"], lty = 5, lwd = 2, col = "#4682B4")
+
+# Add x-axis
+x.lab = c(4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0)
+axis(side = 1, labels = x.lab, at = (x.lab - mean(data_long$age_years)) / sd(data_long$age_years), cex.axis = 1.1)
+
+# Add legend
+legend(x = 0.6, y = 0.23, legend = c( "Control","Dual identity", "Change of location"), col=c(3,"#F0BF1B","#4682B4"), lty = c(1,2,5), lwd = 2, pch = c(19,17,18), bty = "n", cex = 1)
+
+# chance level
+abline(h = 0.5, lty = 8)
+
+mtext(side = 2, "Probability of correct intentionality judgment", line = 2.5, las = 3, cex = 1.1)
+
+```
+
+```{r include=FALSE}
+svg(file = "plots/model_s1.svg", width = 7, height = 5)
+pdf(file = "plots/model_s1.pdf", width = 7, height = 5)
+
+# x-values
+plot.xvals = seq(from = min(data_long$z_age_years), to = max(data_long$z_age_years), length.out = 1000)
+
+# Plot settings
+par(mar = c(3, 4.5, 0.2, 0.2), 
+    mgp = c(1.7, 0.3, 0), 
+    las = 1, 
+    tcl = -0.2)
+
+# Create plot
+min <- (min(data_long$age_years) - mean(data_long$age_years)) / sd(data_long$age_years)
+plot(x = data_long$z_age_years, y = data_long$t_correct, 
+     pch = 19, 
+     las = 1, 
+     ylim = c(0, 1),
+     xlim = c(min, max(data_long$z_age_years)),
+     col = c("white"), 
+     xlab = "Age in years", ylab = "", 
+     xaxt = "n",# no x-axis
+     cex.lab = 1.1,
+     cex.axis = 1.1) 
+
+# Add CI for condition Dual identity
+polygon(x = c(plot.xvals, rev(plot.xvals)), 
+        y = c(boot.res.plot$ci.predicted$lower.cl[boot.res.plot$ci.predicted$condition == "asp"],
+              rev(boot.res.plot$ci.predicted$upper.cl[boot.res.plot$ci.predicted$condition == "asp"])), 
+        border = NA, 
+        col = alpha("#F0BF1B", 0.3))
+
+# Add CI for condition Control
+polygon(x = c(plot.xvals, rev(plot.xvals)), 
+        y = c(boot.res.plot$ci.predicted$lower.cl[boot.res.plot$ci.predicted$condition == "kon"],
+              rev(boot.res.plot$ci.predicted$upper.cl[boot.res.plot$ci.predicted$condition == "kon"])), 
+        border = NA, 
+        col = alpha(3, 0.3))
+
+# Add CI for condition Change of location
+polygon(x = c(plot.xvals, rev(plot.xvals)), 
+        y = c(boot.res.plot$ci.predicted$lower.cl[boot.res.plot$ci.predicted$condition == "n.asp"],
+              rev(boot.res.plot$ci.predicted$upper.cl[boot.res.plot$ci.predicted$condition == "n.asp"])), 
+        border = NA, 
+        col = alpha("#4682B4", 0.3))
+
+# add dots
+points(x = xx$z_age_years, y = xx$x, 
+       pch = c(17,19,18)[as.numeric(xx$condition)], 
+       las = 1, 
+       ylim = c(0, 1),
+       col = alpha(c("#F0BF1B",3,"#4682B4"), 0.7)[as.numeric(xx$condition)],  
+       cex = 1.5,) 
+
+# Add line for condition Dual identity
+lines(x = plot.xvals, y = boot.res.plot$ci.predicted$fitted[boot.res.plot$ci.predicted$condition == "asp"], lty = 2, lwd = 2, col = "#CEA620")
+
+# Add line for condition Control
+lines(x = plot.xvals, y = boot.res.plot$ci.predicted$fitted[boot.res.plot$ci.predicted$condition == "kon"], lty = 1, lwd = 2, col = 3)
+
+# Add line for condition Change of location
+lines(x = plot.xvals, y = boot.res.plot$ci.predicted$fitted[boot.res.plot$ci.predicted$condition == "n.asp"], lty = 5, lwd = 2, col = "#4682B4")
+
+# Add x-axis
+x.lab = c(4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0)
+axis(side = 1, labels = x.lab, at = (x.lab - mean(data_long$age_years)) / sd(data_long$age_years), cex.axis = 1.1)
+
+# Add legend
+legend(x = 0.6, y = 0.23, legend = c( "Control","Dual identity", "Change of location"), col=c(3,"#F0BF1B","#4682B4"), lty = c(1,2,5), lwd = 2, pch = c(19,17,18), bty = "n", cex = 1)
+
+# Zufallsniveau
+abline(h = 0.5, lty = 8)
+
+mtext(side = 2, "Probability of correct intentionality judgment", line = 2.5, las = 3, cex = 1.1)
+```
+
+
+### Age of onset
+
+#### lowest age when performance in CoL condition is above chance level 
+```{r}
+age <- boot.res.plot$ci.predicted$z_age_years[boot.res.plot$ci.predicted$condition == "n.asp" & boot.res.plot$ci.predicted$lower.cl < 0.5]
+lower.cl <- boot.res.plot$ci.predicted$lower.cl[boot.res.plot$ci.predicted$lower.cl < 0.5 & boot.res.plot$ci.predicted$condition == "n.asp"]
+xx <- as.data.frame(cbind(age, lower.cl))
+x <- max(xx$age[xx$lower.cl < 0.5])
+above_chance_CoL <- x * sd(data_long$age_years) + mean(data_long$age_years) # crossing point (minimum age)
+above_chance_CoL
+```
+
+#### lowest age when performance in Dual identity condition is above chance level 
+```{r}
+age <- boot.res.plot$ci.predicted$z_age_years[boot.res.plot$ci.predicted$condition == "asp" & boot.res.plot$ci.predicted$lower.cl < 0.5]
+lower.cl <- boot.res.plot$ci.predicted$lower.cl[boot.res.plot$ci.predicted$lower.cl < 0.5 & boot.res.plot$ci.predicted$condition == "asp"]
+xx <- as.data.frame(cbind(age, lower.cl))
+x <- max(xx$age[xx$lower.cl < 0.5])
+above_chance_DI <- x * sd(data_long$age_years) + mean(data_long$age_years) # crossing point (minimum age)
+above_chance_DI
+```
+
+## to wide format
+```{r}
+data_wide_s1 <- pivot_wider(data = data_long,
+                  id_cols = c("id", "age_years", "age_years_full","z_age_years", "cb", "experimenter", "order"),
+                  names_from = c("trial","condition"),
+                  values_from = c("obj.pair", "consis", "res_c", "res_t", "c_correct", "t_correct"))
+```
+
+
+## Exploratory analyses
+
+```{r}
+data_wide_s1 <- data_wide_s1 %>%
+  mutate(sum_di = t_correct_1_dual_identity + t_correct_2_dual_identity,
+         sum_col = t_correct_1_change_of_location + t_correct_2_change_of_location,
+         sum_con = t_correct_1_control + t_correct_2_control)
+```
+
+```{r}
+table(data_wide_s1$sum_di, data_wide_s1$age_years_full)
+table(data_wide_s1$sum_col, data_wide_s1$age_years_full)
+table(data_wide_s1$sum_con, data_wide_s1$age_years_full)
+```
+--> it looks like in the asp. condition 4-year old's are kind of guessing, as they are closely to 33% per 0/1/2 correct answers, while they are systematically wrong in the n.asp condition --> 50% 0 answers correct, 37% 1 answer and 11% both correct
+
+# Study 2
+
+## Preparations
+```{r}
+#load data
+df_long <- read.csv("./data/study2/test_data.csv", stringsAsFactors=TRUE)
+df_fam_long <- read.csv("./data/study2/fam_data.csv", stringsAsFactors=TRUE)
+df_wide_s2 <- read.csv("./data/study2/test_data_wide.csv", stringsAsFactors=TRUE)
+
+df_long$trial.f <- as.factor(df_long$trial)
+
+df_long$condition_ref_CoL <- relevel(df_long$condition, ref = "CoL")
+df_long$belief_ref_TB <- relevel(df_long$belief, ref = "TB")
+```
+
+### Exclusion
+```{r}
+dropout_abort_s2 <- sum(df_long$reason_exlusion == "study aborted", na.rm = T) # these 2 children saw only 1 full test trial
+dropout_abort_s2
+
+participated_in_s1_s2 <- sum(df_long$reason_exlusion == "participated in study 1", na.rm = T)/8 #divided by 8, because 8 full trials
+participated_in_s1_s2
+
+df_long_ex <- df_long %>%
+  filter(included == "main")
+
+dropout_fam_s2 <- length(unique(df_long$id)) - length(unique(df_long_ex$id)) - participated_in_s1_s2
+dropout_fam_s2
+
+dropout_s2 <- length(unique(df_long$id)) - length(unique(df_long_ex$id))
+dropout_s2
+```
+
+## Descriptives
+```{r}
+#N
+length(unique(df_long_ex$id))
+
+mean_age <- mean(unique(df_long_ex$age_years))
+mean_age
+
+sd_age <- sd(unique(df_long_ex$age_years))
+sd_age
+
+# Z-transformation
+df_long_ex$z_age_years <- as.numeric(scale(df_long_ex$age_years, center = mean_age, scale = sd_age))
+
+min(df_long_ex$age_years)
+max(df_long_ex$age_years)
+```
+
+### Probability of correct choices as a function of belief and age
+```{r}
+df_long_ex %>%
+  filter(!(is.na(TQ))) %>%
+  group_by(belief, age_years_full) %>%
+  count(TQ) %>% 
+  mutate(prop = n/sum(n))%>% 
+  filter(TQ == "1")
+```
+
+### Probability of correct choices as a function of belief, condition and age
+```{r}
+plot_prop <- df_long_ex %>%
+  filter(!(is.na(TQ))) %>%
+  group_by(belief, condition, age_years_full) %>%
+  count(TQ) %>% 
+  mutate(prop = n/sum(n))%>% 
+  filter(TQ == "1")
+
+plot_prop
+
+ggplot(data = plot_prop, aes(x = as.factor(age_years_full), y = prop, group = condition, color = condition)) +
+  geom_point(aes(group = condition)) +
+  geom_line(aes(group = condition)) +
+  ylim(0,1)+
+  facet_wrap(~belief)
+```
+
+
+```{r}
+# as a table
+correct.choice.s2 <- df_long_ex %>%
+  filter(!is.na(TQ)) %>%
+  group_by(belief, condition_ref_CoL, age_years_full) %>% 
+  summarise(prop = mean(TQ == "1")) %>%
+  mutate(across(where(is.numeric), ~round(., 2))) %>%
+  pivot_wider(names_from = c("belief", "condition_ref_CoL"), values_from = prop, values_fill = 0)
+
+correct.choice.s2$age_years_full[1] <- paste0(correct.choice.s2$age_years_full[1], " (n = ", table(df_wide_s2$age_years_full)[1], ")")
+correct.choice.s2$age_years_full[2] <- paste0(correct.choice.s2$age_years_full[2], " (n = ", table(df_wide_s2$age_years_full)[2], ")")
+correct.choice.s2$age_years_full[3] <- paste0(correct.choice.s2$age_years_full[3], " (n = ", table(df_wide_s2$age_years_full)[3], ")")
+correct.choice.s2$age_years_full[4] <- paste0(correct.choice.s2$age_years_full[4], " (n = ", table(df_wide_s2$age_years_full)[4], ")")
+correct.choice.s2$age_years_full[5] <- paste0(correct.choice.s2$age_years_full[5], " (n = ", table(df_wide_s2$age_years_full)[5], ")")
+
+kable(correct.choice.s2, "html",
+      booktabs = T,
+      escape = F,
+      align = c(rep("c")),
+      caption = "Probability of correct intentionality judgments per age groups, belief manipulation, and conditions",
+      col.names = c("Age in years","Change of location","Dual identity", "Change of location","Dual identity")) %>%
+  add_header_above(c(" " = 1, "False belief" = 2, "True belief" = 2)) %>%
+  kable_styling(full_width = T)
+```
+
+##### Probability of correct choices in consistent trials as a function of belief, condition and age
+
+```{r}
+consis_s2 <- df_long_ex %>%
+  filter(!is.na(TQ)) %>%
+  group_by(consis) %>% 
+  summarise(prop = mean(TQ == "1")) %>%
+  mutate(across(where(is.numeric), ~round(., 3)))
+consis_s2
+```
+
+```{r}
+plot_prop_consis_C <- df_long_ex %>%
+  filter(consis == "C") %>%
+  filter(!(is.na(TQ))) %>%
+  group_by(belief, condition, age_years_full) %>%
+  count(TQ) %>% 
+  mutate(prop = n/sum(n))%>% 
+  filter(TQ == "1")
+
+plot_prop_consis_C
+
+ggplot(data = plot_prop_consis_C, aes(x = as.factor(age_years_full), y = prop, group = condition, color = condition)) +
+  geom_point(aes(group = condition)) +
+  geom_line(aes(group = condition)) +
+  ylim(0,1)+
+  facet_wrap(~belief)
+```
+
+##### Probability of correct choices in inconsistent trials as a function of belief, condition and age
+```{r}
+plot_prop_consis_I <- df_long_ex %>%
+  filter(consis == "I") %>%
+  filter(!(is.na(TQ))) %>%
+  group_by(belief, condition, age_years_full) %>%
+  count(TQ) %>% 
+  mutate(prop = n/sum(n))%>% 
+  filter(TQ == "1")
+
+plot_prop_consis_I
+
+ggplot(data = plot_prop_consis_I, aes(x = as.factor(age_years_full), y = prop, group = condition, color = condition)) +
+  geom_point(aes(group = condition)) +
+  geom_line(aes(group = condition)) +
+  ylim(0,1)+
+  facet_wrap(~belief)
+```
+
+```{r}
+# as a table
+correct.choice.ci.s2 <- df_long_ex %>%
+  filter(!is.na(TQ)) %>%
+  group_by(belief, consis, age_years_full) %>% 
+  summarise(prop = mean(TQ == "1")) %>%
+  mutate(across(where(is.numeric), ~round(., 2))) %>%
+  pivot_wider(names_from = c("consis", "belief"), values_from = prop, values_fill = 0)
+
+correct.choice.ci.s2$age_years_full[1] <- paste0(correct.choice.ci.s2$age_years_full[1], " (n = ", table(df_wide_s2$age_years_full)[1], ")")
+correct.choice.ci.s2$age_years_full[2] <- paste0(correct.choice.ci.s2$age_years_full[2], " (n = ", table(df_wide_s2$age_years_full)[2], ")")
+correct.choice.ci.s2$age_years_full[3] <- paste0(correct.choice.ci.s2$age_years_full[3], " (n = ", table(df_wide_s2$age_years_full)[3], ")")
+correct.choice.ci.s2$age_years_full[4] <- paste0(correct.choice.ci.s2$age_years_full[4], " (n = ", table(df_wide_s2$age_years_full)[4], ")")
+correct.choice.ci.s2$age_years_full[5] <- paste0(correct.choice.ci.s2$age_years_full[5], " (n = ", table(df_wide_s2$age_years_full)[5], ")")
+
+kable(correct.choice.ci.s2, "html",
+      booktabs = T,
+      escape = F,
+      align = c(rep("c")),
+      caption = "Probability of correct intentionality judgments per age groups, belief manipulation, and conditions",
+      col.names = c("Age in years","Consistent","Inconsistent", "Consistent","Inconsistent")) %>%
+  add_header_above(c(" " = 1, "False belief" = 2, "True belief" = 2)) %>%
+  kable_styling(full_width = T)
+```
+
+
+### Plot: raw responses as a function of condition, belief and age groups
+
+One child was already 8 years when conducting the study. To simplify visualization, the age (in full years) of this child has been reset to 7.
+```{r}
+df_long_ex$age_years_full[df_long_ex$id == 146] <- 7
+df_wide_s2$age_years_full[df_wide_s2$id == 146] <- 7
+```
+
+
+```{r}
+raw_responses_s2 <- df_long_ex %>%
+  group_by(age_years_full, belief_ref_TB, condition_ref_CoL, consis) %>% 
+  count(res_t) %>%
+  filter(!is.na(res_t)) %>%
+  mutate(percentage = n / sum(n) * 100)
+
+raw_responses_s2$res_t <- factor(raw_responses_s2$res_t, labels = c("self", "wind"))
+raw_responses_s2$consis <- factor(raw_responses_s2$consis, labels = c("C", "I"))
+```
+
+
+```{r}
+# Plot
+ggplot(data = raw_responses_s2, aes(fill = res_t, y = n, x = consis)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = paste0(round(percentage), "%")), 
+            position = position_stack(vjust = 0.5), size = 3, color = "black") +  # Add data labels
+  labs(fill = "Response") +
+  xlab("Outcome type") +
+  ylab("Number of Children") +
+  scale_fill_manual(values = c("#c1e7bb", "#4472C4")) +
+  facet_wrap(~belief_ref_TB + condition_ref_CoL + age_years_full, 
+             labeller = labeller(belief_ref_TB = c("TB" = "True belief", "FB" = "False belief"),
+                                   condition_ref_CoL = c("CoL" = "Change of location", "asp" = "Dual identity"),
+                                 age_years_full = c("4" = "Age 4", "5" = "Age 5", "6" = "Age 6", "7" = "Age 7"))
+             ) +
+  theme_classic() + 
+  theme(panel.grid.major = element_blank(),
+        panel.background = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line = element_line(colour = "black"),
+        text = element_text(size = 12),
+        #strip.text.x = element_blank(),  # Remove x-axis facet labels
+        strip.background = element_blank())  # Remove background for facet labels
+```
+
+```{r}
+svg(file = "plots/raw_res_s2.svg", width = 7, height = 8)
+pdf(file = "plots/raw_res_s2.pdf", width = 7, height = 8)
+# Change the reference group for the res_t factor
+raw_responses_s2$res_t <- factor(raw_responses_s2$res_t, levels = c("wind", "self"))
+
+# Define colors
+colors <- c("#4472C4", "#c1e7bb")  # Corresponding to "wind" and "self"
+
+# Split data by facets
+facets <- split(raw_responses_s2, list(raw_responses_s2$condition_ref_CoL, raw_responses_s2$belief_ref_TB))
+
+# Set up the plotting area with multiple facets and ensure enough space for the custom label
+par(mfrow = c(4, 4), mar = c(2, 2, 2, 1), oma = c(5, 4, 2, 2))  # Adjusted outer margin (oma)
+
+ages <- unique(raw_responses_s2$age_years_full)
+
+# Create plots
+for(i in seq_along(facets)) {
+  for(age in ages) {
+    data <- facets[[i]]
+    data <- data[data$age_years_full == age,]
+    
+    # Create barplot
+    bar_heights <- tapply(data$n, list(data$res_t, data$consis), sum)
+    bar_labels <- tapply(data$percentage, list(data$res_t, data$consis), function(x) paste0(round(x), "%"))
+    
+    barplot_heights <- barplot(
+      height = bar_heights, 
+      beside = FALSE, 
+      border = NA,  # Remove black borders around bars
+      col = colors, 
+      ylim = c(0, max(raw_responses_s2$n) + 10),
+      xlab = "", 
+      ylab = "", 
+      main = "",
+      cex.axis = 1.2,
+      cex.names = 1.2
+    )
+    
+    # Add text labels
+    cumulative_height <- apply(bar_heights, 2, cumsum)
+    midpoints <- barplot_heights
+    
+    for (j in 1:ncol(bar_heights)) {
+      for (k in 1:nrow(bar_heights)) {
+        # Only add label if percentage is 10% or higher
+        if (as.numeric(sub("%", "", bar_labels[k, j])) >= 10) {
+          text(
+            x = midpoints[j], 
+            y = cumulative_height[k, j] - bar_heights[k, j] / 2, 
+            labels = bar_labels[k, j], 
+            cex = 1.1, 
+            col = "black"
+          )
+        }
+      }
+    }
+  }
+}
+
+# Centered age labels below each row of plots
+mtext(text = "Age", side = 1, line = 3, outer = TRUE, at = 0, cex = 1.2)
+mtext(text = ages[1], side = 1, line = 3, outer = TRUE, at = 0.135, cex = 1.2)
+mtext(text = ages[2], side = 1, line = 3, outer = TRUE, at = 0.39, cex = 1.2)
+mtext(text = ages[3], side = 1, line = 3, outer = TRUE, at = 0.64, cex = 1.2)
+mtext(text = ages[4], side = 1, line = 3, outer = TRUE, at = 0.89, cex = 1.2)
+mtext(text = "Outcome type", side = 1, line = 1, outer = TRUE, at = 0.5, cex = 1, las = 0)
+
+# Add "True Belief" and "False Belief" labels to the left side
+mtext(text = "True Belief", side = 2, line = 2, outer = TRUE, at = 0.75, cex = 1.2, las = 0)
+mtext(text = "False Belief", side = 2, line = 2, outer = TRUE, at = 0.25, cex = 1.2, las = 0)
+
+mtext(text = "Number of Children", side = 2, line = 1, outer = TRUE, at = 0.5, cex = 1, las = 0)
+
+# Add "Change of location" and "Dual Identity" labels above the columns
+mtext(text = "Change of location", side = 3, line = -2, outer = TRUE, at = 0.5, cex = 1.2, las = 0)
+mtext(text = "Dual Identity", side = 3, line = -16, outer = TRUE, at = 0.5, cex = 1.2, las = 0)
+mtext(text = "Change of location", side = 3, line = -29, outer = TRUE, at = 0.5, cex = 1.2, las = 0)
+mtext(text = "Dual Identity", side = 3, line = -42, outer = TRUE, at = 0.5, cex = 1.2, las = 0)
+```
+
+```{r}
+par(mfrow = c(1, 1),
+    mar = c(0, 0, 0, 0),   # Set smaller margins around the plot
+    oma = c(0, 0, 0, 0))   # Reduce or remove outer margins if not needed
+
+colors <- c("#c1e7bb","#4472C4")  # Corresponding to "wind" and "self"
+res_t <- c("self", "wind")
+# Add legend on the right side
+plot.new()
+legend("center",   # Adjust inset to move the legend outside the plot area
+       legend=res_t,
+       fill=colors,
+       border = NA,
+       title="Response",  # Title for the legend
+       cex=1.2, xpd = TRUE)  # Adjust text size as needed
+```
+
+```{r include=FALSE}
+svg(file = "plots/raw_responses_s2.svg", width = 7, height = 7)
+pdf(file = "plots/raw_responses_s2.pdf", width = 7, height = 7)
+
+ggplot(data = raw_responses_s2, aes(fill = res_t, y = n, x = consis)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = paste0(round(percentage), "%")), 
+            position = position_stack(vjust = 0.5), size = 3, color = "black") +  # Add data labels
+  labs(fill = "Response") +
+  xlab("Outcome type") +
+  ylab("Number of Children") +
+  scale_fill_manual(values = c("#c1e7bb", "#4472C4")) +
+  facet_wrap(~belief_ref_TB + condition_ref_CoL + age_years_full, 
+             labeller = labeller(belief_ref_TB = c("TB" = "True belief", "FB" = "False belief"),
+                                   condition_ref_CoL = c("CoL" = "Change of location", "asp" = "Dual identity"),
+                                 age_years_full = c("4" = "Age 4", "5" = "Age 5", "6" = "Age 6", "7" = "Age 7"))
+             ) +
+  theme_classic() + 
+  theme(panel.grid.major = element_blank(),
+        panel.background = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line = element_line(colour = "black"),
+        text = element_text(size = 12),
+        #strip.text.x = element_blank(),  # Remove x-axis facet labels
+        strip.background = element_blank())  # Remove background for facet labels
+```
+
+
+```{r include=FALSE}
+svg(file = "plots/raw_responses_s2.svg", width = 7, height = 7)
+pdf(file = "plots/raw_responses_s2.pdf", width = 7, height = 7)
+
+ggplot(data = raw_responses_s2, aes(fill = res_t, y = n, x = consis)) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = ifelse(percentage > 14.9, paste0(round(percentage), "%"), " ")), 
+            position = position_stack(vjust = 0.5), size = 3.5, color = "white") +  # Add data labels
+  labs(fill = "Response") +
+  xlab("Outcome type") +
+  ylab("Number of Children") +
+  scale_fill_manual(values = c("#C01200", "#4472C4")) +
+  facet_wrap(~belief_ref_TB + condition_ref_CoL + age_years_full, 
+             labeller = labeller(belief_ref_TB = c("TB" = "True belief", "FB" = "False belief"),
+                                   condition_ref_CoL = c("CoL" = "Change of location", "asp" = "Dual identity"),
+                                 age_years_full = c("4" = "Age 4", "5" = "Age 5", "6" = "Age 6", "7" = "Age 7"))
+             ) +
+  theme_classic() + 
+  theme(panel.grid.major = element_blank(),
+        panel.background = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.line = element_line(colour = "black"),
+        text = element_text(size = 12),
+        #strip.text.x = element_blank(),  # Remove x-axis facet labels
+        strip.background = element_blank())  # Remove background for facet labels
+```
+
+
+## Statisitcal analyses
+
+### fit null model
+```{r}
+null_s2 = glmer(TQ ~ z_age_years + trial.f + consis + (1+belief+condition+consis|id) + (1|experimenter), 
+                 family = "binomial", 
+                 data = df_long_ex,
+             control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000)))
+
+red_s2 = glmer(TQ ~ belief + z_age_years + condition + trial.f + consis +  (1+belief+condition+consis|id)  + (1|experimenter), 
+                 family = "binomial", 
+                 data = df_long_ex,
+            control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000)))
+```
+
+```{r include=FALSE, eval=FALSE}
+xx.fe.re = fe.re.tab(fe.model = "TQ ~ belief * z_age_years + condition + trial.f + consis",
+                     re = "(1|id) + (1|experimenter)", data = df_long_ex)
+xx.fe.re$summary
+```
+
+### fit full model
+```{r eval=T}
+full_s2 = glmer(TQ ~ belief * z_age_years + condition + trial.f + consis +
+                  (1+belief+condition+consis|id) + 
+                  (1|experimenter), 
+                 family = "binomial", 
+                 data = df_long_ex,
+             control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000)))
+```
+
+### model comparison
+```{r eval=T}
+as.data.frame(anova(null_s2, full_s2, test="Chisq"))
+```
+
+#### Test assumptions
+```{r eval=T}
+# Normal distribution of random effects 
+ranef.diagn.plot(full_s2)
+```
+
+
+```{r eval=FALSE}
+# Model stability 
+m.stab.s2 = glmm.model.stab(model.res = full_s2, para = T)
+
+saveRDS(m.stab.s2, file = "workspaces/PIntenWi_m_stab_s2.RData")
+```
+
+```{r eval=FALSE, include=FALSE}
+m.stab.s2 <- readRDS("./workspaces/PIntenWi_m_stab_s2.RData")
+```
+
+```{r eval=F}
+round(m.stab.s2$summary[, -1], 3)
+m.stab.plot(m.stab.s2$summary[, -1])
+```
+
+
+```{r }
+# Collinearity
+full.coll.s2 <- glmer(TQ ~ condition + z_age_years + belief + trial.f + consis +  (1+belief+condition+consis|id) + (1|experimenter), 
+                   data = df_long_ex,
+                   family = binomial,
+                   control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000))) # model without interaction
+
+car::vif(full.coll.s2) 
+# Overdispersion
+overdisp.test(full_s2)
+```
+
+### Model results
+```{r eval=TRUE}
+summary(full_s2)
+```
+
+
+```{r eval=F}
+# Confidence intervals
+boot.res.s2 = boot.glmm.pred(model.res = full_s2, excl.warnings = T, nboots = 1000, para = T)
+
+saveRDS(boot.res.s2, file = "workspaces/PIntenWi_boot_m2.RData")
+```
+
+
+```{r eval=F}
+# for Eva
+# Confidence intervals
+model_eva <- glmer(TQ ~ belief * z_age_years + condition + (1+belief|id), 
+                   data = df_long_ex,
+                   family = binomial,
+                   control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000))) 
+
+summary(model_eva)
+
+boot.res.eva = boot.glmm.pred(model.res = model_eva, excl.warnings = T, nboots = 1000, para = T)
+
+saveRDS(boot.res.s2, file = "workspaces/PIntenWi_boot_eva.RData")
+```
+
+```{r include=FALSE, eval=TRUE}
+boot.res.s2 <- readRDS("./workspaces/PIntenWi_boot_m2.RData")
+```
+
+```{r}
+# save model results in data frame
+table.model.2 <- tibble(coefs = c("(Intercept)", "beliefTB",
+                             "z_age_years","conditionCoL", "trial.f2","consisI",
+                             "beliefTB:z_age_years"),
+                      estimate = c(summary(full_s2)$coefficients[,1]),
+                      SE = c(summary(full_s2)$coefficients[,2]),
+                      z = c(summary(full_s2)$coefficients[,3]),
+                      boot_lower = boot.res.s2[["ci.estimates"]][["X2.5."]],
+                      boot_upper = boot.res.s2[["ci.estimates"]][["X97.5."]],
+                      OR = exp(estimate),
+                      p = c(summary(full_s2)$coefficients[,4]))
+
+table.model.2[,2:6] <- round(table.model.2[,2:6],3)
+
+table.model.2$p <- printp(table.model.2$p)
+
+table.model.2
+```
+
+#### Bootstrapping
+```{r eval=T}
+#Model for the plot - simplified
+plot.res.s2 = glmer(TQ ~ belief * z_age_years +
+                      (1+belief+consis|id) +
+                      (1|experimenter), 
+                 family = "binomial", 
+                 data = df_long_ex,
+                 control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000)))
+
+summary(plot.res.s2)
+```
+
+
+```{r eval=F}
+timeStart<-Sys.time()
+
+# Fitted values + CIs
+boot.res.plot.s2 = boot.glmm.pred(model.res = plot.res.s2, 
+                               excl.warnings = F, 
+                               nboots = 10000, 
+                               para = T, 
+                               resol = 1000, 
+                               level = 0.95, 
+                               use = c("z_age_years", "belief"))
+
+timeEnd<-Sys.time()
+
+difftime(timeEnd, timeStart)
+
+saveRDS(boot.res.plot.s2, file = "workspaces/PIntenWi_boot_plot_s2.RData")
+```
+
+```{r include=FALSE, eval=TRUE}
+boot.res.plot.s2 <- readRDS(file = "workspaces/PIntenWi_boot_plot_s2.RData")
+```
+
+### Plot: correct response as a function of age and belief
+
+```{r}
+#Define variables
+vars = c("belief", "z_age_years", "id")
+
+# calculate probabilities for each age per condition
+xx = aggregate(x = as.numeric(as.character(df_long_ex$TQ)), by = df_long_ex[, vars], FUN = mean)
+```
+
+```{r}
+# x-values
+plot.xvals = seq(from = min(df_long_ex$z_age_years), to = max(df_long_ex$z_age_years), length.out = 1000)
+
+# Plot settings
+par(mar = c(3, 4.5, 0.2, 0.2), 
+    mgp = c(1.7, 0.3, 0), 
+    las = 1, 
+    tcl = -0.2)
+
+# Create plot
+min <- (min(df_long_ex$age_years) - mean(df_long_ex$age_years)) / sd(df_long_ex$age_years)
+plot(x = df_long_ex$z_age_years, y = df_long_ex$TQ, 
+     pch = 19, 
+     las = 1, 
+     ylim = c(0, 1),
+     xlim = c(min, max(df_long_ex$z_age_years)),
+     col = c("white"), 
+     xlab = "Age in years", ylab = "", 
+     xaxt = "n",# no x-axis
+     cex.lab = 1.1,
+     cex.axis = 1.1) 
+
+# Add CI for True belief
+polygon(x = c(plot.xvals, rev(plot.xvals)), 
+        y = c(boot.res.plot.s2$ci.predicted$lower.cl[boot.res.plot.s2$ci.predicted$belief == "TB"],
+              rev(boot.res.plot.s2$ci.predicted$upper.cl[boot.res.plot.s2$ci.predicted$belief == "TB"])), 
+        border = NA, 
+        col = alpha(3, 0.3))
+
+# Add CI for False belief
+polygon(x = c(plot.xvals, rev(plot.xvals)), 
+        y = c(boot.res.plot.s2$ci.predicted$lower.cl[boot.res.plot.s2$ci.predicted$belief == "FB"],
+              rev(boot.res.plot.s2$ci.predicted$upper.cl[boot.res.plot.s2$ci.predicted$belief == "FB"])), 
+        border = NA, 
+        col = alpha("#bb6528", 0.3))
+
+# add dots
+points(x = xx$z_age_years, y = xx$x, 
+       pch = c(17,19)[as.numeric(xx$belief)], 
+       las = 1, 
+       ylim = c(0, 1),
+       col = alpha(c("#bb6528", 3), 0.7)[as.numeric(xx$belief)],  
+       cex = 1.5,) 
+
+# Add line for True belief
+lines(x = plot.xvals, y = boot.res.plot.s2$ci.predicted$fitted[boot.res.plot.s2$ci.predicted$belief == "TB"], lty = 1, lwd = 2, col = 3)
+
+# Add line for False belief
+lines(x = plot.xvals, y = boot.res.plot.s2$ci.predicted$fitted[boot.res.plot.s2$ci.predicted$belief == "FB"], lty = 2, lwd = 2, col = "#bb6528")
+
+# Add x-axis
+x.lab = c(4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0)
+axis(side = 1, labels = x.lab, at = (x.lab - mean(df_long_ex$age_years)) / sd(df_long_ex$age_years), cex.axis = 1.1)
+
+# Add legend
+legend(x = 0.6, y = 0.23, legend = c("True belief","False belief"), col=c(3, "#bb6528"), lty = c(1,2), lwd = 2, pch = c(19,17), bty = "n", cex = 1)
+
+# chance level
+abline(h = 0.5, lty = 8)
+
+mtext(side = 2, "Probability of correct intentionality judgment", line = 2.5, las = 3, cex = 1.1)
+```
+
+```{r include=FALSE}
+svg(file = "plots/model_s2.svg", width = 7, height = 5)
+pdf(file = "plots/model_s2.pdf", width = 7, height = 5)
+# x-values
+plot.xvals = seq(from = min(df_long_ex$z_age_years), to = max(df_long_ex$z_age_years), length.out = 1000)
+
+# Plot settings
+par(mar = c(3, 4.5, 0.2, 0.2), 
+    mgp = c(1.7, 0.3, 0), 
+    las = 1, 
+    tcl = -0.2)
+
+# Create plot
+min <- (min(df_long_ex$age_years) - mean(df_long_ex$age_years)) / sd(df_long_ex$age_years)
+plot(x = df_long_ex$z_age_years, y = df_long_ex$TQ, 
+     pch = 19, 
+     las = 1, 
+     ylim = c(0, 1),
+     xlim = c(min, max(df_long_ex$z_age_years)),
+     col = c("white"), 
+     xlab = "Age in years", ylab = "", 
+     xaxt = "n",# no x-axis
+     cex.lab = 1.1,
+     cex.axis = 1.1) 
+
+# Add CI for condition Dual identity
+polygon(x = c(plot.xvals, rev(plot.xvals)), 
+        y = c(boot.res.plot.s2$ci.predicted$lower.cl[boot.res.plot.s2$ci.predicted$belief == "TB"],
+              rev(boot.res.plot.s2$ci.predicted$upper.cl[boot.res.plot.s2$ci.predicted$belief == "TB"])), 
+        border = NA, 
+        col = alpha(3, 0.3))
+
+# Add CI for condition Control
+polygon(x = c(plot.xvals, rev(plot.xvals)), 
+        y = c(boot.res.plot.s2$ci.predicted$lower.cl[boot.res.plot.s2$ci.predicted$belief == "FB"],
+              rev(boot.res.plot.s2$ci.predicted$upper.cl[boot.res.plot.s2$ci.predicted$belief == "FB"])), 
+        border = NA, 
+        col = alpha("#bb6528", 0.3))
+
+# add dots
+points(x = xx$z_age_years, y = xx$x, 
+       pch = c(17,19)[as.numeric(xx$belief)], 
+       las = 1, 
+       ylim = c(0, 1),
+       col = alpha(c("#bb6528", 3), 0.7)[as.numeric(xx$belief)],  
+       cex = 1.5,) 
+
+# Add line for condition Dual identity
+lines(x = plot.xvals, y = boot.res.plot.s2$ci.predicted$fitted[boot.res.plot.s2$ci.predicted$belief == "TB"], lty = 1, lwd = 2, col = 3)
+
+# Add line for condition Control
+lines(x = plot.xvals, y = boot.res.plot.s2$ci.predicted$fitted[boot.res.plot.s2$ci.predicted$belief == "FB"], lty = 2, lwd = 2, col = "#bb6528")
+
+# Add x-axis
+x.lab = c(4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0)
+axis(side = 1, labels = x.lab, at = (x.lab - mean(df_long_ex$age_years)) / sd(df_long_ex$age_years), cex.axis = 1.1)
+
+# Add legend
+legend(x = 0.6, y = 0.23, legend = c("True belief","False belief"), col=c(3, "#bb6528"), lty = c(1,2), lwd = 2, pch = c(19,17), bty = "n", cex = 1)
+
+# Zufallsniveau
+abline(h = 0.5, lty = 8)
+
+mtext(side = 2, "Probability of correct intentionality judgment", line = 2.5, las = 3, cex = 1.1)
+```
+### Age of onset
+
+#### lowest age when performance in CoL condition is above chance level 
+```{r}
+age <- boot.res.plot.s2$ci.predicted$z_age_years[boot.res.plot.s2$ci.predicted$belief == "FB" & boot.res.plot.s2$ci.predicted$lower.cl < 0.5]
+lower.cl <- boot.res.plot.s2$ci.predicted$lower.cl[boot.res.plot.s2$ci.predicted$lower.cl < 0.5 & boot.res.plot.s2$ci.predicted$belief == "FB"]
+xx <- as.data.frame(cbind(age, lower.cl))
+x <- max(xx$age[xx$lower.cl < 0.5])
+above_chance_FB <- x * sd(data_long$age_years) + mean(data_long$age_years) # crossing point (minimum age)
+above_chance_FB
+```
+
+## Exploratory analyses
+
+### checking strategies
+```{r}
+df_wide_s2 <- df_wide_s2 %>%
+  mutate(res_t_strategy = ifelse(res_t_asp_FB_1 == "wind" & res_t_asp_FB_2 == "wind" & res_t_asp_TB_1 == "wind" & res_t_asp_TB_2 == "wind" &
+                                   res_t_CoL_TB_1 == "wind" & res_t_CoL_TB_2 == "wind" & res_t_CoL_FB_1 == "wind" & res_t_CoL_FB_2 == "wind",
+                                 "all_wind", 
+                                 ifelse(res_t_asp_FB_1 == "self" & res_t_asp_FB_2 == "self" & res_t_asp_TB_1 == "self" & res_t_asp_TB_2 == "self" &
+                                   res_t_CoL_TB_1 == "self" & res_t_CoL_TB_2 == "self" & res_t_CoL_FB_1 == "self" & res_t_CoL_FB_2 == "self",
+                                   "all_self", "other")))
+
+sum(df_wide_s2$res_t_strategy == "all_wind", na.rm = T)
+table(df_wide_s2$res_t_strategy, df_wide_s2$age_years_full)
+
+df_wide_s2.ex <- df_wide_s2 %>%
+  filter(!is.na(TQ_asp_FB_1)) %>%
+  mutate(sum_asp_TB = TQ_asp_TB_1 + TQ_asp_TB_2,
+         sum_asp_FB = TQ_asp_FB_1 + TQ_asp_FB_2,
+         sum_CoL_TB = TQ_CoL_TB_1 + TQ_CoL_TB_2,
+         sum_CoL_FB = TQ_CoL_FB_1 + TQ_CoL_FB_2,
+         sum_asp_FB_CQ_belief = CQ_belief_asp_FB_1 + CQ_belief_asp_FB_2)
+
+table(df_wide_s2.ex$sum_CoL_FB, df_wide_s2.ex$age_years_full)
+table(df_wide_s2.ex$sum_asp_FB, df_wide_s2.ex$age_years_full)
+
+df_long_ex %>%
+  filter(!(is.na(TQ))) %>%
+  filter(age_years_full == 4) %>%
+  filter(belief == "FB") %>%
+  group_by(id, consis, index) %>%
+  count(TQ) %>% 
+  mutate(prop = n/sum(n))%>% 
+  filter(TQ == "1")
+
+df_long_ex <- df_long_ex %>%
+  mutate(FB_pattern = ifelse(consis == "C" & TQ == 1, "c_correct",
+                             ifelse(consis == "I" & TQ == 1, "i_correct",
+                                    ifelse(consis == "C" & TQ == 0, "c_false",
+                                           ifelse(consis == "I" & TQ == 0, "i_false","other")))))
+
+FB_pattern_wide <- df_long_ex %>%
+  filter(belief == "FB") %>%
+  select(id, age_years, age_years_full, condition, belief, consis, TQ) %>%
+  pivot_wider(names_from = c(belief, condition, consis), values_from = TQ)
+
+FB_pattern_wide
+```
+
+### 3-way interaction
+```{r}
+full_s2_ci = glmer(TQ ~ belief * z_age_years * consis + condition + trial.f + (1+belief+condition+consis|id) + (1|experimenter), 
+                 family = "binomial", 
+                 data = df_long_ex,
+             control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000)))
+
+as.data.frame(anova(red_s2, full_s2_ci, test="Chisq"))
+
+summary(full_s2_ci)
+```
+
+### subset: consistent vs. inconsistent trials
+
+```{r include=F, eval=FALSE}
+df_long_ex_c <- df_long_ex %>%
+  filter(consis == "C")
+
+df_long_ex_i <- df_long_ex %>%
+  filter(id != 27) %>%
+  filter(id != 96) %>%
+  filter(consis == "I")
+```
+
+```{r include=F, eval=FALSE}
+full_s2_expl = glmer(TQ ~ belief * z_age_years + condition + (1+belief+condition|id) + (1|experimenter), 
+                 family = "binomial", 
+                 data = df_long_ex_c,
+             control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000)))
+summary(full_s2_expl)
+```
+
+
+#### Plot: for consistent trials
+```{r include=F, eval=FALSE}
+#Model for the plot - simplified
+plot.res.s2.c = glmer(TQ ~ belief * z_age_years + (1+belief|id) + (1|experimenter), 
+                 family = "binomial", 
+                 data = df_long_ex_c,
+                 control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000)))
+
+timeStart<-Sys.time()
+
+# Fitted values + CIs
+boot.res.plot.s2.c = boot.glmm.pred(model.res = plot.res.s2.c, 
+                               excl.warnings = F, 
+                               nboots = 10000, 
+                               para = T, 
+                               resol = 1000, 
+                               level = 0.95, 
+                               use = c("z_age_years", "belief"))
+
+timeEnd<-Sys.time()
+
+difftime(timeEnd, timeStart)
+
+saveRDS(boot.res.plot.s2.c, file = "workspaces/PIntenWi_boot_plot_s2.c.RData")
+```
+
+```{r include=FALSE, eval=TRUE}
+boot.res.plot.s2.c <- readRDS(file = "workspaces/PIntenWi_boot_plot_s2.c.RData")
+```
+
+```{r include=F, eval=FALSE}
+#Define variables
+vars = c("belief", "z_age_years", "id")
+
+# calculate probabilities for each age per condition
+xx = aggregate(x = as.numeric(as.character(df_long_ex_c$TQ)), by = df_long_ex_c[, vars], FUN = mean)
+```
+
+```{r include=F, eval=FALSE}
+# x-values
+plot.xvals = seq(from = min(df_long_ex_c$z_age_years), to = max(df_long_ex_c$z_age_years), length.out = 1000)
+
+# Plot settings
+par(mar = c(3, 4.5, 0.2, 0.2), 
+    mgp = c(1.7, 0.3, 0), 
+    las = 1, 
+    tcl = -0.2)
+
+# Create plot
+min <- (min(df_long_ex_c$age_years) - mean(df_long_ex_c$age_years)) / sd(df_long_ex_c$age_years)
+plot(x = df_long_ex_c$z_age_years, y = df_long_ex_c$TQ, 
+     pch = 19, 
+     las = 1, 
+     ylim = c(0, 1),
+     xlim = c(min, max(df_long_ex_c$z_age_years)),
+     col = c("white"), 
+     xlab = "Age in years", ylab = "", 
+     xaxt = "n",# no x-axis
+     cex.lab = 1.1,
+     cex.axis = 1.1) 
+
+# Add CI for condition Dual identity
+polygon(x = c(plot.xvals, rev(plot.xvals)), 
+        y = c(boot.res.plot.s2.c$ci.predicted$lower.cl[boot.res.plot.s2.c$ci.predicted$belief == "TB"],
+              rev(boot.res.plot.s2.c$ci.predicted$upper.cl[boot.res.plot.s2.c$ci.predicted$belief == "TB"])), 
+        border = NA, 
+        col = alpha(3, 0.3))
+
+# Add CI for condition Control
+polygon(x = c(plot.xvals, rev(plot.xvals)), 
+        y = c(boot.res.plot.s2.c$ci.predicted$lower.cl[boot.res.plot.s2.c$ci.predicted$belief == "FB"],
+              rev(boot.res.plot.s2.c$ci.predicted$upper.cl[boot.res.plot.s2.c$ci.predicted$belief == "FB"])), 
+        border = NA, 
+        col = alpha("#bb6528", 0.3))
+
+# add dots
+points(x = xx$z_age_years, y = xx$x, 
+       pch = c(17,19)[as.numeric(xx$belief)], 
+       las = 1, 
+       ylim = c(0, 1),
+       col = alpha(c("#bb6528", 3), 0.7)[as.numeric(xx$belief)],  
+       cex = 1.5,) 
+
+# Add line for condition Dual identity
+lines(x = plot.xvals, y = boot.res.plot.s2.c$ci.predicted$fitted[boot.res.plot.s2.c$ci.predicted$belief == "TB"], lty = 1, lwd = 2, col = 3)
+
+# Add line for condition Control
+lines(x = plot.xvals, y = boot.res.plot.s2.c$ci.predicted$fitted[boot.res.plot.s2.c$ci.predicted$belief == "FB"], lty = 2, lwd = 2, col = "#bb6528")
+
+# Add x-axis
+x.lab = c(4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0)
+axis(side = 1, labels = x.lab, at = (x.lab - mean(df_long_ex_c$age_years)) / sd(df_long_ex_c$age_years), cex.axis = 1.1)
+
+# Add legend
+legend(x = 0.6, y = 0.23, legend = c("True belief","False belief"), col=c(3, "#bb6528"), lty = c(1,2), lwd = 2, pch = c(19,17), bty = "n", cex = 1)
+
+# Zufallsniveau
+abline(h = 0.5, lty = 8)
+
+mtext(side = 2, "Probability of correct intentionality judgment", line = 2.5, las = 3, cex = 1.1)
+```
+
+```{r include=F, eval=FALSE}
+svg(file = "plots/model_s2_consistent.svg", width = 7, height = 5)
+pdf(file = "plots/model_s2_consistent.pdf", width = 7, height = 5)
+# x-values
+plot.xvals = seq(from = min(df_long_ex_c$z_age_years), to = max(df_long_ex_c$z_age_years), length.out = 1000)
+
+# Plot settings
+par(mar = c(3, 4.5, 0.2, 0.2), 
+    mgp = c(1.7, 0.3, 0), 
+    las = 1, 
+    tcl = -0.2)
+
+# Create plot
+min <- (min(df_long_ex_c$age_years) - mean(df_long_ex_c$age_years)) / sd(df_long_ex_c$age_years)
+plot(x = df_long_ex_c$z_age_years, y = df_long_ex_c$TQ, 
+     pch = 19, 
+     las = 1, 
+     ylim = c(0, 1),
+     xlim = c(min, max(df_long_ex_c$z_age_years)),
+     col = c("white"), 
+     xlab = "Age in years", ylab = "", 
+     xaxt = "n",# no x-axis
+     cex.lab = 1.1,
+     cex.axis = 1.1) 
+
+# Add CI for condition Dual identity
+polygon(x = c(plot.xvals, rev(plot.xvals)), 
+        y = c(boot.res.plot.s2.c$ci.predicted$lower.cl[boot.res.plot.s2.c$ci.predicted$belief == "TB"],
+              rev(boot.res.plot.s2.c$ci.predicted$upper.cl[boot.res.plot.s2.c$ci.predicted$belief == "TB"])), 
+        border = NA, 
+        col = alpha(3, 0.3))
+
+# Add CI for condition Control
+polygon(x = c(plot.xvals, rev(plot.xvals)), 
+        y = c(boot.res.plot.s2.c$ci.predicted$lower.cl[boot.res.plot.s2.c$ci.predicted$belief == "FB"],
+              rev(boot.res.plot.s2.c$ci.predicted$upper.cl[boot.res.plot.s2.c$ci.predicted$belief == "FB"])), 
+        border = NA, 
+        col = alpha("#bb6528", 0.3))
+
+# add dots
+points(x = xx$z_age_years, y = xx$x, 
+       pch = c(17,19)[as.numeric(xx$belief)], 
+       las = 1, 
+       ylim = c(0, 1),
+       col = alpha(c("#bb6528", 3), 0.7)[as.numeric(xx$belief)],  
+       cex = 1.5,) 
+
+# Add line for condition Dual identity
+lines(x = plot.xvals, y = boot.res.plot.s2.c$ci.predicted$fitted[boot.res.plot.s2.c$ci.predicted$belief == "TB"], lty = 1, lwd = 2, col = 3)
+
+# Add line for condition Control
+lines(x = plot.xvals, y = boot.res.plot.s2.c$ci.predicted$fitted[boot.res.plot.s2.c$ci.predicted$belief == "FB"], lty = 2, lwd = 2, col = "#bb6528")
+
+# Add x-axis
+x.lab = c(4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0)
+axis(side = 1, labels = x.lab, at = (x.lab - mean(df_long_ex_c$age_years)) / sd(df_long_ex_c$age_years), cex.axis = 1.1)
+
+# Add legend
+legend(x = 0.6, y = 0.23, legend = c("True belief","False belief"), col=c(3, "#bb6528"), lty = c(1,2), lwd = 2, pch = c(19,17), bty = "n", cex = 1)
+
+# Zufallsniveau
+abline(h = 0.5, lty = 8)
+
+mtext(side = 2, "Probability of correct intentionality judgment", line = 2.5, las = 3, cex = 1.1)
+```
+
+#### Plot: for inconsistent trials
+```{r include=F, eval=FALSE}
+#Model for the plot - simplified
+plot.res.s2.i = glmer(TQ ~ belief + z_age_years + (1|id) + (1|experimenter), 
+                 family = "binomial", 
+                 data = df_long_ex_i,
+                 control = glmerControl(optimizer = "bobyqa", optCtrl = list(maxfun = 100000)))
+summary(plot.res.s2.i)
+timeStart<-Sys.time()
+
+# Fitted values + CIs
+boot.res.plot.s2.i = boot.glmm.pred(model.res = plot.res.s2.i, 
+                               excl.warnings = F, 
+                               nboots = 10000, 
+                               para = T, 
+                               resol = 1000, 
+                               level = 0.95, 
+                               use = c("z_age_years", "belief"))
+
+timeEnd<-Sys.time()
+
+difftime(timeEnd, timeStart)
+
+saveRDS(boot.res.plot.s2.i, file = "workspaces/PIntenWi_boot_plot_s2.i.RData")
+```
+
+```{r include=FALSE, eval=TRUE}
+boot.res.plot.s2.i <- readRDS(file = "workspaces/PIntenWi_boot_plot_s2.i.RData")
+```
+
+```{r include=F, eval=FALSE}
+#Define variables
+vars = c("belief", "z_age_years", "id")
+
+# calculate probabilities for each age per condition
+xx = aggregate(x = as.numeric(as.character(df_long_ex_i$TQ)), by = df_long_ex_i[, vars], FUN = mean)
+```
+
+```{r include=F, eval=FALSE}
+# x-values
+plot.xvals = seq(from = min(df_long_ex_i$z_age_years), to = max(df_long_ex_i$z_age_years), length.out = 1000)
+
+# Plot settings
+par(mar = c(3, 4.5, 0.2, 0.2), 
+    mgp = c(1.7, 0.3, 0), 
+    las = 1, 
+    tcl = -0.2)
+
+# Create plot
+min <- (min(df_long_ex_i$age_years) - mean(df_long_ex_i$age_years)) / sd(df_long_ex_i$age_years)
+plot(x = df_long_ex_i$z_age_years, y = df_long_ex_i$TQ, 
+     pch = 19, 
+     las = 1, 
+     ylim = c(0, 1),
+     xlim = c(min, max(df_long_ex_i$z_age_years)),
+     col = c("white"), 
+     xlab = "Age in years", ylab = "", 
+     xaxt = "n",# no x-axis
+     cex.lab = 1.1,
+     cex.axis = 1.1) 
+
+# Add CI for condition Dual identity
+polygon(x = c(plot.xvals, rev(plot.xvals)), 
+        y = c(boot.res.plot.s2.i$ci.predicted$lower.cl[boot.res.plot.s2.i$ci.predicted$belief == "TB"],
+              rev(boot.res.plot.s2.i$ci.predicted$upper.cl[boot.res.plot.s2.i$ci.predicted$belief == "TB"])), 
+        border = NA, 
+        col = alpha(3, 0.3))
+
+# Add CI for condition Control
+polygon(x = c(plot.xvals, rev(plot.xvals)), 
+        y = c(boot.res.plot.s2.i$ci.predicted$lower.cl[boot.res.plot.s2.i$ci.predicted$belief == "FB"],
+              rev(boot.res.plot.s2.i$ci.predicted$upper.cl[boot.res.plot.s2.i$ci.predicted$belief == "FB"])), 
+        border = NA, 
+        col = alpha("#bb6528", 0.3))
+
+# add dots
+points(x = xx$z_age_years, y = xx$x, 
+       pch = c(17,19)[as.numeric(xx$belief)], 
+       las = 1, 
+       ylim = c(0, 1),
+       col = alpha(c("#bb6528", 3), 0.7)[as.numeric(xx$belief)],  
+       cex = 1.5,) 
+
+# Add line for condition Dual identity
+lines(x = plot.xvals, y = boot.res.plot.s2.i$ci.predicted$fitted[boot.res.plot.s2.i$ci.predicted$belief == "TB"], lty = 2, lwd = 2, col = 3)
+
+# Add line for condition Control
+lines(x = plot.xvals, y = boot.res.plot.s2.i$ci.predicted$fitted[boot.res.plot.s2.i$ci.predicted$belief == "FB"], lty = 1, lwd = 2, col = "#bb6528")
+
+# Add x-axis
+x.lab = c(4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0)
+axis(side = 1, labels = x.lab, at = (x.lab - mean(df_long_ex_i$age_years)) / sd(df_long_ex_i$age_years), cex.axis = 1.1)
+
+# Add legend
+legend(x = 0.6, y = 0.23, legend = c("True belief","False belief"), col=c(3, "#bb6528"), lty = c(1,2), lwd = 2, pch = c(19,17), bty = "n", cex = 1)
+
+# Zufallsniveau
+abline(h = 0.5, lty = 8)
+
+mtext(side = 2, "Probability of correct intentionality judgment", line = 2.5, las = 3, cex = 1.1)
+```
+
+```{r include=FALSE, eval=FALSE}
+svg(file = "plots/model_s2_inconsistent.svg", width = 7, height = 5)
+pdf(file = "plots/model_s2_inconsistent.pdf", width = 7, height = 5)
+# x-values
+plot.xvals = seq(from = min(df_long_ex_i$z_age_years), to = max(df_long_ex_i$z_age_years), length.out = 1000)
+
+# Plot settings
+par(mar = c(3, 4.5, 0.2, 0.2), 
+    mgp = c(1.7, 0.3, 0), 
+    las = 1, 
+    tcl = -0.2)
+
+# Create plot
+min <- (min(df_long_ex_i$age_years) - mean(df_long_ex_i$age_years)) / sd(df_long_ex_i$age_years)
+plot(x = df_long_ex_i$z_age_years, y = df_long_ex_i$TQ, 
+     pch = 19, 
+     las = 1, 
+     ylim = c(0, 1),
+     xlim = c(min, max(df_long_ex_i$z_age_years)),
+     col = c("white"), 
+     xlab = "Age in years", ylab = "", 
+     xaxt = "n",# no x-axis
+     cex.lab = 1.1,
+     cex.axis = 1.1) 
+
+# Add CI for condition Dual identity
+polygon(x = c(plot.xvals, rev(plot.xvals)), 
+        y = c(boot.res.plot.s2.i$ci.predicted$lower.cl[boot.res.plot.s2.i$ci.predicted$belief == "TB"],
+              rev(boot.res.plot.s2.i$ci.predicted$upper.cl[boot.res.plot.s2.i$ci.predicted$belief == "TB"])), 
+        border = NA, 
+        col = alpha(3, 0.3))
+
+# Add CI for condition Control
+polygon(x = c(plot.xvals, rev(plot.xvals)), 
+        y = c(boot.res.plot.s2.i$ci.predicted$lower.cl[boot.res.plot.s2.i$ci.predicted$belief == "FB"],
+              rev(boot.res.plot.s2.i$ci.predicted$upper.cl[boot.res.plot.s2.i$ci.predicted$belief == "FB"])), 
+        border = NA, 
+        col = alpha("#bb6528", 0.3))
+
+# add dots
+points(x = xx$z_age_years, y = xx$x, 
+       pch = c(17,19)[as.numeric(xx$belief)], 
+       las = 1, 
+       ylim = c(0, 1),
+       col = alpha(c("#bb6528", 3), 0.7)[as.numeric(xx$belief)],  
+       cex = 1.5,) 
+
+# Add line for condition Dual identity
+lines(x = plot.xvals, y = boot.res.plot.s2.i$ci.predicted$fitted[boot.res.plot.s2.i$ci.predicted$belief == "TB"], lty = 2, lwd = 2, col = 3)
+
+# Add line for condition Control
+lines(x = plot.xvals, y = boot.res.plot.s2.i$ci.predicted$fitted[boot.res.plot.s2.i$ci.predicted$belief == "FB"], lty = 1, lwd = 2, col = "#bb6528")
+
+# Add x-axis
+x.lab = c(4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0)
+axis(side = 1, labels = x.lab, at = (x.lab - mean(df_long_ex_i$age_years)) / sd(df_long_ex_i$age_years), cex.axis = 1.1)
+
+# Add legend
+legend(x = 0.6, y = 0.23, legend = c("True belief","False belief"), col=c(3, "#bb6528"), lty = c(1,2), lwd = 2, pch = c(19,17), bty = "n", cex = 1)
+
+# Zufallsniveau
+abline(h = 0.5, lty = 8)
+
+mtext(side = 2, "Probability of correct intentionality judgment", line = 2.5, las = 3, cex = 1.1)
+```
+
+
+### performance on false belief questions
+
+```{r}
+df_long_ex$age_years_full[df_long_ex$id == 146] <- 8
+df_wide_s2$age_years_full[df_wide_s2$id == 146] <- 8
+```
+
+### False belief ascriptions
+```{r}
+plot_belief <- df_long_ex %>%
+  filter(!(is.na(CQ_belief))) %>%
+  group_by(belief, condition, age_years_full) %>%
+  count(CQ_belief) %>% 
+  mutate(prop = n/sum(n))%>% 
+  filter(CQ_belief == "1")
+
+ggplot(data = plot_belief, aes(x = as.factor(age_years_full), y = prop, group = condition, color = condition)) +
+  geom_point(aes(group = condition)) +
+  geom_line(aes(group = condition)) +
+  ylim(0,1)+
+  facet_wrap(~belief)
+```
+
+```{r}
+# as a table
+false.belief.s2 <- df_long_ex %>%
+  filter(!is.na(CQ_belief)) %>%
+  group_by(belief, condition_ref_CoL, age_years_full) %>% 
+  summarise(prop = mean(CQ_belief == "1")) %>%
+  mutate(across(where(is.numeric), ~round(., 2))) %>%
+  pivot_wider(names_from = c("belief", "condition_ref_CoL"), values_from = prop, values_fill = 0)
+
+false.belief.s2$age_years_full[1] <- paste0(false.belief.s2$age_years_full[1], " (n = ", table(df_wide_s2$age_years_full)[1], ")")
+false.belief.s2$age_years_full[2] <- paste0(false.belief.s2$age_years_full[2], " (n = ", table(df_wide_s2$age_years_full)[2], ")")
+false.belief.s2$age_years_full[3] <- paste0(false.belief.s2$age_years_full[3], " (n = ", table(df_wide_s2$age_years_full)[3], ")")
+false.belief.s2$age_years_full[4] <- paste0(false.belief.s2$age_years_full[4], " (n = ", table(df_wide_s2$age_years_full)[4], ")")
+false.belief.s2$age_years_full[5] <- paste0(false.belief.s2$age_years_full[5], " (n = ", table(df_wide_s2$age_years_full)[5], ")")
+
+kable(false.belief.s2, "html",
+      booktabs = T,
+      escape = F,
+      align = c(rep("c")),
+      caption = "Probability of correct false belief ascriptions per age groups, belief manipulation, and conditions",
+      col.names = c("Age in years","Change of location","Dual identity", "Change of location","Dual identity")) %>%
+  add_header_above(c(" " = 1, "False belief" = 2, "True belief" = 2)) %>%
+  kable_styling(full_width = T)
+```
+
+
+```{r}
+#save workspace
+save.image(file = paste0("workspaces/workspace_manuscript.RData"))
+```
+
