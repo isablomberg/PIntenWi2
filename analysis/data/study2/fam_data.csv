@@ -1,0 +1,424 @@
+id,age_months,age_years_full,age_years,a_c_order,tb_fb,consis,index,other,belief,condition,sex,experimenter,counterbalancing_order,asp_CoL_order,tb_fb_order,included,incomplete_data,reason_exlusion,Remarks,changed_wrong_live_coding,CQ_object,CQ_location,TQ,CQ_object2,res_t,CQ_location_res,trial
+1,59,4,4.9150684931506845,FAM,NA,NA,1,,FAM,CoL,m,Isa,1,asp_first,tb_first,pilot1,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+1,59,4,4.9150684931506845,FAM,NA,NA,2,,FAM,CoL,m,Isa,1,asp_first,tb_first,pilot1,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,2
+1,59,4,4.9150684931506845,FAM,NA,NA,3,,FAM,CoL,m,Isa,1,asp_first,tb_first,pilot1,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+2,59,4,4.947945205479452,FAM,NA,NA,1,pause bei letztem Trial,FAM,CoL,m,Isa,1,asp_first,tb_first,pilot1,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+2,59,4,4.947945205479452,FAM,NA,NA,2,pause bei letztem Trial,FAM,CoL,m,Isa,1,asp_first,tb_first,pilot1,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,2
+2,59,4,4.947945205479452,FAM,NA,NA,3,pause bei letztem Trial,FAM,CoL,m,Isa,1,asp_first,tb_first,pilot1,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+3,57,4,4.758904109589041,FAM,NA,NA,1,,FAM,CoL,w,Isa,1,asp_first,tb_first,pilot1,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+3,57,4,4.758904109589041,FAM,NA,NA,2,,FAM,CoL,w,Isa,1,asp_first,tb_first,pilot1,no,NA,NA,NA,TRUE,1,1,NA,self,ü,2
+5,73,6,6.16120218579235,FAM,NA,NA,1,,FAM,CoL,w,Isa,17,asp_first,fb_first,pilot1,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+5,73,6,6.16120218579235,FAM,NA,NA,2,,FAM,CoL,w,Isa,17,asp_first,fb_first,pilot1,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,2
+5,73,6,6.16120218579235,FAM,NA,NA,3,,FAM,CoL,w,Isa,17,asp_first,fb_first,pilot1,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+6,86,7,7.23224043715847,FAM,NA,NA,1,,FAM,CoL,m,Isa,33,CoL_first,tb_first,pilot1,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+6,86,7,7.23224043715847,FAM,NA,NA,2,,FAM,CoL,m,Isa,33,CoL_first,tb_first,pilot1,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,2
+6,86,7,7.23224043715847,FAM,NA,NA,3,,FAM,CoL,m,Isa,33,CoL_first,tb_first,pilot1,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+7,49,4,4.1530054644808745,FAM,NA,NA,1,,FAM,CoL,w,Isa,33,CoL_first,tb_first,pilot1,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+7,49,4,4.1530054644808745,FAM,NA,NA,2,,FAM,CoL,w,Isa,33,CoL_first,tb_first,pilot1,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,2
+7,49,4,4.1530054644808745,FAM,NA,NA,3,,FAM,CoL,w,Isa,33,CoL_first,tb_first,pilot1,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+8,49,4,4.0956284153005464,FAM,NA,NA,1,NA,FAM,CoL,m,Isa,49,CoL_first,fb_first,dropout,yes,uncooperative behavior/study aborted,"Studie nach 3. testtrial abgebrochen, weil Kind keine Lust mehr hatte",NA,TRUE,1,1,NA,wind,q,1
+8,49,4,4.0956284153005464,FAM,NA,NA,2,NA,FAM,CoL,m,Isa,49,CoL_first,fb_first,dropout,yes,uncooperative behavior/study aborted,"Studie nach 3. testtrial abgebrochen, weil Kind keine Lust mehr hatte",NA,FALSE,1,0,FALSE,wind,ü,2
+8,49,4,4.0956284153005464,FAM,NA,NA,3,NA,FAM,CoL,m,Isa,49,CoL_first,fb_first,dropout,yes,uncooperative behavior/study aborted,"Studie nach 3. testtrial abgebrochen, weil Kind keine Lust mehr hatte",NA,TRUE,1,1,NA,self,ü,3
+9,89,7,7.445355191256831,FAM,NA,NA,1,,FAM,CoL,w,Isa,49,CoL_first,fb_first,pilot2,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+9,89,7,7.445355191256831,FAM,NA,NA,2,,FAM,CoL,w,Isa,49,CoL_first,fb_first,pilot2,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,2
+9,89,7,7.445355191256831,FAM,NA,NA,3,,FAM,CoL,w,Isa,49,CoL_first,fb_first,pilot2,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+10,75,6,6.308743169398907,FAM,NA,NA,1,Objekte 2x erst falsch ,FAM,CoL,m,Isa,50,CoL_first,fb_first,pilot2,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+10,75,6,6.308743169398907,FAM,NA,NA,2,Objekte 2x erst falsch ,FAM,CoL,m,Isa,50,CoL_first,fb_first,pilot2,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,2
+10,75,6,6.308743169398907,FAM,NA,NA,3,Objekte 2x erst falsch ,FAM,CoL,m,Isa,50,CoL_first,fb_first,pilot2,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+11,78,6,6.502732240437158,FAM,NA,NA,1,"dropout wegen FAM, hatte es aber danach glaube ich schon verstanden",FAM,CoL,w,Isa,1,asp_first,tb_first,pilot2,no,error in familiarization,"hatte sehr viele interessante Erklärungen, aber asp trials zum Teil nicht so klar, was der Pirat jetzt weiß/oder nicht",NA,TRUE,1,1,NA,wind,q,1
+11,78,6,6.502732240437158,FAM,NA,NA,2,"dropout wegen FAM, hatte es aber danach glaube ich schon verstanden",FAM,CoL,w,Isa,1,asp_first,tb_first,pilot2,no,error in familiarization,"hatte sehr viele interessante Erklärungen, aber asp trials zum Teil nicht so klar, was der Pirat jetzt weiß/oder nicht",NA,TRUE,1,0,NA,wind,ü,2
+11,78,6,6.502732240437158,FAM,NA,NA,3,"dropout wegen FAM, hatte es aber danach glaube ich schon verstanden",FAM,CoL,w,Isa,1,asp_first,tb_first,pilot2,no,error in familiarization,"hatte sehr viele interessante Erklärungen, aber asp trials zum Teil nicht so klar, was der Pirat jetzt weiß/oder nicht",NA,TRUE,1,0,NA,wind,ü,3
+12,72,6,6.038251366120218,FAM,NA,NA,1,,FAM,CoL,w,Isa,1,asp_first,tb_first,pilot2,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+12,72,6,6.038251366120218,FAM,NA,NA,2,,FAM,CoL,w,Isa,1,asp_first,tb_first,pilot2,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,2
+12,72,6,6.038251366120218,FAM,NA,NA,3,,FAM,CoL,w,Isa,1,asp_first,tb_first,pilot2,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+13,91,7,7.639344262295082,FAM,NA,NA,1,"2. TB CoL noch verbessert und Antwort zu ""Wind"" geändert",FAM,CoL,m,Isa,34,CoL_first,tb_first,pilot2,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+13,91,7,7.639344262295082,FAM,NA,NA,2,"2. TB CoL noch verbessert und Antwort zu ""Wind"" geändert",FAM,CoL,m,Isa,34,CoL_first,tb_first,pilot2,no,NA,NA,NA,TRUE,1,1,NA,self,ü,2
+14,56,4,4.7095890410958905,FAM,NA,NA,1,,FAM,CoL,w,Isa,35,CoL_first,tb_first,pilot2,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+14,56,4,4.7095890410958905,FAM,NA,NA,2,,FAM,CoL,w,Isa,35,CoL_first,tb_first,pilot2,no,NA,NA,NA,TRUE,1,0,NA,wind,q,2
+14,56,4,4.7095890410958905,FAM,NA,NA,3,,FAM,CoL,w,Isa,35,CoL_first,tb_first,pilot2,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+15,63,5,5.3224043715847,FAM,NA,NA,1,,FAM,CoL,w,Isa,36,CoL_first,tb_first,pilot2,no,NA,NA,NA,TRUE,1,0,NA,NA,q,1
+15,63,5,5.3224043715847,FAM,NA,NA,2,,FAM,CoL,w,Isa,36,CoL_first,tb_first,pilot2,no,NA,NA,NA,TRUE,1,1,NA,self,q,2
+15,63,5,5.3224043715847,FAM,NA,NA,4,,FAM,CoL,w,Isa,36,CoL_first,tb_first,pilot2,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,3
+16,94,7,7.909589041095891,FAM,NA,NA,1,,FAM,CoL,m,Isa,43,CoL_first,tb_first,pilot3,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+16,94,7,7.909589041095891,FAM,NA,NA,2,,FAM,CoL,m,Isa,43,CoL_first,tb_first,pilot3,no,NA,NA,NA,TRUE,1,1,NA,self,q,2
+17,77,6,6.456284153005464,FAM,NA,NA,1,"technische Probleme im 10. trial und beim letzten Trial hat Kind gesagt, dass sie sich nicht mehr erinnern konnte wo welches Objekt war -> NA",FAM,CoL,w,Isa,43,CoL_first,tb_first,pilot3,no,NA,trial 10 & trial 12 -> NA; trial 10 technical error,NA,TRUE,1,1,NA,wind,ü,1
+17,77,6,6.456284153005464,FAM,NA,NA,2,"technische Probleme im 10. trial und beim letzten Trial hat Kind gesagt, dass sie sich nicht mehr erinnern konnte wo welches Objekt war -> NA",FAM,CoL,w,Isa,43,CoL_first,tb_first,pilot3,no,NA,trial 10 & trial 12 -> NA; trial 10 technical error,NA,TRUE,1,0,NA,wind,q,2
+17,77,6,6.456284153005464,FAM,NA,NA,3,"technische Probleme im 10. trial und beim letzten Trial hat Kind gesagt, dass sie sich nicht mehr erinnern konnte wo welches Objekt war -> NA",FAM,CoL,w,Isa,43,CoL_first,tb_first,pilot3,no,NA,trial 10 & trial 12 -> NA; trial 10 technical error,NA,TRUE,1,1,NA,self,q,3
+18,52,4,4.404371584699454,FAM,NA,NA,1,,FAM,CoL,w,Isa,43,CoL_first,tb_first,pilot3,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+18,52,4,4.404371584699454,FAM,NA,NA,2,,FAM,CoL,w,Isa,43,CoL_first,tb_first,pilot3,no,NA,NA,NA,TRUE,1,1,NA,self,q,2
+19,79,6,6.590163934426229,FAM,NA,NA,1,,FAM,CoL,m,Isa,43,CoL_first,tb_first,pilot3,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+19,79,6,6.590163934426229,FAM,NA,NA,2,,FAM,CoL,m,Isa,43,CoL_first,tb_first,pilot3,no,NA,NA,NA,TRUE,1,0,NA,wind,q,2
+19,79,6,6.590163934426229,FAM,NA,NA,3,,FAM,CoL,m,Isa,43,CoL_first,tb_first,pilot3,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+20,83,6,6.964383561643835,FAM,NA,NA,1,"1. asp TB trial, Frage CQ_know falsch gestellt --> pragmatisch verwirrend, deswegen besser NA diesen Trial",FAM,CoL,w,Isa,62,CoL_first,fb_first,pilot3,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,1
+20,83,6,6.964383561643835,FAM,NA,NA,2,"1. asp TB trial, Frage CQ_know falsch gestellt --> pragmatisch verwirrend, deswegen besser NA diesen Trial",FAM,CoL,w,Isa,62,CoL_first,fb_first,pilot3,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+20,83,6,6.964383561643835,FAM,NA,NA,4,"1. asp TB trial, Frage CQ_know falsch gestellt --> pragmatisch verwirrend, deswegen besser NA diesen Trial",FAM,CoL,w,Isa,62,CoL_first,fb_first,pilot3,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+21,91,7,7.6530054644808745,FAM,NA,NA,1,,FAM,CoL,m,Isa,13,asp_first,tb_first,pilot3,no,NA,NA,NA,TRUE,1,1,NA,self,q,1
+21,91,7,7.6530054644808745,FAM,NA,NA,2,,FAM,CoL,m,Isa,13,asp_first,tb_first,pilot3,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+22,77,6,6.497267759562842,FAM,NA,NA,1,,FAM,CoL,m,Isa,25,asp_first,fb_first,pilot3,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+22,77,6,6.497267759562842,FAM,NA,NA,2,,FAM,CoL,m,Isa,25,asp_first,fb_first,pilot3,no,NA,NA,NA,TRUE,1,1,NA,self,ü,2
+23,60,5,5.049180327868853,FAM,NA,NA,1,NA,FAM,CoL,w,Isa,26,asp_first,fb_first,pilot3,yes,NA,"wie dropout zählen, weil kaum Daten",NA,FALSE,1,1,TRUE,wind,ü,1
+23,60,5,5.049180327868853,FAM,NA,NA,2,NA,FAM,CoL,w,Isa,26,asp_first,fb_first,pilot3,yes,NA,"wie dropout zählen, weil kaum Daten",NA,FALSE,1,0,TRUE,wind,ü,2
+23,60,5,5.049180327868853,FAM,NA,NA,3,NA,FAM,CoL,w,Isa,26,asp_first,fb_first,pilot3,yes,NA,"wie dropout zählen, weil kaum Daten",NA,TRUE,1,1,NA,self,q,3
+23,60,5,5.049180327868853,FAM,NA,NA,4,NA,FAM,CoL,w,Isa,26,asp_first,fb_first,pilot3,yes,NA,"wie dropout zählen, weil kaum Daten",NA,TRUE,1,1,NA,wind,q,4
+24,62,5,5.185792349726776,FAM,NA,NA,1,"1. CoL trial falsche Seite gesagt, aber richtig markiert; letzter TB CoL Believe frage falsch korrigiert",FAM,CoL,m,Isa,26,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+24,62,5,5.185792349726776,FAM,NA,NA,2,"1. CoL trial falsche Seite gesagt, aber richtig markiert; letzter TB CoL Believe frage falsch korrigiert",FAM,CoL,m,Isa,26,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,2
+24,62,5,5.185792349726776,FAM,NA,NA,3,"1. CoL trial falsche Seite gesagt, aber richtig markiert; letzter TB CoL Believe frage falsch korrigiert",FAM,CoL,m,Isa,26,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+25,56,4,4.685792349726776,FAM,NA,NA,1,,FAM,CoL,m,Isa,41,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+25,56,4,4.685792349726776,FAM,NA,NA,2,,FAM,CoL,m,Isa,41,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,2
+25,56,4,4.685792349726776,FAM,NA,NA,3,,FAM,CoL,m,Isa,41,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+26,86,7,7.2076502732240435,FAM,NA,NA,1,,FAM,CoL,w,Isa,42,CoL_first,tb_first,dropout,no,error in familiarization,2. konsistenten FAM trial falsch,NA,TRUE,1,1,NA,wind,ü,1
+26,86,7,7.2076502732240435,FAM,NA,NA,2,,FAM,CoL,w,Isa,42,CoL_first,tb_first,dropout,no,error in familiarization,2. konsistenten FAM trial falsch,NA,TRUE,1,0,NA,wind,ü,2
+26,86,7,7.2076502732240435,FAM,NA,NA,3,,FAM,CoL,w,Isa,42,CoL_first,tb_first,dropout,no,error in familiarization,2. konsistenten FAM trial falsch,NA,TRUE,1,0,NA,wind,q,3
+27,55,4,4.590163934426229,FAM,NA,NA,1,NA,FAM,CoL,m,Isa,13,asp_first,tb_first,dropout,yes,study aborted,Studie abgebrochen,NA,TRUE,1,0,NA,wind,q,1
+27,55,4,4.590163934426229,FAM,NA,NA,2,NA,FAM,CoL,m,Isa,13,asp_first,tb_first,dropout,yes,study aborted,Studie abgebrochen,NA,TRUE,1,1,NA,wind,ü,2
+27,55,4,4.590163934426229,FAM,NA,NA,4,NA,FAM,CoL,m,Isa,13,asp_first,tb_first,dropout,yes,study aborted,Studie abgebrochen,NA,TRUE,1,1,NA,self,q,3
+28,61,5,5.163934426229508,FAM,NA,NA,1,"2. asp FB trial, falsche believe Frage eingestellt, müsste ü sein",FAM,CoL,m,Isa,42,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+28,61,5,5.163934426229508,FAM,NA,NA,2,"2. asp FB trial, falsche believe Frage eingestellt, müsste ü sein",FAM,CoL,m,Isa,42,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,2
+29,93,7,7.821917808219178,FAM,NA,NA,1,,FAM,CoL,w,Isa,43,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+29,93,7,7.821917808219178,FAM,NA,NA,2,,FAM,CoL,w,Isa,43,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,2
+29,93,7,7.821917808219178,FAM,NA,NA,3,,FAM,CoL,w,Isa,43,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+30,55,4,4.620218579234972,FAM,NA,NA,1,irgendein asp trial believe Frage falsch eingetippt,FAM,CoL,w,Isa,13,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,1
+30,55,4,4.620218579234972,FAM,NA,NA,2,irgendein asp trial believe Frage falsch eingetippt,FAM,CoL,w,Isa,13,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+31,72,6,6.057377049180328,FAM,NA,NA,1,,FAM,CoL,w,Isa,14,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,1
+31,72,6,6.057377049180328,FAM,NA,NA,2,,FAM,CoL,w,Isa,14,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+31,72,6,6.057377049180328,FAM,NA,NA,4,,FAM,CoL,w,Isa,14,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+32,94,7,7.854794520547945,FAM,NA,NA,1,,FAM,CoL,w,Isa,15,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,1
+32,94,7,7.854794520547945,FAM,NA,NA,2,,FAM,CoL,w,Isa,15,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+32,94,7,7.854794520547945,FAM,NA,NA,4,,FAM,CoL,w,Isa,15,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+33,62,5,5.183060109289618,FAM,NA,NA,1,,FAM,CoL,m,Isa,16,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,1
+33,62,5,5.183060109289618,FAM,NA,NA,2,,FAM,CoL,m,Isa,16,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+33,62,5,5.183060109289618,FAM,NA,NA,4,,FAM,CoL,m,Isa,16,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+34,75,6,6.3224043715847,FAM,NA,NA,1,,FAM,CoL,m,Isa,44,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+34,75,6,6.3224043715847,FAM,NA,NA,2,,FAM,CoL,m,Isa,44,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,2
+34,75,6,6.3224043715847,FAM,NA,NA,3,,FAM,CoL,m,Isa,44,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+35,64,5,5.333333333333333,FAM,NA,NA,1,,FAM,CoL,w,Isa,61,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,1
+35,64,5,5.333333333333333,FAM,NA,NA,2,,FAM,CoL,w,Isa,61,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,self,ü,2
+35,64,5,5.333333333333333,FAM,NA,NA,3,,FAM,CoL,w,Isa,61,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,3
+35,64,5,5.333333333333333,FAM,NA,NA,4,,FAM,CoL,w,Isa,61,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,4
+36,88,7,7.33879781420765,FAM,NA,NA,1,,FAM,CoL,m,Isa,25,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+36,88,7,7.33879781420765,FAM,NA,NA,2,,FAM,CoL,m,Isa,25,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,2
+36,88,7,7.33879781420765,FAM,NA,NA,3,,FAM,CoL,m,Isa,25,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+38,71,5,5.991780821917808,FAM,NA,NA,1,,FAM,CoL,w,Isa,28,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+38,71,5,5.991780821917808,FAM,NA,NA,2,,FAM,CoL,w,Isa,28,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,2
+38,71,5,5.991780821917808,FAM,NA,NA,3,,FAM,CoL,w,Isa,28,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+39,79,6,6.631147540983607,FAM,NA,NA,1,,FAM,CoL,w,Isa,3,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+39,79,6,6.631147540983607,FAM,NA,NA,2,,FAM,CoL,w,Isa,3,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,2
+40,79,6,6.609289617486339,FAM,NA,NA,1,,FAM,CoL,w,Isa,17,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+40,79,6,6.609289617486339,FAM,NA,NA,2,,FAM,CoL,w,Isa,17,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,2
+41,54,4,4.551912568306011,FAM,NA,NA,1,,FAM,CoL,w,Isa,49,CoL_first,fb_first,main,no,NA,hat sich nochmal bei einer Wunsch Frage korrigiert --> trial raussuchen!,done,TRUE,1,1,NA,wind,q,1
+41,54,4,4.551912568306011,FAM,NA,NA,2,,FAM,CoL,w,Isa,49,CoL_first,fb_first,main,no,NA,hat sich nochmal bei einer Wunsch Frage korrigiert --> trial raussuchen!,done,TRUE,1,0,NA,wind,ü,2
+41,54,4,4.551912568306011,FAM,NA,NA,3,,FAM,CoL,w,Isa,49,CoL_first,fb_first,main,no,NA,hat sich nochmal bei einer Wunsch Frage korrigiert --> trial raussuchen!,done,TRUE,1,1,NA,self,ü,3
+42,93,7,7.816939890710382,FAM,NA,NA,1,,FAM,CoL,w,Isa,50,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+42,93,7,7.816939890710382,FAM,NA,NA,2,,FAM,CoL,w,Isa,50,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,2
+42,93,7,7.816939890710382,FAM,NA,NA,3,,FAM,CoL,w,Isa,50,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+43,59,4,4.920547945205479,FAM,NA,NA,1,,FAM,CoL,w,Isa,51,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+43,59,4,4.920547945205479,FAM,NA,NA,2,,FAM,CoL,w,Isa,51,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,2
+43,59,4,4.920547945205479,FAM,NA,NA,3,,FAM,CoL,w,Isa,51,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+44,57,4,4.762295081967213,FAM,NA,NA,1,NA,FAM,CoL,m,Isa,4,asp_first,tb_first,main,yes,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+44,57,4,4.762295081967213,FAM,NA,NA,2,NA,FAM,CoL,m,Isa,4,asp_first,tb_first,main,yes,NA,NA,NA,TRUE,1,0,NA,wind,q,2
+44,57,4,4.762295081967213,FAM,NA,NA,3,NA,FAM,CoL,m,Isa,4,asp_first,tb_first,main,yes,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+45,79,6,6.644808743169399,FAM,NA,NA,1,,FAM,CoL,w,Isa,52,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+45,79,6,6.644808743169399,FAM,NA,NA,2,,FAM,CoL,w,Isa,52,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,2
+46,66,5,5.581967213114754,FAM,NA,NA,1,NA,FAM,CoL,m,Isa,33,CoL_first,tb_first,main,yes,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+46,66,5,5.581967213114754,FAM,NA,NA,2,NA,FAM,CoL,m,Isa,33,CoL_first,tb_first,main,yes,NA,NA,NA,TRUE,1,0,NA,wind,ü,2
+46,66,5,5.581967213114754,FAM,NA,NA,3,NA,FAM,CoL,m,Isa,33,CoL_first,tb_first,main,yes,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+47,83,6,6.936986301369863,FAM,NA,NA,1,,FAM,CoL,m,Isa,6,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,1
+47,83,6,6.936986301369863,FAM,NA,NA,2,,FAM,CoL,m,Isa,6,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+47,83,6,6.936986301369863,FAM,NA,NA,4,,FAM,CoL,m,Isa,6,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+48,37,3,3.1561643835616437,FAM,NA,NA,1,NA,FAM,CoL,w,Isa,54,CoL_first,fb_first,dropout,yes,error in familiarization,NA,NA,TRUE,1,0,NA,wind,ü,1
+48,37,3,3.1561643835616437,FAM,NA,NA,2,NA,FAM,CoL,w,Isa,54,CoL_first,fb_first,dropout,yes,error in familiarization,NA,NA,TRUE,1,0,NA,self,ü,2
+48,37,3,3.1561643835616437,FAM,NA,NA,3,NA,FAM,CoL,w,Isa,54,CoL_first,fb_first,dropout,yes,error in familiarization,NA,NA,FALSE,1,0,FALSE,self,q,3
+48,37,3,3.1561643835616437,FAM,NA,NA,4,NA,FAM,CoL,w,Isa,54,CoL_first,fb_first,dropout,yes,error in familiarization,NA,NA,TRUE,0,1,NA,self,ü,4
+49,95,7,7.920547945205479,FAM,NA,NA,1,,FAM,CoL,w,Isa,54,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,1
+49,95,7,7.920547945205479,FAM,NA,NA,2,,FAM,CoL,w,Isa,54,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+49,95,7,7.920547945205479,FAM,NA,NA,4,,FAM,CoL,w,Isa,54,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+50,85,7,7.101092896174864,FAM,NA,NA,1,,FAM,CoL,m,Isa,8,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,1
+50,85,7,7.101092896174864,FAM,NA,NA,2,,FAM,CoL,m,Isa,8,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+51,73,6,6.133879781420765,FAM,NA,NA,1,,FAM,CoL,m,Isa,56,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,1
+51,73,6,6.133879781420765,FAM,NA,NA,2,,FAM,CoL,m,Isa,56,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+51,73,6,6.133879781420765,FAM,NA,NA,4,,FAM,CoL,m,Isa,56,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+52,50,4,4.215846994535519,FAM,NA,NA,1,,FAM,CoL,m,Isa,59,CoL_first,fb_first,dropout,no,error in familiarization,NA,NA,TRUE,1,1,NA,wind,ü,1
+52,50,4,4.215846994535519,FAM,NA,NA,2,,FAM,CoL,m,Isa,59,CoL_first,fb_first,dropout,no,error in familiarization,NA,NA,TRUE,1,0,NA,wind,q,2
+52,50,4,4.215846994535519,FAM,NA,NA,3,,FAM,CoL,m,Isa,59,CoL_first,fb_first,dropout,no,error in familiarization,NA,NA,TRUE,1,0,NA,wind,q,3
+53,89,7,7.456284153005464,FAM,NA,NA,1,,FAM,CoL,w,Isa,19,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+53,89,7,7.456284153005464,FAM,NA,NA,2,,FAM,CoL,w,Isa,19,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,2
+54,71,5,5.983561643835617,FAM,NA,NA,1,,FAM,CoL,w,Isa,60,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+54,71,5,5.983561643835617,FAM,NA,NA,2,,FAM,CoL,w,Isa,60,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,2
+54,71,5,5.983561643835617,FAM,NA,NA,3,,FAM,CoL,w,Isa,60,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+55,69,5,5.770491803278689,FAM,NA,NA,1,,FAM,CoL,m,Isa,20,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+55,69,5,5.770491803278689,FAM,NA,NA,2,,FAM,CoL,m,Isa,20,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,2
+56,48,4,4.0109289617486334,FAM,NA,NA,1,,FAM,CoL,m,Isa,62,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,1
+56,48,4,4.0109289617486334,FAM,NA,NA,2,,FAM,CoL,m,Isa,62,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,0,1,NA,wind,q,2
+56,48,4,4.0109289617486334,FAM,NA,NA,3,,FAM,CoL,m,Isa,62,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,3
+56,48,4,4.0109289617486334,FAM,NA,NA,4,,FAM,CoL,m,Isa,62,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,4
+57,59,4,4.964383561643835,FAM,NA,NA,1,,FAM,CoL,m,Isa,21,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,1
+57,59,4,4.964383561643835,FAM,NA,NA,2,,FAM,CoL,m,Isa,21,asp_first,fb_first,main,no,NA,NA,NA,FALSE,1,1,TRUE,wind,ü,2
+57,59,4,4.964383561643835,FAM,NA,NA,3,,FAM,CoL,m,Isa,21,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,3
+57,59,4,4.964383561643835,FAM,NA,NA,4,,FAM,CoL,m,Isa,21,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,4
+58,73,6,6.136612021857924,FAM,NA,NA,1,NA,FAM,CoL,w,Isa,35,CoL_first,tb_first,dropout,yes,error in familiarization + language issues,NA,NA,FALSE,1,1,TRUE,wind,ü,1
+58,73,6,6.136612021857924,FAM,NA,NA,2,NA,FAM,CoL,w,Isa,35,CoL_first,tb_first,dropout,yes,error in familiarization + language issues,NA,NA,TRUE,1,1,NA,self,q,2
+58,73,6,6.136612021857924,FAM,NA,NA,4,NA,FAM,CoL,w,Isa,35,CoL_first,tb_first,dropout,yes,error in familiarization + language issues,NA,NA,FALSE,0,1,TRUE,wind,q,3
+59,85,7,7.158469945355192,FAM,NA,NA,1,,FAM,CoL,w,Isa,23,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,1
+59,85,7,7.158469945355192,FAM,NA,NA,2,,FAM,CoL,w,Isa,23,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+60,81,6,6.827868852459017,FAM,NA,NA,1,"bei Trial 6 Überzeugung ausversehen ""q"" gedrückt statt ""ü""",FAM,CoL,m,Eva,35,CoL_first,tb_first,main,no,NA,"bei Tesstrial 2 Überzeugungsfrage ""q"" statt ""ü"" gedrückt",done,TRUE,1,1,NA,wind,ü,1
+60,81,6,6.827868852459017,FAM,NA,NA,2,"bei Trial 6 Überzeugung ausversehen ""q"" gedrückt statt ""ü""",FAM,CoL,m,Eva,35,CoL_first,tb_first,main,no,NA,"bei Tesstrial 2 Überzeugungsfrage ""q"" statt ""ü"" gedrückt",done,TRUE,1,1,NA,self,q,2
+61,71,5,5.9316939890710385,FAM,NA,NA,1,"bei Testtrial 2 Überzeugungsfrage ""ü"" statt ""q"" gedrückt",FAM,CoL,m,Eva,36,CoL_first,tb_first,dropout,no,error in familiarization,"bei Tesstrial 2 Überzeugungsfrage ""ü"" statt ""q"" gedrückt",done,TRUE,1,1,NA,wind,q,1
+61,71,5,5.9316939890710385,FAM,NA,NA,2,"bei Testtrial 2 Überzeugungsfrage ""ü"" statt ""q"" gedrückt",FAM,CoL,m,Eva,36,CoL_first,tb_first,dropout,no,error in familiarization,"bei Tesstrial 2 Überzeugungsfrage ""ü"" statt ""q"" gedrückt",done,TRUE,1,0,NA,wind,q,2
+61,71,5,5.9316939890710385,FAM,NA,NA,3,"bei Testtrial 2 Überzeugungsfrage ""ü"" statt ""q"" gedrückt",FAM,CoL,m,Eva,36,CoL_first,tb_first,dropout,no,error in familiarization,"bei Tesstrial 2 Überzeugungsfrage ""ü"" statt ""q"" gedrückt",done,TRUE,1,0,NA,wind,ü,3
+62,50,4,4.199453551912568,FAM,NA,NA,1,/,FAM,CoL,m,Eva,36,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+62,50,4,4.199453551912568,FAM,NA,NA,2,/,FAM,CoL,m,Eva,36,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,2
+63,51,4,4.275956284153006,FAM,NA,NA,1,/,FAM,CoL,w,Eva,24,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,1
+63,51,4,4.275956284153006,FAM,NA,NA,2,/,FAM,CoL,w,Eva,24,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+64,54,4,4.527322404371585,FAM,NA,NA,1,"im letzten Testtrial hat er seine Antwort auf die Testfrage nochmal von alleine zu ""selbst"" geändert, nachdem ich schon auf ""w"" für Wind gedrückt hatte",FAM,CoL,m,Eva,37,CoL_first,tb_first,main,no,NA,"Fehler in 3. Fam trial bei Frage, was der Pirat sich holen wollte (""weiß ich nicht""); im letzten Testtrial hat er seine Antwort nochmal von alleine zu ""selbst"" geändert, nachdem ich schon auf ""w"" für Wind gedrückt hatte -> check video again Fam trials were all correct (TQ & CQ_location) (Isa, 16.5.24)",done,TRUE,1,0,NA,wind,q,1
+64,54,4,4.527322404371585,FAM,NA,NA,2,"im letzten Testtrial hat er seine Antwort auf die Testfrage nochmal von alleine zu ""selbst"" geändert, nachdem ich schon auf ""w"" für Wind gedrückt hatte",FAM,CoL,m,Eva,37,CoL_first,tb_first,main,no,NA,"Fehler in 3. Fam trial bei Frage, was der Pirat sich holen wollte (""weiß ich nicht""); im letzten Testtrial hat er seine Antwort nochmal von alleine zu ""selbst"" geändert, nachdem ich schon auf ""w"" für Wind gedrückt hatte -> check video again Fam trials were all correct (TQ & CQ_location) (Isa, 16.5.24)",done,TRUE,1,0,NA,self,ü,2
+64,54,4,4.527322404371585,FAM,NA,NA,3,"im letzten Testtrial hat er seine Antwort auf die Testfrage nochmal von alleine zu ""selbst"" geändert, nachdem ich schon auf ""w"" für Wind gedrückt hatte",FAM,CoL,m,Eva,37,CoL_first,tb_first,main,no,NA,"Fehler in 3. Fam trial bei Frage, was der Pirat sich holen wollte (""weiß ich nicht""); im letzten Testtrial hat er seine Antwort nochmal von alleine zu ""selbst"" geändert, nachdem ich schon auf ""w"" für Wind gedrückt hatte -> check video again Fam trials were all correct (TQ & CQ_location) (Isa, 16.5.24)",done,FALSE,1,1,FALSE,wind,ü,3
+64,54,4,4.527322404371585,FAM,NA,NA,4,"im letzten Testtrial hat er seine Antwort auf die Testfrage nochmal von alleine zu ""selbst"" geändert, nachdem ich schon auf ""w"" für Wind gedrückt hatte",FAM,CoL,m,Eva,37,CoL_first,tb_first,main,no,NA,"Fehler in 3. Fam trial bei Frage, was der Pirat sich holen wollte (""weiß ich nicht""); im letzten Testtrial hat er seine Antwort nochmal von alleine zu ""selbst"" geändert, nachdem ich schon auf ""w"" für Wind gedrückt hatte -> check video again Fam trials were all correct (TQ & CQ_location) (Isa, 16.5.24)",done,TRUE,1,1,NA,self,q,4
+65,92,7,7.73224043715847,FAM,NA,NA,1,/,FAM,CoL,m,Eva,38,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,1
+65,92,7,7.73224043715847,FAM,NA,NA,2,/,FAM,CoL,m,Eva,38,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+66,68,5,5.724043715846994,FAM,NA,NA,1,/,FAM,CoL,m,Eva,39,CoL_first,tb_first,main,no,NA,NA,NA,FALSE,1,1,FALSE,self,ü,1
+66,68,5,5.724043715846994,FAM,NA,NA,2,/,FAM,CoL,m,Eva,39,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+66,68,5,5.724043715846994,FAM,NA,NA,4,/,FAM,CoL,m,Eva,39,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+67,75,6,6.254098360655738,FAM,NA,NA,1,/,FAM,CoL,m,Eva,29,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,1
+67,75,6,6.254098360655738,FAM,NA,NA,2,/,FAM,CoL,m,Eva,29,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+67,75,6,6.254098360655738,FAM,NA,NA,4,/,FAM,CoL,m,Eva,29,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+68,60,5,5.073770491803279,FAM,NA,NA,1,/,FAM,CoL,w,Eva,30,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,1
+68,60,5,5.073770491803279,FAM,NA,NA,2,/,FAM,CoL,w,Eva,30,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+68,60,5,5.073770491803279,FAM,NA,NA,4,/,FAM,CoL,w,Eva,30,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+69,58,4,4.841530054644808,FAM,NA,NA,1,/,FAM,CoL,w,Eva,37,CoL_first,tb_first,dropout,no,error in familiarization,NA,NA,TRUE,1,0,NA,wind,q,1
+69,58,4,4.841530054644808,FAM,NA,NA,2,/,FAM,CoL,w,Eva,37,CoL_first,tb_first,dropout,no,error in familiarization,NA,NA,TRUE,1,0,NA,self,ü,2
+69,58,4,4.841530054644808,FAM,NA,NA,3,/,FAM,CoL,w,Eva,37,CoL_first,tb_first,dropout,no,error in familiarization,NA,NA,TRUE,1,0,NA,self,ü,3
+69,58,4,4.841530054644808,FAM,NA,NA,4,/,FAM,CoL,w,Eva,37,CoL_first,tb_first,dropout,no,error in familiarization,NA,NA,TRUE,1,1,NA,self,q,4
+70,60,5,5.073770491803279,FAM,NA,NA,1,/,FAM,CoL,m,Eva,37,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,1
+70,60,5,5.073770491803279,FAM,NA,NA,2,/,FAM,CoL,m,Eva,37,CoL_first,tb_first,main,no,NA,NA,NA,FALSE,1,1,TRUE,wind,ü,2
+70,60,5,5.073770491803279,FAM,NA,NA,3,/,FAM,CoL,m,Eva,37,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,3
+70,60,5,5.073770491803279,FAM,NA,NA,4,/,FAM,CoL,m,Eva,37,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,4
+71,95,7,7.9289617486338795,FAM,NA,NA,1,"im 4. Testtrial hat er seine Antwort auf die Frage, zu welcher Insel der Pirat wollte, nochmal von selbst zu links (also ""q"") geändert, nachdem ich schon rechts (also ""ü"") gedrückt hatte",FAM,CoL,m,Eva,31,asp_first,fb_first,main,no,NA,"im 4. Testtrial hat er seine Antwort auf die Frage, zu welcher Insel der Pirat wollte, nochmal von selbst zu links (also ""q"") geändert, nachdem ich schon rechts (also ""ü"") gedrückt hatte",done,TRUE,1,0,NA,wind,ü,1
+71,95,7,7.9289617486338795,FAM,NA,NA,2,"im 4. Testtrial hat er seine Antwort auf die Frage, zu welcher Insel der Pirat wollte, nochmal von selbst zu links (also ""q"") geändert, nachdem ich schon rechts (also ""ü"") gedrückt hatte",FAM,CoL,m,Eva,31,asp_first,fb_first,main,no,NA,"im 4. Testtrial hat er seine Antwort auf die Frage, zu welcher Insel der Pirat wollte, nochmal von selbst zu links (also ""q"") geändert, nachdem ich schon rechts (also ""ü"") gedrückt hatte",done,TRUE,1,1,NA,wind,q,2
+71,95,7,7.9289617486338795,FAM,NA,NA,4,"im 4. Testtrial hat er seine Antwort auf die Frage, zu welcher Insel der Pirat wollte, nochmal von selbst zu links (also ""q"") geändert, nachdem ich schon rechts (also ""ü"") gedrückt hatte",FAM,CoL,m,Eva,31,asp_first,fb_first,main,no,NA,"im 4. Testtrial hat er seine Antwort auf die Frage, zu welcher Insel der Pirat wollte, nochmal von selbst zu links (also ""q"") geändert, nachdem ich schon rechts (also ""ü"") gedrückt hatte",done,TRUE,1,1,NA,self,ü,3
+72,57,4,4.759562841530054,FAM,NA,NA,1,/,FAM,CoL,w,Eva,40,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,1
+72,57,4,4.759562841530054,FAM,NA,NA,2,/,FAM,CoL,w,Eva,40,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+72,57,4,4.759562841530054,FAM,NA,NA,4,/,FAM,CoL,w,Eva,40,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+73,91,7,7.614754098360656,FAM,NA,NA,1,/,FAM,CoL,m,Eva,45,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,1
+73,91,7,7.614754098360656,FAM,NA,NA,2,/,FAM,CoL,m,Eva,45,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+74,76,6,6.409836065573771,FAM,NA,NA,1,/,FAM,CoL,m,Eva,46,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,1
+74,76,6,6.409836065573771,FAM,NA,NA,2,/,FAM,CoL,m,Eva,46,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+74,76,6,6.409836065573771,FAM,NA,NA,4,/,FAM,CoL,m,Eva,46,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+75,61,5,5.1256830601092895,FAM,NA,NA,1,,FAM,CoL,w,Isa,47,CoL_first,tb_first,main,no,NA,"hat immer mit Wind geantwortet in den Testtrials und gesagt ""weil da waren ja immer die Wolken vor, deswegen immer vom Wind""",NA,TRUE,1,1,NA,self,ü,1
+75,61,5,5.1256830601092895,FAM,NA,NA,2,,FAM,CoL,w,Isa,47,CoL_first,tb_first,main,no,NA,"hat immer mit Wind geantwortet in den Testtrials und gesagt ""weil da waren ja immer die Wolken vor, deswegen immer vom Wind""",NA,TRUE,1,0,NA,self,q,2
+75,61,5,5.1256830601092895,FAM,NA,NA,3,,FAM,CoL,w,Isa,47,CoL_first,tb_first,main,no,NA,"hat immer mit Wind geantwortet in den Testtrials und gesagt ""weil da waren ja immer die Wolken vor, deswegen immer vom Wind""",NA,TRUE,1,1,NA,wind,q,3
+76,49,4,4.1530054644808745,FAM,NA,NA,1,/,FAM,CoL,w,Eva,63,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,1
+76,49,4,4.1530054644808745,FAM,NA,NA,2,/,FAM,CoL,w,Eva,63,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+77,49,4,4.098360655737705,FAM,NA,NA,1,"bei Testtrial 7 Kontrollfrage Objekt ausversehen ""k"" statt ""f"" gedrückt (sie hat eigentlich falsch geantwortet)",FAM,CoL,w,Eva,1,asp_first,tb_first,main,no,NA,"bei Testtrial 7 Kontrollfrage Objekt ausversehen ""k"" statt ""f"" gedrückt",done,TRUE,1,1,NA,wind,q,1
+77,49,4,4.098360655737705,FAM,NA,NA,2,"bei Testtrial 7 Kontrollfrage Objekt ausversehen ""k"" statt ""f"" gedrückt (sie hat eigentlich falsch geantwortet)",FAM,CoL,w,Eva,1,asp_first,tb_first,main,no,NA,"bei Testtrial 7 Kontrollfrage Objekt ausversehen ""k"" statt ""f"" gedrückt",done,TRUE,1,0,NA,wind,ü,2
+77,49,4,4.098360655737705,FAM,NA,NA,3,"bei Testtrial 7 Kontrollfrage Objekt ausversehen ""k"" statt ""f"" gedrückt (sie hat eigentlich falsch geantwortet)",FAM,CoL,w,Eva,1,asp_first,tb_first,main,no,NA,"bei Testtrial 7 Kontrollfrage Objekt ausversehen ""k"" statt ""f"" gedrückt",done,TRUE,1,1,NA,self,ü,3
+78,91,7,7.617486338797814,FAM,NA,NA,1,/,FAM,CoL,m,Eva,33,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+78,91,7,7.617486338797814,FAM,NA,NA,2,/,FAM,CoL,m,Eva,33,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,2
+79,73,6,6.1502732240437155,FAM,NA,NA,1,/,FAM,CoL,w,Eva,2,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+79,73,6,6.1502732240437155,FAM,NA,NA,2,/,FAM,CoL,w,Eva,2,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,2
+79,73,6,6.1502732240437155,FAM,NA,NA,3,/,FAM,CoL,w,Eva,2,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+80,69,5,5.827868852459017,FAM,NA,NA,1,/,FAM,CoL,m,Eva,17,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+80,69,5,5.827868852459017,FAM,NA,NA,2,/,FAM,CoL,m,Eva,17,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,2
+81,89,7,7.478142076502732,FAM,NA,NA,1,/,FAM,CoL,w,Eva,3,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+81,89,7,7.478142076502732,FAM,NA,NA,2,/,FAM,CoL,w,Eva,3,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,2
+82,78,6,6.560109289617486,FAM,NA,NA,1,/,FAM,CoL,w,Eva,48,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,1
+82,78,6,6.560109289617486,FAM,NA,NA,2,/,FAM,CoL,w,Eva,48,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+82,78,6,6.560109289617486,FAM,NA,NA,4,/,FAM,CoL,w,Eva,48,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+83,81,6,6.7923497267759565,FAM,NA,NA,1,/,FAM,CoL,w,Eva,18,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+83,81,6,6.7923497267759565,FAM,NA,NA,2,/,FAM,CoL,w,Eva,18,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,2
+84,82,6,6.898907103825136,FAM,NA,NA,1,/,FAM,CoL,m,Eva,49,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+84,82,6,6.898907103825136,FAM,NA,NA,2,/,FAM,CoL,m,Eva,49,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,2
+85,53,4,4.48087431693989,FAM,NA,NA,1,/,FAM,CoL,m,Eva,4,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+85,53,4,4.48087431693989,FAM,NA,NA,2,/,FAM,CoL,m,Eva,4,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,2
+86,62,5,5.240437158469946,FAM,NA,NA,1,/,FAM,CoL,m,Eva,5,asp_first,tb_first,main,no,NA,NA,NA,FALSE,1,0,FALSE,NA,q,1
+86,62,5,5.240437158469946,FAM,NA,NA,2,/,FAM,CoL,m,Eva,5,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+86,62,5,5.240437158469946,FAM,NA,NA,4,/,FAM,CoL,m,Eva,5,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+87,54,4,4.5136612021857925,FAM,NA,NA,1,/,FAM,CoL,w,Eva,50,CoL_first,fb_first,main,no,NA,NA,NA,FALSE,0,1,FALSE,wind,NA,1
+87,54,4,4.5136612021857925,FAM,NA,NA,2,/,FAM,CoL,w,Eva,50,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,2
+87,54,4,4.5136612021857925,FAM,NA,NA,4,/,FAM,CoL,w,Eva,50,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,3
+88,82,6,6.83879781420765,FAM,NA,NA,1,/,FAM,CoL,w,Eva,6,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,1
+88,82,6,6.83879781420765,FAM,NA,NA,2,/,FAM,CoL,w,Eva,6,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+88,82,6,6.83879781420765,FAM,NA,NA,4,/,FAM,CoL,w,Eva,6,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+89,76,6,6.412568306010929,FAM,NA,NA,1,"Testtrial 8: bei KF Überzeugung ausversehen ""ü"" statt ""q"" gedrückt (seine Antwort war eigentlich links)",FAM,CoL,m,Eva,51,CoL_first,fb_first,main,no,NA,"bei Testtrial 8 Kontrollfrage Überzeugung ""ü"" statt ""q"" gedrückt",done,FALSE,1,1,TRUE,wind,ü,1
+89,76,6,6.412568306010929,FAM,NA,NA,2,"Testtrial 8: bei KF Überzeugung ausversehen ""ü"" statt ""q"" gedrückt (seine Antwort war eigentlich links)",FAM,CoL,m,Eva,51,CoL_first,fb_first,main,no,NA,"bei Testtrial 8 Kontrollfrage Überzeugung ""ü"" statt ""q"" gedrückt",done,TRUE,1,0,NA,wind,q,2
+89,76,6,6.412568306010929,FAM,NA,NA,3,"Testtrial 8: bei KF Überzeugung ausversehen ""ü"" statt ""q"" gedrückt (seine Antwort war eigentlich links)",FAM,CoL,m,Eva,51,CoL_first,fb_first,main,no,NA,"bei Testtrial 8 Kontrollfrage Überzeugung ""ü"" statt ""q"" gedrückt",done,TRUE,1,1,NA,self,q,3
+89,76,6,6.412568306010929,FAM,NA,NA,4,"Testtrial 8: bei KF Überzeugung ausversehen ""ü"" statt ""q"" gedrückt (seine Antwort war eigentlich links)",FAM,CoL,m,Eva,51,CoL_first,fb_first,main,no,NA,"bei Testtrial 8 Kontrollfrage Überzeugung ""ü"" statt ""q"" gedrückt",done,TRUE,1,1,NA,wind,ü,4
+90,94,7,7.841530054644808,FAM,NA,NA,1,/,FAM,CoL,m,Eva,52,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+90,94,7,7.841530054644808,FAM,NA,NA,2,/,FAM,CoL,m,Eva,52,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,2
+91,66,5,5.565573770491803,FAM,NA,NA,1,/,FAM,CoL,m,Eva,53,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,1
+91,66,5,5.565573770491803,FAM,NA,NA,2,/,FAM,CoL,m,Eva,53,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+92,80,6,6.666666666666667,FAM,NA,NA,1,/,FAM,CoL,w,Eva,7,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,1
+92,80,6,6.666666666666667,FAM,NA,NA,2,/,FAM,CoL,w,Eva,7,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+93,89,7,7.459016393442623,FAM,NA,NA,1,/,FAM,CoL,w,Eva,8,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,1
+93,89,7,7.459016393442623,FAM,NA,NA,2,/,FAM,CoL,w,Eva,8,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+93,89,7,7.459016393442623,FAM,NA,NA,4,/,FAM,CoL,w,Eva,8,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+94,89,7,7.459016393442623,FAM,NA,NA,1,/,FAM,CoL,w,Eva,9,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+94,89,7,7.459016393442623,FAM,NA,NA,2,/,FAM,CoL,w,Eva,9,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,2
+95,89,7,7.461748633879782,FAM,NA,NA,1,/,FAM,CoL,w,Eva,54,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,1
+95,89,7,7.461748633879782,FAM,NA,NA,2,/,FAM,CoL,w,Eva,54,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+96,51,4,4.3224043715847,FAM,NA,NA,1,NA,FAM,CoL,m,Eva,10,asp_first,tb_first,dropout,yes,study aborted,"nach 1. Testtrial abgebrochen, wollte nicht mehr weitergucken",NA,TRUE,0,1,NA,wind,q,1
+96,51,4,4.3224043715847,FAM,NA,NA,2,NA,FAM,CoL,m,Eva,10,asp_first,tb_first,dropout,yes,study aborted,"nach 1. Testtrial abgebrochen, wollte nicht mehr weitergucken",NA,TRUE,1,0,NA,wind,ü,2
+96,51,4,4.3224043715847,FAM,NA,NA,3,NA,FAM,CoL,m,Eva,10,asp_first,tb_first,dropout,yes,study aborted,"nach 1. Testtrial abgebrochen, wollte nicht mehr weitergucken",NA,TRUE,1,1,NA,self,q,3
+96,51,4,4.3224043715847,FAM,NA,NA,4,NA,FAM,CoL,m,Eva,10,asp_first,tb_first,dropout,yes,study aborted,"nach 1. Testtrial abgebrochen, wollte nicht mehr weitergucken",NA,TRUE,1,1,NA,wind,q,4
+97,71,5,5.942622950819672,FAM,NA,NA,1,technische Probleme bei Testtrial 6,FAM,CoL,m,Eva,11,asp_first,tb_first,main,no,NA,"Bildschirm ist bei Testtrial 6 kurz eingefroren, konnte danach nicht wieder in den Vollbildmodus zurück, aber trotzdem weitergemacht",NA,TRUE,1,1,NA,wind,ü,1
+97,71,5,5.942622950819672,FAM,NA,NA,2,technische Probleme bei Testtrial 6,FAM,CoL,m,Eva,11,asp_first,tb_first,main,no,NA,"Bildschirm ist bei Testtrial 6 kurz eingefroren, konnte danach nicht wieder in den Vollbildmodus zurück, aber trotzdem weitergemacht",NA,TRUE,1,0,NA,wind,q,2
+97,71,5,5.942622950819672,FAM,NA,NA,3,technische Probleme bei Testtrial 6,FAM,CoL,m,Eva,11,asp_first,tb_first,main,no,NA,"Bildschirm ist bei Testtrial 6 kurz eingefroren, konnte danach nicht wieder in den Vollbildmodus zurück, aber trotzdem weitergemacht",NA,TRUE,1,1,NA,self,q,3
+98,71,5,5.942622950819672,FAM,NA,NA,1,/,FAM,CoL,m,Eva,12,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+98,71,5,5.942622950819672,FAM,NA,NA,2,/,FAM,CoL,m,Eva,12,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,2
+99,54,4,4.557377049180328,FAM,NA,NA,1,/,FAM,CoL,m,Eva,10,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+99,54,4,4.557377049180328,FAM,NA,NA,2,/,FAM,CoL,m,Eva,10,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,2
+99,54,4,4.557377049180328,FAM,NA,NA,3,/,FAM,CoL,m,Eva,10,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+100,54,4,4.557377049180328,FAM,NA,NA,1,"bei Testtrial 2 hat er Antwort auf KF Wunsch nachträglich zu links (also ""q"") geändert",FAM,CoL,m,Eva,13,asp_first,tb_first,main,no,NA,"bei Testtrial 2 hat er Antwort auf KF Wunsch nachträglich zu links (also ""q"") geändert (nachdem ich schon ""ü"" getippt hatte)",done,TRUE,1,1,NA,self,q,1
+100,54,4,4.557377049180328,FAM,NA,NA,2,"bei Testtrial 2 hat er Antwort auf KF Wunsch nachträglich zu links (also ""q"") geändert",FAM,CoL,m,Eva,13,asp_first,tb_first,main,no,NA,"bei Testtrial 2 hat er Antwort auf KF Wunsch nachträglich zu links (also ""q"") geändert (nachdem ich schon ""ü"" getippt hatte)",done,TRUE,1,1,NA,wind,ü,2
+101,49,4,4.1256830601092895,FAM,NA,NA,1,Unterbrechung Trial 8?,FAM,CoL,w,Melissa,62,CoL_first,fb_first,dropout,no,error in familiarization,8. Trial: Dropout (2. asp TB),NA,FALSE,0,1,TRUE,self,q,1
+101,49,4,4.1256830601092895,FAM,NA,NA,2,Unterbrechung Trial 8?,FAM,CoL,w,Melissa,62,CoL_first,fb_first,dropout,no,error in familiarization,8. Trial: Dropout (2. asp TB),NA,FALSE,0,1,TRUE,wind,q,2
+101,49,4,4.1256830601092895,FAM,NA,NA,3,Unterbrechung Trial 8?,FAM,CoL,w,Melissa,62,CoL_first,fb_first,dropout,no,error in familiarization,8. Trial: Dropout (2. asp TB),NA,TRUE,1,1,NA,wind,q,3
+101,49,4,4.1256830601092895,FAM,NA,NA,4,Unterbrechung Trial 8?,FAM,CoL,w,Melissa,62,CoL_first,fb_first,dropout,no,error in familiarization,8. Trial: Dropout (2. asp TB),NA,TRUE,1,0,NA,wind,q,4
+102,75,6,6.256830601092896,FAM,NA,NA,1,,FAM,CoL,w,Melissa,64,CoL_first,fb_first,main,no,NA,"1. Trial (FAM): Bei der Frage w/p hat Kind erst falsch geantwortet (""w""), während  Korrektur durch Testerin (""Hmm, ich glaube, der ist da selbst hingefahren…"") hat Kind unterbrochen/korrigiert (""Ich auch. Der ist da selbst hingefahren…"") --> ""p"" kodiert, wobei wahrscheinlich ""w"" kodiert werden musste",done,TRUE,1,0,NA,wind,q,1
+102,75,6,6.256830601092896,FAM,NA,NA,2,,FAM,CoL,w,Melissa,64,CoL_first,fb_first,main,no,NA,"1. Trial (FAM): Bei der Frage w/p hat Kind erst falsch geantwortet (""w""), während  Korrektur durch Testerin (""Hmm, ich glaube, der ist da selbst hingefahren…"") hat Kind unterbrochen/korrigiert (""Ich auch. Der ist da selbst hingefahren…"") --> ""p"" kodiert, wobei wahrscheinlich ""w"" kodiert werden musste",done,TRUE,1,1,NA,wind,q,2
+103,57,4,4.811475409836065,FAM,NA,NA,1,Trial 11 siehe Subejct List,FAM,CoL,m,Melissa,27,asp_first,fb_first,main,no,NA,"Trial 11 ggf. dropout: falsche  Antwort des Kindes auf ""wofür(f/k)"" --> ""Flöte"" --> Testerin ""Hmm überleg nochmal.."" --> ""Lupe"" --> als richtig gewertet, obwohl ""Stift"" hier richtig gewesen wäre",correct,TRUE,1,1,NA,wind,ü,1
+103,57,4,4.811475409836065,FAM,NA,NA,2,Trial 11 siehe Subejct List,FAM,CoL,m,Melissa,27,asp_first,fb_first,main,no,NA,"Trial 11 ggf. dropout: falsche  Antwort des Kindes auf ""wofür(f/k)"" --> ""Flöte"" --> Testerin ""Hmm überleg nochmal.."" --> ""Lupe"" --> als richtig gewertet, obwohl ""Stift"" hier richtig gewesen wäre",correct,TRUE,1,1,NA,self,q,2
+104,53,4,4.46448087431694,FAM,NA,NA,1,"ganz zu Beginn der FAM-Trials (1. FAM-Trial; ""Schau mal, hier ist wieder der kleine Pirat..."") war Bildschirm ganz kurz schwarz, max. 2 Sek, noch bevor die Piratin erschienenist",FAM,CoL,w,Melissa,1,asp_first,tb_first,main,no,NA,"Bildschirm wurde zu Beginn des 1. FAM-Trials ganz kurz (max. 2 Sek.) schwarz, aber noch bevor Piratin erschienen ist und etwas versteckt hat",NA,TRUE,1,1,NA,wind,q,1
+104,53,4,4.46448087431694,FAM,NA,NA,2,"ganz zu Beginn der FAM-Trials (1. FAM-Trial; ""Schau mal, hier ist wieder der kleine Pirat..."") war Bildschirm ganz kurz schwarz, max. 2 Sek, noch bevor die Piratin erschienenist",FAM,CoL,w,Melissa,1,asp_first,tb_first,main,no,NA,"Bildschirm wurde zu Beginn des 1. FAM-Trials ganz kurz (max. 2 Sek.) schwarz, aber noch bevor Piratin erschienen ist und etwas versteckt hat",NA,TRUE,1,1,NA,self,ü,2
+105,62,5,5.172131147540983,FAM,NA,NA,1,,FAM,CoL,w,Melissa,2,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+105,62,5,5.172131147540983,FAM,NA,NA,2,,FAM,CoL,w,Melissa,2,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,2
+106,56,4,4.743169398907104,FAM,NA,NA,1,,FAM,CoL,m,Melissa,48,CoL_first,tb_first,main,no,NA,"etwas unsicher bzgl. Kodierung bei Trial 11 (3. asp. TB): bei Frage weiß_a(y/n) hat Kind  nein gesagt und auch bei Wiederholung der Frage Kopf geschüttelt, dann aber auch noch idk gesagt -- ""n"" eingegeben --> korrekt so? (im Back-Video: 00:20:24)",done,TRUE,0,0,NA,wind,ü,1
+106,56,4,4.743169398907104,FAM,NA,NA,2,,FAM,CoL,m,Melissa,48,CoL_first,tb_first,main,no,NA,"etwas unsicher bzgl. Kodierung bei Trial 11 (3. asp. TB): bei Frage weiß_a(y/n) hat Kind  nein gesagt und auch bei Wiederholung der Frage Kopf geschüttelt, dann aber auch noch idk gesagt -- ""n"" eingegeben --> korrekt so? (im Back-Video: 00:20:24)",done,TRUE,1,1,NA,wind,q,2
+106,56,4,4.743169398907104,FAM,NA,NA,4,,FAM,CoL,m,Melissa,48,CoL_first,tb_first,main,no,NA,"etwas unsicher bzgl. Kodierung bei Trial 11 (3. asp. TB): bei Frage weiß_a(y/n) hat Kind  nein gesagt und auch bei Wiederholung der Frage Kopf geschüttelt, dann aber auch noch idk gesagt -- ""n"" eingegeben --> korrekt so? (im Back-Video: 00:20:24)",done,TRUE,1,1,NA,self,ü,3
+107,81,6,6.7896174863387975,FAM,NA,NA,1,,FAM,CoL,m,Melissa,5,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,1
+107,81,6,6.7896174863387975,FAM,NA,NA,2,,FAM,CoL,m,Melissa,5,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+107,81,6,6.7896174863387975,FAM,NA,NA,4,,FAM,CoL,m,Melissa,5,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+108,61,5,5.114754098360656,FAM,NA,NA,1,"Trial 6 (1. asp. TB): hatte vermutlich Schwierigkeiten, die Aspekte zu verstehen, hat bei fast allen Fragen mit idk geantwortet, z.T. auch nach Wiederholung, daher habe ich dann ENTER geklickt",FAM,CoL,w,Melissa,53,CoL_first,fb_first,main,no,NA,"Trial 6 (1. asp. TB; back-Video  ab ca. 00:07:58): bei fast allen Fragen mit idk geantwortet, teils auch nach Wiederholung der Frage: weiß_a(y/n): Kind hat erst mit idk geantwortet --> Wiederholung der Frage --> Antwort ""nein"" --> Testerin: ""Hmm… aber der war ja da...weiß der das dann?"" --> ""idk"" --> ENTER kodiert (--> zu ""n"" ändern?""). wofür (f/k): Kind hat zuerst ""Glocke"" geantwortet (falsch) --> Testerin: ""Hmm, überleg nochmal, was hat der denn gesagt, bevor der losgefahren ist?"" --> Kind hat mit idk geantwortet --> Testerin ""Hmm.. für den Kompass vielleicht?"" --> Kind hat genickt --> ""f"" kodiert. glaubt (q/ü): Kind hat mit idk geantwortet, daraufhin (fälschlicherweise) keine Wiederholung der Frage, direkte Korrektur --> ENTER eingegeben; bei nachfolgenden asp-Trials kaum/gar keine Fehler",done,TRUE,1,1,NA,self,q,1
+108,61,5,5.114754098360656,FAM,NA,NA,2,"Trial 6 (1. asp. TB): hatte vermutlich Schwierigkeiten, die Aspekte zu verstehen, hat bei fast allen Fragen mit idk geantwortet, z.T. auch nach Wiederholung, daher habe ich dann ENTER geklickt",FAM,CoL,w,Melissa,53,CoL_first,fb_first,main,no,NA,"Trial 6 (1. asp. TB; back-Video  ab ca. 00:07:58): bei fast allen Fragen mit idk geantwortet, teils auch nach Wiederholung der Frage: weiß_a(y/n): Kind hat erst mit idk geantwortet --> Wiederholung der Frage --> Antwort ""nein"" --> Testerin: ""Hmm… aber der war ja da...weiß der das dann?"" --> ""idk"" --> ENTER kodiert (--> zu ""n"" ändern?""). wofür (f/k): Kind hat zuerst ""Glocke"" geantwortet (falsch) --> Testerin: ""Hmm, überleg nochmal, was hat der denn gesagt, bevor der losgefahren ist?"" --> Kind hat mit idk geantwortet --> Testerin ""Hmm.. für den Kompass vielleicht?"" --> Kind hat genickt --> ""f"" kodiert. glaubt (q/ü): Kind hat mit idk geantwortet, daraufhin (fälschlicherweise) keine Wiederholung der Frage, direkte Korrektur --> ENTER eingegeben; bei nachfolgenden asp-Trials kaum/gar keine Fehler",done,TRUE,1,1,NA,wind,ü,2
+109,53,4,4.434426229508197,FAM,NA,NA,1,,FAM,CoL,w,Melissa,18,asp_first,fb_first,main,no,NA,"ggf. Trial 5 (1. asp. FB) überprüfen (back-Video ab ca. 00:08:42): bei Frage glaubt(q/ü) hat Kind falsch geantwortet, habe dann korrigiert, währenddessen hat Kind sich noch umentschieden, ich habe aber die ursprüngliche, falsche Antwort kodiert, da ja schon zur Korrektur angesetzt wurde --> richtig so?",correct,TRUE,1,1,NA,wind,ü,1
+109,53,4,4.434426229508197,FAM,NA,NA,2,,FAM,CoL,w,Melissa,18,asp_first,fb_first,main,no,NA,"ggf. Trial 5 (1. asp. FB) überprüfen (back-Video ab ca. 00:08:42): bei Frage glaubt(q/ü) hat Kind falsch geantwortet, habe dann korrigiert, währenddessen hat Kind sich noch umentschieden, ich habe aber die ursprüngliche, falsche Antwort kodiert, da ja schon zur Korrektur angesetzt wurde --> richtig so?",correct,TRUE,1,0,NA,wind,ü,2
+109,53,4,4.434426229508197,FAM,NA,NA,3,,FAM,CoL,w,Melissa,18,asp_first,fb_first,main,no,NA,"ggf. Trial 5 (1. asp. FB) überprüfen (back-Video ab ca. 00:08:42): bei Frage glaubt(q/ü) hat Kind falsch geantwortet, habe dann korrigiert, währenddessen hat Kind sich noch umentschieden, ich habe aber die ursprüngliche, falsche Antwort kodiert, da ja schon zur Korrektur angesetzt wurde --> richtig so?",correct,TRUE,1,1,NA,self,q,3
+110,71,5,5.942465753424657,FAM,NA,NA,1,,FAM,CoL,m,Melissa,7,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,1
+110,71,5,5.942465753424657,FAM,NA,NA,2,,FAM,CoL,m,Melissa,7,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+110,71,5,5.942465753424657,FAM,NA,NA,4,,FAM,CoL,m,Melissa,7,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+111,79,6,6.617486338797814,FAM,NA,NA,1,,FAM,CoL,w,Melissa,55,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,1
+111,79,6,6.617486338797814,FAM,NA,NA,2,,FAM,CoL,w,Melissa,55,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+111,79,6,6.617486338797814,FAM,NA,NA,4,,FAM,CoL,w,Melissa,55,CoL_first,fb_first,main,no,NA,NA,NA,FALSE,1,1,TRUE,self,ü,3
+112,70,5,5.8469945355191255,FAM,NA,NA,1,,FAM,CoL,m,Melissa,57,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+112,70,5,5.8469945355191255,FAM,NA,NA,2,,FAM,CoL,m,Melissa,57,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,2
+112,70,5,5.8469945355191255,FAM,NA,NA,3,,FAM,CoL,m,Melissa,57,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+113,73,6,6.158469945355192,FAM,NA,NA,1,,FAM,CoL,m,Melissa,9,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+113,73,6,6.158469945355192,FAM,NA,NA,2,,FAM,CoL,m,Melissa,9,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,2
+113,73,6,6.158469945355192,FAM,NA,NA,3,,FAM,CoL,m,Melissa,9,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+114,73,6,6.158469945355192,FAM,NA,NA,1,,FAM,CoL,m,Melissa,57,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+114,73,6,6.158469945355192,FAM,NA,NA,2,,FAM,CoL,m,Melissa,57,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,2
+115,92,7,7.6803278688524586,FAM,NA,NA,1,,FAM,CoL,m,Melissa,10,asp_first,tb_first,main,no,NA,"Trial 7 / 2. asp. TB (Back-Video ab 00:11:50): bei glaubt (q/ü) ENTER geklickt, da Kind zuerst auf beide Inseln gleichzeitig gezeigt hat und bei Wiederholen idk.",correct,TRUE,1,1,NA,wind,ü,1
+115,92,7,7.6803278688524586,FAM,NA,NA,2,,FAM,CoL,m,Melissa,10,asp_first,tb_first,main,no,NA,"Trial 7 / 2. asp. TB (Back-Video ab 00:11:50): bei glaubt (q/ü) ENTER geklickt, da Kind zuerst auf beide Inseln gleichzeitig gezeigt hat und bei Wiederholen idk.",correct,TRUE,1,0,NA,wind,ü,2
+115,92,7,7.6803278688524586,FAM,NA,NA,3,,FAM,CoL,m,Melissa,10,asp_first,tb_first,main,no,NA,"Trial 7 / 2. asp. TB (Back-Video ab 00:11:50): bei glaubt (q/ü) ENTER geklickt, da Kind zuerst auf beide Inseln gleichzeitig gezeigt hat und bei Wiederholen idk.",correct,TRUE,1,1,NA,self,q,3
+116,52,4,4.409836065573771,FAM,NA,NA,1,"Fehler in FAM-trials, daher auf drop-out überprüfen!",FAM,CoL,w,Melissa,58,CoL_first,fb_first,dropout,no,error in familiarization,NA,NA,FALSE,1,1,TRUE,wind,ü,1
+116,52,4,4.409836065573771,FAM,NA,NA,2,"Fehler in FAM-trials, daher auf drop-out überprüfen!",FAM,CoL,w,Melissa,58,CoL_first,fb_first,dropout,no,error in familiarization,NA,NA,TRUE,1,0,NA,wind,ü,2
+116,52,4,4.409836065573771,FAM,NA,NA,3,"Fehler in FAM-trials, daher auf drop-out überprüfen!",FAM,CoL,w,Melissa,58,CoL_first,fb_first,dropout,no,error in familiarization,NA,NA,TRUE,1,1,NA,self,q,3
+116,52,4,4.409836065573771,FAM,NA,NA,4,"Fehler in FAM-trials, daher auf drop-out überprüfen!",FAM,CoL,w,Melissa,58,CoL_first,fb_first,dropout,no,error in familiarization,NA,NA,TRUE,1,0,NA,self,q,4
+117,64,5,5.390710382513661,FAM,NA,NA,1,"Trial 8 (2. col. FB): ENTER bei wofür(f/k), da zuerst gar keine Antwort und bei Wiederholen ""idk"" ",FAM,CoL,w,Melissa,11,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+117,64,5,5.390710382513661,FAM,NA,NA,2,"Trial 8 (2. col. FB): ENTER bei wofür(f/k), da zuerst gar keine Antwort und bei Wiederholen ""idk"" ",FAM,CoL,w,Melissa,11,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,2
+118,85,7,7.139344262295082,FAM,NA,NA,1,,FAM,CoL,w,Melissa,58,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+118,85,7,7.139344262295082,FAM,NA,NA,2,,FAM,CoL,w,Melissa,58,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,2
+119,92,7,7.691256830601093,FAM,NA,NA,1,,FAM,CoL,w,Melissa,12,asp_first,tb_first,main,no,NA,"FAM-Trials: bei Nr. 2 bei w/p mit Wind geantwortet, habe dann entsprechend korrigiert, Kind: ""Aber die haben doch gerade gesagt, es zieht ein Sturm auf."", habe dann erklärt, dass der Pirat es geschafft hat. gegen den Sturm anzupaddeln und selbst zu der Insel gefahren ist; bei Nr. 3 was(f/k) falsch, was_2(f/k) richtig; bei Test-Trials (beide asp. FB): bei glaubt(q/ü) jeweils mit tatsächlichem Ort geantwortet, bei meiner Korrektur hat Kind dann gesagt ""Aber der Pirat hat das doch jetzt  gesehen, dass die Piratin die Tröte rüber gebracht hat, also weiß er doch, wo die Lupe ist."" -- habe dann nochmal gesagt, dass er ja aber nicht weiß, dass Lupe = Tröte (bei weiß_a(y/n) hatte sie auch richtig geantwortet)",NA,TRUE,1,1,NA,wind,q,1
+119,92,7,7.691256830601093,FAM,NA,NA,2,,FAM,CoL,w,Melissa,12,asp_first,tb_first,main,no,NA,"FAM-Trials: bei Nr. 2 bei w/p mit Wind geantwortet, habe dann entsprechend korrigiert, Kind: ""Aber die haben doch gerade gesagt, es zieht ein Sturm auf."", habe dann erklärt, dass der Pirat es geschafft hat. gegen den Sturm anzupaddeln und selbst zu der Insel gefahren ist; bei Nr. 3 was(f/k) falsch, was_2(f/k) richtig; bei Test-Trials (beide asp. FB): bei glaubt(q/ü) jeweils mit tatsächlichem Ort geantwortet, bei meiner Korrektur hat Kind dann gesagt ""Aber der Pirat hat das doch jetzt  gesehen, dass die Piratin die Tröte rüber gebracht hat, also weiß er doch, wo die Lupe ist."" -- habe dann nochmal gesagt, dass er ja aber nicht weiß, dass Lupe = Tröte (bei weiß_a(y/n) hatte sie auch richtig geantwortet)",NA,TRUE,1,0,NA,wind,q,2
+119,92,7,7.691256830601093,FAM,NA,NA,3,,FAM,CoL,w,Melissa,12,asp_first,tb_first,main,no,NA,"FAM-Trials: bei Nr. 2 bei w/p mit Wind geantwortet, habe dann entsprechend korrigiert, Kind: ""Aber die haben doch gerade gesagt, es zieht ein Sturm auf."", habe dann erklärt, dass der Pirat es geschafft hat. gegen den Sturm anzupaddeln und selbst zu der Insel gefahren ist; bei Nr. 3 was(f/k) falsch, was_2(f/k) richtig; bei Test-Trials (beide asp. FB): bei glaubt(q/ü) jeweils mit tatsächlichem Ort geantwortet, bei meiner Korrektur hat Kind dann gesagt ""Aber der Pirat hat das doch jetzt  gesehen, dass die Piratin die Tröte rüber gebracht hat, also weiß er doch, wo die Lupe ist."" -- habe dann nochmal gesagt, dass er ja aber nicht weiß, dass Lupe = Tröte (bei weiß_a(y/n) hatte sie auch richtig geantwortet)",NA,FALSE,1,1,TRUE,self,ü,3
+120,88,7,7.409836065573771,FAM,NA,NA,1,,FAM,CoL,w,Melissa,59,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+120,88,7,7.409836065573771,FAM,NA,NA,2,,FAM,CoL,w,Melissa,59,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,2
+121,88,7,7.333333333333333,FAM,NA,NA,1,"10. Trial (3. asp. tb): ENTER geklickt bei wofür(f/k), da Antworten wie ""Feder-Pfeife"" / ""Feder-Tröte"" --> kann aber vermutlich als (k) gewertet werden",FAM,CoL,m,Melissa,34,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+121,88,7,7.333333333333333,FAM,NA,NA,2,"10. Trial (3. asp. tb): ENTER geklickt bei wofür(f/k), da Antworten wie ""Feder-Pfeife"" / ""Feder-Tröte"" --> kann aber vermutlich als (k) gewertet werden",FAM,CoL,m,Melissa,34,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,2
+122,77,6,6.46448087431694,FAM,NA,NA,1,,FAM,CoL,w,Melissa,22,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,1
+122,77,6,6.46448087431694,FAM,NA,NA,2,,FAM,CoL,w,Melissa,22,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+122,77,6,6.46448087431694,FAM,NA,NA,4,,FAM,CoL,w,Melissa,22,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+123,90,7,7.579234972677596,FAM,NA,NA,1,,FAM,CoL,m,Melissa,32,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,1
+123,90,7,7.579234972677596,FAM,NA,NA,2,,FAM,CoL,m,Melissa,32,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+123,90,7,7.579234972677596,FAM,NA,NA,4,,FAM,CoL,m,Melissa,32,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+124,49,4,4.117486338797814,FAM,NA,NA,1,/,FAM,CoL,w,Eva,55,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,1
+124,49,4,4.117486338797814,FAM,NA,NA,2,/,FAM,CoL,w,Eva,55,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+125,89,7,7.450819672131147,FAM,NA,NA,1,/,FAM,CoL,m,Eva,56,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,1
+125,89,7,7.450819672131147,FAM,NA,NA,2,/,FAM,CoL,m,Eva,56,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+126,95,7,7.967213114754099,FAM,NA,NA,1,/,FAM,CoL,w,Eva,14,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,1
+126,95,7,7.967213114754099,FAM,NA,NA,2,/,FAM,CoL,w,Eva,14,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+126,95,7,7.967213114754099,FAM,NA,NA,4,/,FAM,CoL,w,Eva,14,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+127,82,6,6.868852459016393,FAM,NA,NA,1,/,FAM,CoL,m,Eva,58,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+127,82,6,6.868852459016393,FAM,NA,NA,2,/,FAM,CoL,m,Eva,58,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,2
+128,49,4,4.092896174863388,FAM,NA,NA,1,Dropout (2. + 3. Famtrial falsch),FAM,CoL,m,Eva,59,CoL_first,fb_first,dropout,no,error in familiarization,Fehler in 2. + 3. Famtrial (bei Testfrage Wind/selbst),NA,TRUE,1,1,NA,wind,ü,1
+128,49,4,4.092896174863388,FAM,NA,NA,2,Dropout (2. + 3. Famtrial falsch),FAM,CoL,m,Eva,59,CoL_first,fb_first,dropout,no,error in familiarization,Fehler in 2. + 3. Famtrial (bei Testfrage Wind/selbst),NA,TRUE,1,0,NA,wind,q,2
+128,49,4,4.092896174863388,FAM,NA,NA,3,Dropout (2. + 3. Famtrial falsch),FAM,CoL,m,Eva,59,CoL_first,fb_first,dropout,no,error in familiarization,Fehler in 2. + 3. Famtrial (bei Testfrage Wind/selbst),NA,TRUE,1,0,NA,wind,q,3
+129,55,4,4.592896174863388,FAM,NA,NA,1,/,FAM,CoL,w,Eva,59,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+129,55,4,4.592896174863388,FAM,NA,NA,2,/,FAM,CoL,w,Eva,59,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,2
+130,75,6,6.306010928961749,FAM,NA,NA,1,/,FAM,CoL,w,Eva,15,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,1
+130,75,6,6.306010928961749,FAM,NA,NA,2,/,FAM,CoL,w,Eva,15,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+131,79,6,6.644808743169399,FAM,NA,NA,1,/,FAM,CoL,m,Eva,60,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+131,79,6,6.644808743169399,FAM,NA,NA,2,/,FAM,CoL,m,Eva,60,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,2
+132,57,4,4.7923497267759565,FAM,NA,NA,1,/,FAM,CoL,m,Eva,16,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,1
+132,57,4,4.7923497267759565,FAM,NA,NA,2,/,FAM,CoL,m,Eva,16,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+132,57,4,4.7923497267759565,FAM,NA,NA,4,/,FAM,CoL,m,Eva,16,asp_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+133,91,7,7.609289617486339,FAM,NA,NA,1,/,FAM,CoL,m,Eva,61,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,1
+133,91,7,7.609289617486339,FAM,NA,NA,2,/,FAM,CoL,m,Eva,61,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+134,56,4,4.688524590163935,FAM,NA,NA,1,/,FAM,CoL,w,Eva,62,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,1
+134,56,4,4.688524590163935,FAM,NA,NA,2,/,FAM,CoL,w,Eva,62,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+135,62,5,5.23224043715847,FAM,NA,NA,1,/,FAM,CoL,w,Eva,63,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,1
+135,62,5,5.23224043715847,FAM,NA,NA,2,/,FAM,CoL,w,Eva,63,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,self,q,2
+135,62,5,5.23224043715847,FAM,NA,NA,3,/,FAM,CoL,w,Eva,63,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,3
+135,62,5,5.23224043715847,FAM,NA,NA,4,/,FAM,CoL,w,Eva,63,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,4
+136,71,5,5.937158469945356,FAM,NA,NA,1,/,FAM,CoL,w,Eva,64,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,1
+136,71,5,5.937158469945356,FAM,NA,NA,2,/,FAM,CoL,w,Eva,64,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+136,71,5,5.937158469945356,FAM,NA,NA,4,/,FAM,CoL,w,Eva,64,CoL_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+137,48,4,4.032876712328767,FAM,NA,NA,1,Dropout (Testfrage in Fam-Trial 2 und 3 falsch beantwortet),FAM,CoL,m,Eva,19,asp_first,fb_first,dropout,no,error in familiarization,Fehler in 2. + 3. Famtrial (bei Testfrage Wind/selbst),NA,TRUE,1,1,NA,wind,ü,1
+137,48,4,4.032876712328767,FAM,NA,NA,2,Dropout (Testfrage in Fam-Trial 2 und 3 falsch beantwortet),FAM,CoL,m,Eva,19,asp_first,fb_first,dropout,no,error in familiarization,Fehler in 2. + 3. Famtrial (bei Testfrage Wind/selbst),NA,TRUE,1,0,NA,wind,q,2
+137,48,4,4.032876712328767,FAM,NA,NA,3,Dropout (Testfrage in Fam-Trial 2 und 3 falsch beantwortet),FAM,CoL,m,Eva,19,asp_first,fb_first,dropout,no,error in familiarization,Fehler in 2. + 3. Famtrial (bei Testfrage Wind/selbst),NA,TRUE,1,0,NA,wind,q,3
+138,65,5,5.469945355191257,FAM,NA,NA,1,/,FAM,CoL,w,Eva,19,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+138,65,5,5.469945355191257,FAM,NA,NA,2,/,FAM,CoL,w,Eva,19,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,2
+138,65,5,5.469945355191257,FAM,NA,NA,3,/,FAM,CoL,w,Eva,19,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+139,64,5,5.3743169398907105,FAM,NA,NA,1,/,FAM,CoL,w,Eva,34,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+139,64,5,5.3743169398907105,FAM,NA,NA,2,/,FAM,CoL,w,Eva,34,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,2
+139,64,5,5.3743169398907105,FAM,NA,NA,3,/,FAM,CoL,w,Eva,34,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+140,58,4,4.89344262295082,FAM,NA,NA,1,/,FAM,CoL,m,Eva,20,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+140,58,4,4.89344262295082,FAM,NA,NA,2,/,FAM,CoL,m,Eva,20,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,2
+141,94,7,7.909836065573771,FAM,NA,NA,1,/,FAM,CoL,m,Eva,21,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,1
+141,94,7,7.909836065573771,FAM,NA,NA,2,/,FAM,CoL,m,Eva,21,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+142,50,4,4.204918032786885,FAM,NA,NA,1,/,FAM,CoL,w,Eva,35,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+142,50,4,4.204918032786885,FAM,NA,NA,2,/,FAM,CoL,w,Eva,35,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,2
+143,73,6,6.1530054644808745,FAM,NA,NA,1,/,FAM,CoL,w,Eva,22,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,ü,1
+143,73,6,6.1530054644808745,FAM,NA,NA,2,/,FAM,CoL,w,Eva,22,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+143,73,6,6.1530054644808745,FAM,NA,NA,4,/,FAM,CoL,w,Eva,22,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
+144,74,6,6.183060109289618,FAM,NA,NA,1,/,FAM,CoL,w,Eva,36,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+144,74,6,6.183060109289618,FAM,NA,NA,2,/,FAM,CoL,w,Eva,36,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,2
+144,74,6,6.183060109289618,FAM,NA,NA,3,/,FAM,CoL,w,Eva,36,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+145,51,4,4.325136612021858,FAM,NA,NA,1,Dropout wegen Fehler in 1. + 4. Fam-Trial ,FAM,CoL,w,Eva,23,asp_first,fb_first,dropout,no,error in familiarization,Fehler in 1. + 4. Famtrial (bei Testfrage Wind/selbst),NA,TRUE,0,0,NA,wind,q,1
+145,51,4,4.325136612021858,FAM,NA,NA,2,Dropout wegen Fehler in 1. + 4. Fam-Trial ,FAM,CoL,w,Eva,23,asp_first,fb_first,dropout,no,error in familiarization,Fehler in 1. + 4. Famtrial (bei Testfrage Wind/selbst),NA,TRUE,1,1,NA,wind,q,2
+145,51,4,4.325136612021858,FAM,NA,NA,4,Dropout wegen Fehler in 1. + 4. Fam-Trial ,FAM,CoL,w,Eva,23,asp_first,fb_first,dropout,no,error in familiarization,Fehler in 1. + 4. Famtrial (bei Testfrage Wind/selbst),NA,TRUE,1,0,NA,wind,ü,3
+146,96,8,8.043835616438356,FAM,NA,NA,1,/,FAM,CoL,w,Eva,37,CoL_first,tb_first,main,no,NA,Geburtsdatum ist 02.04.2016 --> schon 8 Jahre alt,NA,TRUE,1,0,NA,wind,q,1
+146,96,8,8.043835616438356,FAM,NA,NA,2,/,FAM,CoL,w,Eva,37,CoL_first,tb_first,main,no,NA,Geburtsdatum ist 02.04.2016 --> schon 8 Jahre alt,NA,TRUE,1,1,NA,wind,ü,2
+146,96,8,8.043835616438356,FAM,NA,NA,4,/,FAM,CoL,w,Eva,37,CoL_first,tb_first,main,no,NA,Geburtsdatum ist 02.04.2016 --> schon 8 Jahre alt,NA,TRUE,1,1,NA,self,q,3
+147,54,4,4.546448087431694,FAM,NA,NA,1,/,FAM,CoL,m,Eva,23,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,1
+147,54,4,4.546448087431694,FAM,NA,NA,2,/,FAM,CoL,m,Eva,23,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+148,93,7,7.80327868852459,FAM,NA,NA,1,/,FAM,CoL,m,Eva,24,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,1
+148,93,7,7.80327868852459,FAM,NA,NA,2,/,FAM,CoL,m,Eva,24,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+148,93,7,7.80327868852459,FAM,NA,NA,4,/,FAM,CoL,m,Eva,24,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,3
+149,70,5,5.863387978142076,FAM,NA,NA,1,/,FAM,CoL,w,Eva,25,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,1
+149,70,5,5.863387978142076,FAM,NA,NA,2,/,FAM,CoL,w,Eva,25,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,2
+150,51,4,4.26775956284153,FAM,NA,NA,1,"Dropout, weil Testfrage in allen Fam-Trials falsch beantwortet hat",FAM,CoL,m,Eva,38,CoL_first,tb_first,dropout,no,error in familiarization,Testfrage in allen Fam-Trials falsche beantwortet,NA,TRUE,1,0,NA,wind,ü,1
+150,51,4,4.26775956284153,FAM,NA,NA,2,"Dropout, weil Testfrage in allen Fam-Trials falsch beantwortet hat",FAM,CoL,m,Eva,38,CoL_first,tb_first,dropout,no,error in familiarization,Testfrage in allen Fam-Trials falsche beantwortet,NA,TRUE,1,0,NA,self,ü,2
+150,51,4,4.26775956284153,FAM,NA,NA,3,"Dropout, weil Testfrage in allen Fam-Trials falsch beantwortet hat",FAM,CoL,m,Eva,38,CoL_first,tb_first,dropout,no,error in familiarization,Testfrage in allen Fam-Trials falsche beantwortet,NA,TRUE,1,0,NA,self,q,3
+150,51,4,4.26775956284153,FAM,NA,NA,4,"Dropout, weil Testfrage in allen Fam-Trials falsch beantwortet hat",FAM,CoL,m,Eva,38,CoL_first,tb_first,dropout,no,error in familiarization,Testfrage in allen Fam-Trials falsche beantwortet,NA,TRUE,1,0,NA,wind,q,4
+151,62,5,5.245901639344262,FAM,NA,NA,1,/,FAM,CoL,w,Eva,38,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,1
+151,62,5,5.245901639344262,FAM,NA,NA,2,/,FAM,CoL,w,Eva,38,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,2
+152,67,5,5.603825136612022,FAM,NA,NA,1,/,FAM,CoL,w,Eva,26,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+152,67,5,5.603825136612022,FAM,NA,NA,2,/,FAM,CoL,w,Eva,26,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,2
+153,88,7,7.33879781420765,FAM,NA,NA,1,/,FAM,CoL,w,Eva,39,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,ü,1
+153,88,7,7.33879781420765,FAM,NA,NA,2,/,FAM,CoL,w,Eva,39,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+154,55,4,4.633879781420765,FAM,NA,NA,1,Dropout (Testfrage in 1. + 4. Fam-Trial falsch),FAM,CoL,w,Eva,40,CoL_first,tb_first,dropout,no,error in familiarization,Testfrage in 1. + 4. Fam-Trial falsch beantwortet,NA,TRUE,1,0,NA,wind,q,1
+154,55,4,4.633879781420765,FAM,NA,NA,2,Dropout (Testfrage in 1. + 4. Fam-Trial falsch),FAM,CoL,w,Eva,40,CoL_first,tb_first,dropout,no,error in familiarization,Testfrage in 1. + 4. Fam-Trial falsch beantwortet,NA,TRUE,1,1,NA,wind,q,2
+154,55,4,4.633879781420765,FAM,NA,NA,4,Dropout (Testfrage in 1. + 4. Fam-Trial falsch),FAM,CoL,w,Eva,40,CoL_first,tb_first,dropout,no,error in familiarization,Testfrage in 1. + 4. Fam-Trial falsch beantwortet,NA,TRUE,1,0,NA,wind,ü,3
+155,79,6,6.5956284153005464,FAM,NA,NA,1,Dropout (wegen Teilnahme an PIntenWi1),FAM,CoL,m,Eva,27,asp_first,fb_first,dropout,no,participated in study 1,NA,NA,TRUE,1,1,NA,wind,ü,1
+155,79,6,6.5956284153005464,FAM,NA,NA,2,Dropout (wegen Teilnahme an PIntenWi1),FAM,CoL,m,Eva,27,asp_first,fb_first,dropout,no,participated in study 1,NA,NA,TRUE,1,1,NA,self,q,2
+156,52,4,4.407103825136612,FAM,NA,NA,1,Dropout (Testfrage im 1. + 4. Famtrial falsch),FAM,CoL,w,Eva,40,CoL_first,tb_first,dropout,no,error in familiarization,Testfrage in 1. + 4. Fam-Trial falsch beantwortet,NA,TRUE,1,0,NA,wind,q,1
+156,52,4,4.407103825136612,FAM,NA,NA,2,Dropout (Testfrage im 1. + 4. Famtrial falsch),FAM,CoL,w,Eva,40,CoL_first,tb_first,dropout,no,error in familiarization,Testfrage in 1. + 4. Fam-Trial falsch beantwortet,NA,TRUE,1,1,NA,wind,q,2
+156,52,4,4.407103825136612,FAM,NA,NA,4,Dropout (Testfrage im 1. + 4. Famtrial falsch),FAM,CoL,w,Eva,40,CoL_first,tb_first,dropout,no,error in familiarization,Testfrage in 1. + 4. Fam-Trial falsch beantwortet,NA,TRUE,1,0,NA,wind,ü,3
+157,55,4,4.581967213114754,FAM,NA,NA,1,Dropout (Testfrage in 1. + 4. Famtrial falsch),FAM,CoL,m,Eva,40,CoL_first,tb_first,dropout,no,error in familiarization,Testfrage in 1. + 4. Fam-Trial falsch beantwortet,NA,TRUE,1,0,NA,wind,q,1
+157,55,4,4.581967213114754,FAM,NA,NA,2,Dropout (Testfrage in 1. + 4. Famtrial falsch),FAM,CoL,m,Eva,40,CoL_first,tb_first,dropout,no,error in familiarization,Testfrage in 1. + 4. Fam-Trial falsch beantwortet,NA,TRUE,1,1,NA,wind,q,2
+157,55,4,4.581967213114754,FAM,NA,NA,4,Dropout (Testfrage in 1. + 4. Famtrial falsch),FAM,CoL,m,Eva,40,CoL_first,tb_first,dropout,no,error in familiarization,Testfrage in 1. + 4. Fam-Trial falsch beantwortet,NA,TRUE,1,0,NA,wind,ü,3
+158,50,4,4.2,FAM,NA,NA,1,/,FAM,CoL,w,Eva,40,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,1
+158,50,4,4.2,FAM,NA,NA,2,/,FAM,CoL,w,Eva,40,CoL_first,tb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,q,2
+159,57,4,4.7650273224043715,FAM,NA,NA,1,/,FAM,CoL,m,Eva,27,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,wind,ü,1
+159,57,4,4.7650273224043715,FAM,NA,NA,2,/,FAM,CoL,m,Eva,27,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,0,NA,wind,q,2
+159,57,4,4.7650273224043715,FAM,NA,NA,3,/,FAM,CoL,m,Eva,27,asp_first,fb_first,main,no,NA,NA,NA,TRUE,1,1,NA,self,q,3
