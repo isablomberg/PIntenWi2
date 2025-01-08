@@ -10,7 +10,7 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-load("./workspaces/workspace_PIntenWi1_prep.RData")
+load("./workspaces/ignore/workspace_PIntenWi1_prep.RData")
 ```
 
 # Study 1
@@ -38,6 +38,7 @@ source("./functions/boot_glmm.r") # bootstrapping
 data_fam <- read.csv2("./data/study1/data_fam.csv", stringsAsFactors=TRUE)
 data_fam_long <- read.csv2("./data/study1/data_fam_long.csv", stringsAsFactors=TRUE)
 data_long <- read.csv2("./data/study1/data_long.csv", stringsAsFactors=TRUE)
+data_wide_s1 <- read.csv2("./data/study1/data_wide_s1.csv", stringsAsFactors=TRUE)
 
 data_long$trial.f <- as.factor(data_long$trial)
 data_long$condition <- relevel(data_long$condition, ref = "dual_identity")
@@ -52,13 +53,22 @@ data_long <- data_long %>%
 # N
 length(unique(data_long$id))
 
-mean_age <- mean(unique(data_long$age_years))
-mean_age
-sd_age <- sd(unique(data_long$age_years))
-sd_age
+mean_age_s1 <- mean(data_wide_s1$age_years)
+mean_age_s1
+
+# Convert age to years and months
+years_s1 <- floor(mean_age_s1)  # Extract the whole number part (years)
+months_s1 <- round(floor((mean_age_s1 - years_s1) * 12))  # Calculate the remaining months
+
+sd_age_s1 <- sd(data_wide_s1$age_years)
+sd_age_s1
+
+# Convert age to years and months
+years_sd_s1 <- floor(sd_age_s1)  # Extract the whole number part (years)
+months_sd_s1 <- round(floor((sd_age_s1 - years_sd_s1) * 12))  # Calculate the remaining months
 
 #z-transformation
-data_long$z_age_years <- as.numeric(scale(data_long$age_years, center = mean_age, scale = sd_age))
+data_long$z_age_years <- as.numeric(scale(data_long$age_years, center = mean_age_s1, scale = sd_age_s1))
 
 min(data_long$age_years)
 max(data_long$age_years)
@@ -719,10 +729,10 @@ above_chance_DI
 
 ## to wide format
 ```{r}
-data_wide_s1 <- pivot_wider(data = data_long,
-                  id_cols = c("id", "age_years", "age_years_full","z_age_years", "cb", "experimenter", "order"),
-                  names_from = c("trial","condition"),
-                  values_from = c("obj.pair", "consis", "res_c", "res_t", "c_correct", "t_correct"))
+#data_wide_s1 <- pivot_wider(data = data_long,
+#                  id_cols = c("id", "age_years", "age_years_full","z_age_years", "sex", "cb", "experimenter", "order"),
+#                  names_from = c("trial","condition"),
+#                  values_from = c("obj.pair", "consis", "res_c", "res_t", "c_correct", "t_correct"))
 ```
 
 
@@ -780,14 +790,22 @@ dropout_s2
 #N
 length(unique(df_long_ex$id))
 
-mean_age <- mean(unique(df_long_ex$age_years))
-mean_age
+mean_age_s2 <- mean(df_wide_s2$age_years)
+mean_age_s2
 
-sd_age <- sd(unique(df_long_ex$age_years))
-sd_age
+# Convert age to years and months
+years_s2 <- floor(mean_age_s2)  # Extract the whole number part (years)
+months_s2 <- round(floor((mean_age_s2 - years_s2) * 12))  # Calculate the remaining months
+
+sd_age_s2 <- sd(df_wide_s2$age_years)
+sd_age_s2
+
+# Convert age to years and months
+years_sd_s2 <- floor(sd_age_s2)  # Extract the whole number part (years)
+months_sd_s2 <- round(floor((sd_age_s2 - years_sd_s2) * 12))  # Calculate the remaining months
 
 # Z-transformation
-df_long_ex$z_age_years <- as.numeric(scale(df_long_ex$age_years, center = mean_age, scale = sd_age))
+df_long_ex$z_age_years <- as.numeric(scale(df_long_ex$age_years, center = mean_age_s2, scale = sd_age_s2))
 
 min(df_long_ex$age_years)
 max(df_long_ex$age_years)
@@ -1543,7 +1561,7 @@ difftime(timeEnd, timeStart)
 saveRDS(boot.res.plot.s2.c, file = "workspaces/PIntenWi_boot_plot_s2.c.RData")
 ```
 
-```{r include=FALSE, eval=TRUE}
+```{r include=FALSE, eval=F}
 boot.res.plot.s2.c <- readRDS(file = "workspaces/PIntenWi_boot_plot_s2.c.RData")
 ```
 
@@ -1711,7 +1729,7 @@ difftime(timeEnd, timeStart)
 saveRDS(boot.res.plot.s2.i, file = "workspaces/PIntenWi_boot_plot_s2.i.RData")
 ```
 
-```{r include=FALSE, eval=TRUE}
+```{r include=FALSE, eval=F}
 boot.res.plot.s2.i <- readRDS(file = "workspaces/PIntenWi_boot_plot_s2.i.RData")
 ```
 
@@ -1899,6 +1917,83 @@ kable(false.belief.s2, "html",
       caption = "Probability of correct false belief ascriptions per age groups, belief manipulation, and conditions",
       col.names = c("Age in years","Change of location","Dual identity", "Change of location","Dual identity")) %>%
   add_header_above(c(" " = 1, "False belief" = 2, "True belief" = 2)) %>%
+  kable_styling(full_width = T)
+```
+
+# Demografics table (as requested in Review Process)
+
+```{r}
+df_wide_s2$age_years_full[df_wide_s2$id == 146] <- 8
+
+demo <- data.frame(age = c(4,5,6,7,8),
+                      mean_s1 = NA,
+                      sd_s1 = NA, 
+                      gender_s1 = NA,
+                      mean_s2 = NA,
+                      sd_s2 = NA, 
+                      gender_s2 = NA)
+
+# Function to convert floating-point years to "years;months"
+convert_to_years_months <- function(age) {
+  years <- floor(age)
+  months <- round((age - years) * 12)
+  paste(years, months, sep = ";")
+}
+
+# Loop through each age in the demo table for both datasets
+for (i in 1:nrow(demo)) {
+  age_group <- demo$age[i]
+  
+  # Data for data_wide_s1
+  filtered_data_s1 <- data_wide_s1 %>% filter(age_years_full == age_group)
+  mean_age_s1 <- mean(filtered_data_s1$age_years, na.rm = TRUE)
+  sd_age_s1 <- sd(filtered_data_s1$age_years, na.rm = TRUE)
+  
+  # Calculate the percentage of females in data_wide_s1
+  if (nrow(filtered_data_s1) > 0) {
+    percent_female_s1 <- sum(filtered_data_s1$sex == "f", na.rm = TRUE) / nrow(filtered_data_s1) * 100
+    gender_s1 <- paste0(round(percent_female_s1), "% female")
+  } else {
+    gender_s1 <- NA
+  }
+  
+  # Convert to "years;months" format and populate the demo table
+  demo$mean_s1[i] <- if (!is.na(mean_age_s1)) convert_to_years_months(mean_age_s1) else NA
+  demo$sd_s1[i] <- if (!is.na(sd_age_s1)) convert_to_years_months(sd_age_s1) else NA
+  demo$gender_s1[i] <- gender_s1
+  
+  # Data for df_wide_s2
+  filtered_data_s2 <- df_wide_s2 %>% filter(age_years_full == age_group)
+  mean_age_s2 <- mean(filtered_data_s2$age_years, na.rm = TRUE)
+  sd_age_s2 <- sd(filtered_data_s2$age_years, na.rm = TRUE)
+  
+  # Calculate the percentage of females in df_wide_s2
+  if (nrow(filtered_data_s2) > 0) {
+    percent_female_s2 <- sum(filtered_data_s2$sex == "f", na.rm = TRUE) / nrow(filtered_data_s2) * 100
+    gender_s2 <- paste0(round(percent_female_s2), "% female")
+  } else {
+    gender_s2 <- NA
+  }
+  
+  # Convert to "years;months" format and populate the demo table
+  demo$mean_s2[i] <- if (!is.na(mean_age_s2)) convert_to_years_months(mean_age_s2) else NA
+  demo$sd_s2[i] <- if (!is.na(sd_age_s2)) convert_to_years_months(sd_age_s2) else NA
+  demo$gender_s2[i] <- gender_s2
+}
+
+# Replace all NA values in the demo dataset with empty strings
+demo[is.na(demo)] <- ""
+```
+
+
+```{r}
+kable(demo, "html",
+      booktabs = T,
+      escape = F,
+      align = c(rep("c")),
+      caption = "Demographic distribution of age (years;months) and gender across both studies",
+      col.names = c("Age in years","mean age","SD age", "gender","mean age", "SD age", "gender")) %>%
+  add_header_above(c(" " = 1, "Study 1" = 3, "Study 2" = 3)) %>%
   kable_styling(full_width = T)
 ```
 

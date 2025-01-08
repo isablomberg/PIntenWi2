@@ -1,0 +1,609 @@
+---
+title: "Children's understanding of the subjectivity of intentions - masked by linguistic task demands?"
+shorttitle: "Linguistic task demands in ascribing subjective intentions"
+author: "Isa Blomberg, Joana Lonquich, Marina Proft, Hannes Rakoczy"
+abstract: |
+keywords: "intentions, theory of mind, preregistered, performance factors"
+floatsintext: yes
+header-includes:
+  - \usepackage{booktabs}
+  - \usepackage{longtable}
+  - \usepackage{array}
+  - \usepackage{multirow}
+  - \usepackage{wrapfig}
+  - \usepackage{float}
+  - \floatplacement{figure}{htb}
+  - \usepackage{colortbl}
+  - \usepackage{pdflscape}
+  - \usepackage{threeparttablex}
+  - \usepackage{threeparttable}
+  - \usepackage[normalem]{ulem}
+  - \usepackage{tabularx}
+  - \usepackage{svg}
+  - \usepackage[utf8]{inputenc}
+  - \usepackage[T1]{fontenc}
+csl: "apa.csl"
+documentclass: "apa7"
+classoption: "man, floatsintext, 11pt, donotrepeattitle"
+output: 
+  bookdown::pdf_document2:
+    toc: false
+    number_sections: false
+    keep_tex: yes
+    fig_caption: yes
+  bookdown::word_document2:
+    reference_docx: word_template.docx
+    toc: false
+    number_sections: false
+always_allow_html: yes
+editor_options: 
+  markdown: 
+    wrap: sentence
+bibliography: references.bib
+---
+
+\shorttitle{ }
+
+<!-- this below is needed for APS journal see: https://www.psychologicalscience.org/publications/ms-structure-guidelines -->
+
+\graphicspath{ {images/} }
+
+
+```{r setup, include=FALSE}
+
+require(papaja)
+require(knitr)
+require(tidyverse)
+require(kableExtra)
+require(apa)
+require(Rmisc)
+require(rcompanion)
+require(gridExtra)
+require(showtext)
+require(svglite)
+
+#options(knitr.table.format = "latex")
+r_refs("r-references.bib")
+
+options(tinytex.verbose = TRUE)
+
+#options(kableExtra.auto_format = FALSE)
+
+knitr::opts_chunk$set(warning = FALSE, include = FALSE, echo = FALSE, comment = NA)
+
+load("./workspaces/workspace_manuscript.RData")
+```
+
+\begin{center}
+\textbf{Abstract}
+\end{center}
+
+\noindent One crucial form of advanced Theory of Mind that is foundational for our everyday social lives is the understanding of the subjective intentionality behind people’s actions. Intentions can be subjective in the following sense: an agent may do many things at once but which of these she does intentionally depends on the description under which she represent these acts [@anscombe_under_1979; @searle_intentionality_1983]. For example, a chef may simultaneously serve an exquisite dinner decorated with nuts, thereby impress the guests, while also triggering an allergic reaction in one guest  – and only perform the former two intentionally (serve dinner, impress guests) but not the latter (cause allergic reaction). From a developmental perspective, a crucial question is when such complex action understanding emerges. Previous research indicated that children’s understanding of subjective intentions emerges relatively late [@kamawar_thinking_2011; @proft_childrens_2019; @schunemann_childrens_2021]. The present studies investigated whether these difficulties might have been due to linguistic task demands. We developed a new task that did not require subtle linguistic understanding of complex test questions. Instead, children judged whether some behavior was brought about by an intentional action given an agent’s (false) beliefs and desires. Four-to-seven-year-olds (*N* = `r sum(length(unique(data_long$id))+length(unique(df_long_ex$id)))`) participated in two preregistered studies. Despite the fact that the tasks were linguistically much simplified, we found comparable results to previous studies: Children proficiently ascribed subjective intentions only from around age 5-6 years. These results provide converging evidence for a protracted development of advanced Theory of Mind and raise questions, for future research, regarding the foundations of such developmental trajectories.
+
+*Keywords*: intentions, theory of mind, preregistered, performance factors
+
+\newpage
+
+# Children's understanding of the subjectivity of intentions - masked by linguistic task demands?
+
+Action understanding and interpretation are central for how we interact with each other. To understand why agents act the way they do, we need to take into account their subjective perspective (their beliefs, desires, and resulting intentions) from which the action makes rational sense [@astington_paradox_2001; @bratman_intention_1987; @searle_intentionality_1983].
+From an ontogenetic point of view, the crucial question is how this form of action understanding and interpretation develops.
+
+## Development of understanding others' intentional actions
+
+From early on children detect goal-directed qualities in some intentional actions [e.g., @meltzoff_understanding_1995; @woodward_infants_1998].
+Infants can distinguish which behavior constitutes an action and which does not.
+This is evident, for example, in children’s imitation behavior [@carpenter_fourteen-_1998; @meltzoff_understanding_1995], and their reactions towards unwilling vs. unable agents [@behne_unwilling_2005].
+Children also have a basic grasp of rational agency.
+They understand ends in relation to means in both imitation studies [@gergely_rational_2002], and looking time studies [@gergely_teleological_2003].
+These capacities of the perception and interpretation of actions are robustly present in prelinguistic infants and other non-linguistic creatures [e.g., @call_unwilling_2004; @fischer_meaning_2017; @phillips_unwilling_2009; @schunemann_dogs_2021; @volter_unwilling_2023; @wood_perception_2007].
+
+However, clearly human action interpretation goes well beyond these forms of perceiving and interpreting actions. It does not involve appreciating *whether* a given behavior was an intentional act or a mere happening, but much more subtle appreciation *in which ways* behavior may be intentional, *which* intentional act a given behavior constitutes, depending on the subjective intentionality behind it. So, how do children come to develop these capacities for complex, subjective action understanding?
+
+## Understanding the subjectivity of intentions
+
+Mature understanding of intentional actions appreciates the subjectivity and aspectuality of intentions and actions in the following sense: Actions are always performed intentional under some aspect or description but not under others [@anscombe_under_1979; @bratman_intention_1987; @searle_intentionality_1983].
+For example, someone eating your last chocolate can be described and represented in various ways: “eating chocolate” (A), “eating your last chocolate” (B). Now, imagine this person falsely believes that there is more chocolate. She intentionally eats the chocolate (A). She does not, however, act intentionally under the description “eating your last chocolate” (B). Agents can only intentionally act under the aspects or descriptions they represent, and not under aspects they do not represent at all (i.e., that this chocolate is your last).
+
+Intentions can be aspectual because they are based on mis- or partial representations of reality, as illustrated in the example above. In these cases, the cognitive basis (i.e., beliefs and knowledge) of the resulting intention makes the difference: If an agent lacks knowledge of or misrepresents an aspect of an action, they cannot intend them under these aspects or descriptions. But situations can be even more nuanced and complex: The agent may have full knowledge of the action and its effects under various descriptions, yet still only intentionally performs it under one description (bringing about the main effect) and not under another (foreseeing, but not intending to bring about a side effect). In this paper, we will focus on the first type of aspectual intentions in which an agent only intentionally performs an action under one description but not under another because she is misinformed.
+
+Such forms of subjective action understanding thus build on general meta-representational understanding: representing how other agents subjectively represent the world and act accordingly. Explicit forms of general metarepresentational abilities emerge over the preschool years [@perner_understanding_1991; @rakoczy_foundations_2022]. Litmus tasks for meta-representing others subjective representations include the false belief and related tasks in which children have to represent that another agent has a different (outdated) perspective of reality that differs from their own and from reality and predict the agent’s action accordingly [@wimmer_belief_1983]. Children generally come to solve such litmus tasks and can thus be said to operate with a basic meta-representational framework from around age 4 [@wellman_metaanalysis_2001; @wimmer_belief_1983]. Now, subjective action understanding thus presupposes and builds on such general capacities for meta-representation. So, when after the emergence of basic meta-representation do children make use of this general capacity for complex subjective action understanding?
+
+Initial studies on this question asked children very directly about the intentionality of a given action under various descriptions and found late competence from 8 years on [@kamawar_thinking_2011].
+In @kamawar_thinking_2011's study, for example, children were presented with a vignette about a police officer who lost his keys on the street. Anne gives the keys back. The police officer really is also Cathy’s dad. But this is unknown to Anne. So, the crucial test question was then whether Anne meant to give the keys to Cathy’s dad. The majority of children under the age of 8 wrongly answered “yes.”
+
+Later studies that reduced relevant performance factors found somewhat earlier competence from 5-6 years on [@proft_childrens_2019; @schunemann_childrens_2021].
+These studies also investigated potential explanations for this protracted development.
+@schunemann_childrens_2021 found that false belief understanding was necessary but not sufficient for subjective intention understanding: only those children who passed standard first-order false belief tasks ascribed subjective intentions. But many children at age 4-5 did pass false belief tasks while failing the subjective intention understanding task. Why this lag? @schunemann_childrens_2021 explored various other cognitive capacities that, together with basic false belief understanding, may be crucial for acquiring a grasp of subjective intentions; but no evidence was found that executive functions, verbal intelligence or second-order false belief understanding played a crucial role. It remains thus unclear why there is this considerable gap in development between children’s passing basic Theory of Mind (false belief) tasks around age 4, and their proficiency in task that tap understanding subjective intentions not before age 5-6.
+
+## Do linguistic performance factors mask children’s competence?
+
+One possibility is that these tasks present false negatives and underestimate children’s early competence due to linguistic performance factors. In particular, may children misunderstand the test question [@schunemann_childrens_2021; @searle_intentionality_1983].
+In particular, they may not yet be able to differentiate so-called “de re” and “de dicto” readings of utterances with mental state expressions [@nelson_propositional_2023]. On an extensional - de re - reading of the test question in @kamawar_thinking_2011's study “Did she mean to give the keys to Cathy’s dad?”, the expression “Cathy’s dad” merely works referentially. What counts is what the expression refers to; not how anyone represent that referent. The question thus reads “Did she mean to give the key to this person (that is also Cathy’s dad)?”, and the correct answer would be “yes.” However, on an intensional - de dicto - reading of the test question “Did she mean to give the keys to Cathy’s dad?”, the expression “Cathy’s dad” works differently. Now, it is not only about the reference, but the way the agent represents that referent. The question thus reads ”Did she mean to give the keys to the person she identified as Cathy’s dad?”, and the correct answer would be “no." We adult folk mostly read such questions in de dicto ways. But even for adults, there are many grey areas where it is not always clear which reading is the correct one. Suppose Grandmother passed by Taylor Swift in the street without recognizing her (she has not even ever heard of Taylor Swift). Did she see Taylor Swift? Well, in a sense (de re) yes, but in another sense (de dicto) no, since she did not see her *as* Taylor Swift.
+
+Given that these subtle linguistic differences can be challenging even for adults, it may well be that children “failed” previous tasks of subjective intention understanding not because they lack the conceptual competence; this competence may have merely been masked by linguistic performance factors to do with the complex type of question. Evidence that is compatible with this possibility comes from studies on children’s understanding of the aspectuality of beliefs: When do children come to understand that someone can believe that Clark Kent is in the house without believing that Superman is in the house even though, of course, Clark Kent = Superman? The first studies on this topic used complex test questions that requires sophisticated linguistic capacities, and found competence only much later (from age 6-8) than on standard false belief tasks [@apperly_childrens_1998; @apperly_when_2003; @perner_mental_2015; @russell_can_1987; @sprung_opacity_2007].
+Later studies radically reduced linguistic performance factors and found much earlier competence; in fact competence in these simplified tasks and standard false belief tasks now co-emerged and the two were highly correlated [@rakoczy_explicit_2015].
+
+Similarly, in the case of aspectual intentions, children might be able to understand the de re/de dicto distinction conceptually, in principle, yet for linguistic or other reasons, may not spontaneously find the de dicto reading obvious. Once relevant linguistic performance factors are reduced, perhaps competence in children’s grasp of the subjectivity and aspectuality of intentions can be uncovered much earlier?
+
+## Rationale of the present studies
+
+The rationale of the present study was thus to reduce linguistic performance factors in the following way: In previous studies, children heard vignettes about an agent, her beliefs (e.g. “this is the police officer”, “those are his keys”) and desires (e.g. to give the keys back), and an action she intentionally performed (giving the keys to the person in question); and they then had to infer under which description (“give keys to police officer”/“give keys to Cathy’s dad”) the action in question was or was not intentional (see Figure \@ref(fig:logic-new) top). That children performed poorly until age 6 or so may have been due to performance factors: in particular, they may have been confused about which reading of the test questions to apply (de re vs. de dicto).
+
+```{r logic-new, include = T, fig.cap = "Logic of new task compared to logic of previous studies", dpi = 300, fig.align='center', out.width="95%"}
+
+knitr::include_graphics("images/logic_new_task.png")
+```
+
+In order to reduce these linguistic performance factors, we developed a new task that does not involve such linguistic subtleties. Rather than asking complex and ambiguous test questions – whether an action was intended under a description A or B – children had to judge whether some behavior was an intentional action at all, given the agent’s background beliefs and desires (see Figure \@ref(fig:logic-new) bottom).
+No handling of subtle linguistic matters (de re/de dicto distinction etc.) was required.
+
+We devised stories of a pirate who was collecting treasures. The outcome - on which island the pirate ended up - was shown. It was ambiguous, however, what happened in between. Was the outcome the result of an intentional action (the pirate went there by himself) or by a plausible alternative factor (the wind drove the pirate there)?
+
+The story involved objects with different values to the little pirate that were placed at the island(s). In a control condition, the pirate was fully informed about the placement of the objects and then ended up at an island in ways consistent or inconsistent with his (fully accurate) background beliefs and preferences. The correct answers (assuming rationality) would thus be that the pirate went intentionally in the consistent and was driven by the wind in the inconsistent cases. In the test conditions, the pirate missed some crucial information and thus mis-represented the situation in various ways (falsely believing that the most valuable object was at location B when it was really at location A). He then ended up either at island A (objectively better, but inconsistent with his subjective rational perspective) or at island B (objectively worse, but consistent with his subjective rational perspective).
+
+When children then have to decide whether the pirate ended up at a given location, they thus have to reason about subjective aspectual intentions, but without the linguistic complications: the question is just “did he go there himself, or was he driven by the wind?”. More specifically, they have to reason along the following lines: “He ended up at location A. This is good for him. But he does not know it is good for him. He does not represent island A as the island with the best outcome. Rather, for him, subjectively, island B is the one with the best outcome. So, in his action planning he must have formed the intention (to get to the island with the best outcome) ‘I go to island B’. But he ended up at island A. So it must have been the wind.”
+
+The general rationale and expectation was thus the following: If children’s competence in understanding subjective intentions was masked by linguistic task demands in previous studies, children should show earlier competence in our new task with reduced linguistic demands: They should master test conditions earlier than previously reported and should perform well in control conditions from early on. If, however, previous studies really tapped a conceptual competence deficit in understanding subjective intentions up to age 6, children in the present study should perform similarly as in previous studies: they should master test conditions reliably from around 6 years, but perform well in control conditions from early on.
+
+# Study 1
+
+## Method
+
+The experimental design, sample size and statistical analyses were pre-registered on OSF (https://osf.io/8tb3z/?view_only=24857609dd944a7c9aac9e84fe6d00cf).
+Study materials, data sets, analysis scripts are accessible on OSF.
+
+### Participants
+
+`r xfun::numbers_to_words(x=length(unique(data_long$id)), cap=T)` 4- to 7-year-old children were included in the final sample (age: *M* = `r years_s1`;`r months_s1`, *SD* = `r years_sd_s1`;`r months_sd_s1`, *range* = `r round(min(data_long$age_years),2)`-`r round(max(data_long$age_years),2)` years, `r sum(data_wide_s1$sex == "f")` female, `r sum(data_wide_s1$sex == "m")` male).
+The sample size was determined a priori via data simulation.
+The calculation was based on the main question whether children's performance on the task varies as a function of age and condition with the goal to obtain .80 power for that effect.
+Additional `r xfun::numbers_to_words(x=sum(dropout_fam, dropout_hierarchy), cap=F)` children took part, but were excluded from the data analysis for the following reasons: preregistered criteria based on error in familiarization trials (*n* = `r dropout_fam`) and based on hierarchy checks (*n* = `r dropout_hierarchy`).
+Single trial exclusion (`r round(sum(single_trial_exclusion_dx_coin, single_trial_exclusion_fb, single_trial_exclusion_x_coin) / nrow(data_long)*100)`% of the data) as preregistered is described in the Appendix.
+Children were recruited via the department's database of children whose parents previously agreed to the participation in our studies.
+
+### Procedure
+
+The experimental logic of Study 1 is displayed in Figure \@ref(fig:exp-logic). Children were first familiarized to the general logic of the study (see Appendix for details). After the familiarization, children saw three types of test trials: change of location, dual identity and control trials. The locations of the objects were counterbalanced. After each outcome, the test question was asked: “Did the pirate travel to the island himself or did the wind drive him there?”. The first option mentioned in the test question was counterbalanced across children.
+
+#### Change of location trials
+
+In change of location test trials, the female pirate first hid a coin, for example, at island B. In the little pirate’s absence, the female pirate then changed the location of a coin to island A. After the female pirate left the scene, the little pirate came back and a storm came up. The outcome was shown: the pirate either ended up at island A or island B.
+
+In order to understand how the pirate ended up on the respective island, the children should ideally make the following mental state attributions: Children should reason that the little pirate now correctly believed that the coin was the most valuable object in this situation, but he falsely believed that the coin is at island B. They should assume that he wanted to have the coin (desire) and thus he formed the subjective intention to go to island B, as this is the best outcome from his subjective perspective. Children should assume that even though objectively this is not the best outcome, because the coin is in reality now on island A.
+
+If the pirate now ends up at island B (consistent outcome), children should judge that the outcome as intentionally brought about.  Conversely, they should judge that if the pirate ends up at island A, which is objectively better, this outcome is inconsistent with his beliefs and desires. Children should reason that he did not want to go to island A, because he did not believe that this is the best outcome for him. In this case, children should then judge that the outcome was not intentionally brought about.
+
+#### Dual identity trials
+
+In dual identity trials, the female pirate first hid some (not valuable) fantasy object, for example, on island A and a coin on island B. In the little pirate’s absence, she then revealed a second, more valuable identity: the fantasy object is also a diamond. Children learnt in the familiarization that the pirate preferred the coin over the not valuable fantasy object, but preferred the diamond over the coin. After the female pirate left the scene again, the little pirate came back, a storm came up, and children saw the outcome: the pirate ended in either island A or island B.
+
+Children should reason that the little pirate now correctly believes that the coin is at island B. They should reason that he does not know that the fantasy object (=diamond) is in fact more valuable to the little pirate than the coin. Children should therefore conclude that he incorrectly believes that the coin is the most valuable object, because of his false belief about the fantasy object’s identity. Children should reason that he has the desire to get the coin and thinks this is the best outcome for him (island B), however, objectively, island A is the best outcome for him (diamond).
+
+If the little pirate now ended up at island B, children should judge that this is consistent with his subjective beliefs and desires, and thus, this outcome was brought about by his subjective intention. Conversely, when he ends up at island A (inconsistent outcome), children should judge the outcome as not brought about intentionally, even though it is objectively better for the little pirate.
+
+#### Control trials
+
+In control trials, the female pirate hid again some (not valuable) fantasy object at, for example, island A and a coin at island B. In the absence of the little pirate, the female pirate then showed that a fantasy object did not have a second identity. After the female pirate left the scene, the little pirate came back, a big storm came up and children saw the outcome.
+
+Thus in this case, children should reason that the little pirate correctly believes that the coin is at location B and that the coin is the most valuable treasure to the little pirate, because he has a true belief about the fantasy object’s identity. Children should reason that if he then ends up at location B, this is objectively and subjectively the best outcome for the pirate. Children should judge that he traveled there himself. If he ends up at island A, children should reason that this is both objectively and subjectively not good for him, thus this outcome should be judged as not intentionally brought about.
+
+### Design
+
+In a 3 (Condition: “change of location”, “dual identity”, “control”) x 2 (outcome type: “consistent”, “inconsistent”) x Age mixed effects design, each child received six test trials in counterbalanced order. The study was tested in-lab with animated videos presented via PowerPoint. Videos were created using [Vyond](https://Vyond.com) [@goanimate_inc_vyond_2024].
+The experimenter asked follow-up questions to make sure they understood the preference hierarchy of the objects involved.
+
+```{=tex}
+\begin{table}[htbp]
+\footnotesize
+\captionsetup{type=figure}
+\caption{Experimental logic of Study 1}
+\label{fig:exp-logic}
+\centering
+\begin{tabularx}{\textwidth}{@{}>{\centering\arraybackslash\hsize=.33\hsize}X>{\centering\arraybackslash\hsize=.33\hsize}X>{\centering\arraybackslash\hsize=.33\hsize}X@{}}
+  \toprule
+  \multicolumn{3}{c}{\textbf{Condition}} \\
+  \textbf{Change of location} & \textbf{Dual identity} & \textbf{Control} \\
+  \includegraphics[width=\linewidth,width=3cm,keepaspectratio]{logic_CoL1.png} & \includegraphics[width=\linewidth,width=3cm,keepaspectratio]{logic_DI1.png} & \includegraphics[width=\linewidth,width=3cm,keepaspectratio]{logic_DI1.png} \\
+  \includegraphics[width=\linewidth,width=3cm,keepaspectratio]{logic_CoL2.png} & \includegraphics[width=\linewidth,width=3cm,keepaspectratio]{logic_DI2.png} & \includegraphics[width=\linewidth,width=3cm,keepaspectratio]{logic_con2.png} \\
+  \multicolumn{3}{c}{\includegraphics[width=\textwidth,height=2cm,keepaspectratio]{logic_wind.png}} \\
+  \multicolumn{3}{c}{\textbf{Outcome}} \\
+\end{tabularx}
+\begin{tabularx}{\textwidth}{@{}>{\centering\arraybackslash\hsize=.50\hsize}X >{\centering\arraybackslash\hsize=.50\hsize}X@{}}
+  \textbf{Consistent} & \textbf{Inconsistent} \\
+  \includegraphics[width=\linewidth,width=3.5cm]{logic_consistent.png} & \includegraphics[width=\linewidth,width=3.5cm]{logic_inconsistent.png} \\
+\end{tabularx}
+\begin{tabularx}{\textwidth}{@{}X@{}}
+  \textit{\textbf{Test questions}}: Did the pirate travel to the island himself, or did the wind drive him there?\\
+\end{tabularx}
+\begin{tabularx}{\textwidth}{@{}>{\centering\arraybackslash\hsize=.50\hsize}X >{\centering\arraybackslash\hsize=.50\hsize}X@{}}
+  \textit{Consistent outcome} & \textit{Inconsistent outcome} \\
+  {[}Correct answer: “went there himself”{]} & {[}Correct answer: “wind drove him there”{]} \\
+\end{tabularx}
+\begin{tabularx}{\textwidth}{@{}X@{}}
+  \textit{\textbf{Desire question}}: To which island did the pirate want to go? To this or that? \\
+\end{tabularx}
+\begin{tabularx}{\textwidth}{@{}>{\centering\arraybackslash\hsize=.50\hsize}X >{\centering\arraybackslash\hsize=.50\hsize}X@{}}
+  {[}Correct answer: “right”{]} & {[}Correct answer: “left”{]}\\
+\end{tabularx}
+\begin{tabularx}{\textwidth}{@{} >{\centering\arraybackslash}X >{\centering\arraybackslash}X >{\centering\arraybackslash}X @{}}
+  \multicolumn{3}{@{}X@{}}{\textit{\textbf{Knowledge control question}}:} \\
+  \textit{Change of location} & \textit{Dual identity} & \textit{Control} \\
+\end{tabularx}  
+\begin{tabularx}{\textwidth}{@{}X X >{\centering\arraybackslash}X@{}}
+  Did the little pirate see that the female pirate took the coin to the other island? & The {[}fantasy object{]} is also a diamond. Does the little pirate know that? & - \\
+\end{tabularx}
+\begin{tabularx}{\textwidth}{@{}>{\centering\arraybackslash\hsize=.33\hsize}X>{\centering\arraybackslash\hsize=.33\hsize}X>{\centering\arraybackslash\hsize=.33\hsize}X@{}}
+  {[}Correct answer: “no”{]} & {[}Correct answer: “no”{]} & \\
+  \hline
+\end{tabularx}
+\end{table}
+```
+### Coding
+
+Test session were video-recorded and coded from tape.
+All trials were coded by a second, independent coder.[^1]
+Agreement between coders was `r round(reliability_s1,1)`%.
+Children answered either verbally (e.g., “drove himself”, “wind”) or by pointing on the printed versions of the choice options[^2]
+.
+
+[^1]: In case of disagreement the first author checked the video tape again and made a decision.
+    If a case was still unclear it was coded as a missing value.
+
+[^2]: A paddle represented that the pirate traveled to the island himself.
+    Clouds represented that the wind drove him there.
+
+### Statistical Analyses
+
+Analyses followed the preregistered analysis protocol unless noted otherwise.
+All analyses were conducted using R 4.3.0 [@r_core_team_r_2023].
+For each model, we used Likelihood Ratio Tests to compare the fit of the full model to that of a null model which was identical but lacked the predictors of interest.
+This way, we tested the overall effect of our fixed effects and avoided “cryptical multiple testing” [@forstmeier_cryptic_2011].
+If not stated otherwise, the full-null model comparison was significant.
+
+To test whether children’s probability to answer the intention questions correctly varied as a function of condition, age, and their interaction, we fitted a binomial mixed effects model. Condition was included as a dummy variable with 3 levels. The dual identity condition served as the reference group. As a result, the difference between dual identity and control condition was tested in the first contrast. In the second contrast, the dual identity condition was compared with the change of location condition. Note that we only expected a difference in the first contrast (i.e. dual identity vs. control) and no difference in the second contrast between dual identity and change of location. To ensure that our results can be generalized, we also fitted the models with recoded reference groups. We added trial and outcome type as fixed effects, a random intercept for experimenter and participant, and a random slope for the effect of condition and outcome type within participant.[^3]
+We expected an interaction effect between condition (first contrast) and age if younger children fail in subjective intention task due to a competence and not a performance deficit. That means that all children (regardless of age) should have a high probability, above chance level (0.5), of correct answers in the control condition. Whereas children’s probability of correct answers in dual identity and change of location conditions increases with age. The difference between conditions involving misrepresentations (dual identity and change of location) and conditions that did not involve misrepresentations (control) should get smaller with age.
+
+[^3]: By adding trial and the random effects, we deviate from our preregistration.
+    However, we follow the recommended maximum random effects approach as justified by the design [@barr_random_2013].
+
+To test from which age onwards children perform significantly above chance we calculated 95% bootstrapped confidence intervals based on the fitted models. The lowest age (x-axis intercept) was calculated for which the bootstrapped lower confidence interval limits no longer included the chance level of 0.50.
+
+## Results
+
+```{=tex}
+\begin{figure}
+\centering
+\includegraphics[width=0.80\textwidth]{plots/raw_res_s1.pdf}
+\hspace{0.001\textwidth}
+\raisebox{4.5\height}{\includegraphics[width=0.1\textwidth]{plots/legend_raw.pdf}}
+\caption{Children’s responses to the test question of how the pirate ended up on a given island as a function of age groups, condition and consistent (C) and inconsistent (I) outcome types.
+}
+\label{fig:raw-responses-s1}
+\end{figure}
+```
+
+Children’s responses to the intentional action question are shown in Figure \@ref(fig:raw-responses-s1).
+Consistent outcome types were consistent with the pirate’s desires and beliefs. That means he landed on the island where he wanted to go and where he believed the treasure to be. The correct answer was always that he drove there himself. Inconsistent outcome types were inconsistent with pirate’s desires and belief. The correct answer was that the wind drove him there. Children from 4 years on gave these correct responses when no misrepresentation was involved (Figure \@ref(fig:raw-responses-s1), control condition).
+In conditions that did involve misrepresentation (dual identity and change of location) the correct response pattern developed with age. In the dual identity condition, 4-year-old’s seemed to answer randomly. In the change of location condition, however, 4-year-olds showed the reverse pattern to the correct one. Four-year-old’s said, for example, that the agent intentionally drove to the objectively better island (the one with the treasure about which the agent did not know). Vice versa, when the agent landed at the objectively worse island (the one where he mistakenly believed the treasure to be located), children claimed the wind drove him there.
+
+In order to analyze children’s responses, we modeled the probability of correct answers as a function of age, condition and their interaction. As expected by a competence deficit account, we found a significant interaction between condition (dual identity vs. control) and age (*b* = `r printnum(table.model.1[table.model.1$coefs == "control:z_age_years","estimate"])`, *z* = `r printnum(table.model.1[table.model.1$coefs == "control:z_age_years","z"])`, bootstrapped 95% CI: [`r paste(printnum(table.model.1[table.model.1$coefs == "control:z_age_years",c("boot_lower", "boot_upper")]), sep = ",")`], *p* = `r printnum(table.model.1[table.model.1$coefs == "control:z_age_years","p"])`; Figure \@ref(fig:model-s1)).
+In a recoded model, this interaction was also significant for the contrast change of location vs. control condition (*b* = `r printnum(table.model.1.rec[table.model.1.rec$coefs == "control:z_age_years","estimate"])`, *z* = `r printnum(table.model.1.rec[table.model.1.rec$coefs == "control:z_age_years","z"])`, bootstrapped 95% CI: [`r paste(printnum(table.model.1.rec[table.model.1.rec$coefs == "control:z_age_years",c("boot_lower", "boot_upper")]), sep = ",")`], *p* `r printnum(table.model.1.rec[table.model.1.rec$coefs == "control:z_age_years","p"])`).
+That means that younger but not older children were more likely to make errors in dual identity or change of location conditions than in control condition. The older children got, the smaller the difference between the conditions became.
+
+Once predictors are involved in an interaction, the respective main effects are conditional on the reference group of the other predictor in the interaction.
+The conditional main effect of condition holds for mean age[^4]: Children were more likely to answer correctly in dual identity than change of location conditions (*b* = `r printnum(table.model.1[table.model.1$coefs == "CoL","estimate"])`, *z* = `r printnum(table.model.1[table.model.1$coefs == "CoL","z"])`, bootstrapped 95% CI: [`r paste(printnum(table.model.1[table.model.1$coefs == "CoL",c("boot_lower", "boot_upper")]), sep = ",")`], *p* = `r printnum(table.model.1[table.model.1$coefs == "CoL","p"])`).
+Children were slightly better in inconsistent outcome types (`r consis$prop[consis$consis=="I"]*100`% correct) than in consistent ones (`r consis$prop[consis$consis=="C"]*100`% correct).
+However, this difference was not significant (*b* = `r printnum(table.model.1[table.model.1$coefs == "consisI","estimate"])`, *z* = `r printnum(table.model.1[table.model.1$coefs == "consisI","z"])`, bootstrapped 95% CI: [`r paste(printnum(table.model.1[table.model.1$coefs == "consisI",c("boot_lower", "boot_upper")]), sep = ",")`], *p* = `r printnum(table.model.1[table.model.1$coefs == "consisI","p"])`).
+We found a main effect of trial: Children were better in the 2nd trial per condition than in the 1st trial (*b* = `r printnum(table.model.1[table.model.1$coefs == "trial.f2","estimate"])`, *z* = `r printnum(table.model.1[table.model.1$coefs == "trial.f2","z"])`, bootstrapped 95% CI: [`r paste(printnum(table.model.1[table.model.1$coefs == "trial.f2",c("boot_lower", "boot_upper")]), sep = ",")`], *p* = `r printnum(table.model.1[table.model.1$coefs == "trial.f2","p"])`).
+
+[^4]: The reference group is 0 for continuous variables, which makes no sense for age, so it was z-transformed.
+    The conditional main effect thus applied to middle age due to the z-transformation.
+
+```{r model-s1, include = T, fig.cap = "Probability of correct responses across age by condition. The horizontal dashed line represents the chance level of .50. Each filled dot represents the response proportion of one participant per condition. Each fitted lines indicates the predicted probability of a correct response per condition by the binomial mixed effects model. Areas around the fitted lines are 95% confidence intervals. Predicted values and their confidence intervals have been obtained via bootstrapping with 10000 bots.", dpi = 300, fig.align='center', out.width="80%"}
+
+knitr::include_graphics("plots/model_s1.svg")
+```
+
+As can be seen in Figure \@ref(fig:model-s1), children well in control conditions from 4 years on.
+From age of `r round(above_chance_DI,2)` years on they performed significantly above chance level in the dual identity condition.
+From the age of `r round(above_chance_CoL,2)` years, children performed significantly above chance level in the change of location condition.
+
+## Discussion
+
+The research question of this study was when children begin to reliably understand subjective aspectual intentions. The rationale was to test whether previous studies that found proficiency not before age 6 underestimated early competence due to linguistic performance factors. Therefore, a new task was devised without complex linguistic requirements. Rather, children had to infer, given the agent’s background beliefs and desires, which subjective intentions he would form and whether a given state of affairs was thus the result of such an intentional act, or brought about externally (by the wind).
+
+The results were the following: Children mastered the control condition (without misrepresentation) from 4 years on. However, conditions that involved misrepresentation were solved only from 5 to 6 years on. These findings thus converge with those of previous studies [@proft_childrens_2019; @schunemann_childrens_2021].
+They thus do not provide any evidence for earlier competence and for the suspicion that the results of previous studies may have masked competence due to linguistic performance factors.
+
+However, while we have reduced linguistic performance factors in the present task, we may have introduced other performance factors in terms of inferential complexity and working memory. Generally, children had to reason through a complex inferential chain in these tasks. And they had to keep track of much information regarding the agent’s preference hierarchies and the locations and identities of the objects.
+
+In addition, we found unexpected differences between conditions. Children performed better in the dual identity condition than in the change of location condition. We know from many studies that dual identity/function tasks are more difficult [@apperly_childrens_1998; @apperly_when_2003; @perner_mental_2015; @russell_can_1987; @sprung_opacity_2007] or that there is no difference between a standard and aspectual false belief understanding with reduced performance factors [@rakoczy_explicit_2015].
+This may have been due to some superficial differences between the present conditions: Even though we tried to match the two conditions as closely as possible, we acknowledge that there may have been different working memory demands between conditions. In particular, both in the control and the dual identity condition the objects were not transferred to another location whereas they were in the change of location condition. To overcome these limitations, we devised with a simplified version of our new task in Study 2.
+
+# Study 2
+
+The rationale of Study 2 was to test if children revealed earlier competence in a subjective intention ascription task with even more reduced task demands in terms of inferential complexity and working memory. In addition, the structure of the different conditions were more closely matched. The general structure of the new task was the same as in Study 1, with some crucial modifications detailed below.
+
+## Method
+
+As in Study 1, the experimental design, sample size, and statistical analyses were preregistered on OSF (https://osf.io/tbgp4/?view_only=b5d0fa2295ad48e18fbfa9c28117868a).
+Study materials, sample size calculations, data sets, analysis script and results are accessible on OSF.
+
+### Participants
+
+`r xfun::numbers_to_words(x=length(unique(df_long_ex$id)), cap=T)` 4- to 7-year-old children[^5] were included in the final sample (age: *M* = `r years_s2`;`r months_s2`, *SD* = `r years_sd_s2`;`r months_sd_s2`, *range* = `r round(min(df_wide_s2$age_years),2)`-`r round(max(df_wide_s2$age_years),2)` years, `r sum(df_wide_s2$sex == "f")` female, `r sum(df_wide_s2$sex == "m")` male).
+The sample size was determined a priori via data simulation.
+The calculation was based on the main question whether children's performance on the task varies as a function of age and condition with the goal to obtain .80 power for that effect based on results of Study 1.
+Additional `r xfun::numbers_to_words(x=dropout_s2, cap=F)` children took part, but were excluded from the data analysis as preregistered, due to errors in familiarization trials (*n* = `r dropout_fam_s2`), and previous participation in Study 1 (*n* = `r participated_in_s1_s2`).
+Children were recruited from the same database as in Study 1.
+Children who participated in Study 1 did not participate in Study 2.
+
+[^5]: Due to an error in our database, a child took part in the study who was already 8 years old.
+    However, this child was not excluded from the analysis.
+
+### Design and procedure
+
+The following changes were made to reduce the task demands compared to Study 1. First, the objects used were no longer subject to a preference hierarchy. Instead, the pirate said which object he wanted in each case. Second, children were scaffolded through the necessary inferential steps [adapted from @schunemann_childrens_2021].
+Children were asked relevant knowledge and belief questions prior to the subjective intention test question. That gave us the chance to correct children if they ascribed wrong knowledge or belief states.
+@schunemann_childrens_2021 reported 2 years earlier competence when a primer of the agent’s false belief was added before the intention ascription question. Third, the dual identity condition was closer matched to previous studies [e.g., @proft_childrens_2019; @schunemann_childrens_2021].
+In the little pirate’s absence, the second identity was revealed: for example, a ball (identity A) that was also a rattle (identity B). In the little pirate’s presence, the objects were transferred to another location under its second identity B (i.e., making rattling noises). Fourth, we implemented actual true belief control conditions. In true belief conditions, the little pirate either observed the transfer of the object to another island (change of location condition). Or he witnessed the uncovering of the second identity and the transfer of the object under its second identity to another island (dual identity condition).
+
+In a 2 (Condition: “change of location”, “dual identity”) x 2 (belief: “true belief”, “false belief”) x 2 (outcome type: “consistent”, “inconsistent”) x Age mixed effects design, each child received eight test trials in counterbalanced order. The study was tested in-lab with animated videos [@goanimate_inc_vyond_2024] presented via jsPsych [@de_leeuw_jspsych_2023].
+The general logic of the pirate story was the same as in Study 1.
+Changes in control questions are described in the Appendix.
+
+### Coding
+
+Experimenters coded live during the experiment.
+Whether an answer was correct depended on the condition and outcome type.
+The assignment to correct/incorrect answers was implemented in the jsPsych experiment.
+If a child's response was unclear during the study, the video recording was reviewed by the experimenter after the test session and then a decision was made on coding.
+Reliability coding by a second blinded coder for 30 video recording (25%) revealed 99.9% agreement.
+
+### Statistical Analyses
+
+As in Study 1, we fitted a binomial mixed effects model predicting children’s probability of correct answers by belief (true belief vs. false belief), z-standardized age, and their interaction. We added condition (dual identity vs. change of location), trial, outcome type (consistent vs. inconsistent) as fixed effects. We added a random slope for belief, condition and outcome type nested in participant, and a random intercept for participant and experimenter as random effects.[^6]
+As in Study 1, we expected an interaction effect of belief. Across all ages and conditions, we expected that children should perform well, and above chance of 0.5, in all true belief trials. As in Study 1, we tested from which age onwards children perform significantly above chance. We calculated 95% bootstrapped confidence intervals based on the fitted models. The lowest age (x-axis intercept) was calculated for which the bootstrapped lower confidence interval limits no longer included the random level of 0.50.
+
+[^6]: By adding trial and the random slope effects for condition and outcome type, we deviate from our preregistration.
+    However, we follow the recommended maximum random effects approach as justified by the design [@barr_random_2013].
+
+## Results & Discussion
+
+Children’s responses to the intentional action question by belief manipulation (True vs. False belief), and condition (Change of location vs. Dual identity), and age groups are displayed in Figure \@ref(fig:raw-responses-s2)[^7].
+As expected, children performed similarly in the change of location and dual identity condition. As in Study 1, from 4 years on the vast majority of children answered correctly when no misrepresentation was involved (first two rows, True belief). They said correctly that the pirate drove to the island himself in consistent trials and that the wind drove him there in inconsistent trials. As in Study 1, this correct response pattern developed only with age when misrepresentations (3rd and 4th row, False belief) were involved.
+It is already visible in Figure 5 that children answered very similarly to the two conditions (dual identity and change of location).
+As in Study 1, children were better in inconsistent than consistent outcome type trials (see Figure \@ref(fig:raw-responses-s2)).
+However, this difference was particularly extreme in false belief trials.
+
+[^7]: For a simplified visualization, the one child who has just turned 8 years old has been added to the group of 7-year-olds for this illustration.
+
+```{=tex}
+\begin{figure}
+\centering
+\includegraphics[width=0.67\textwidth]{plots/raw_res_s2.pdf}
+\hspace{0.001\textwidth}
+\raisebox{4.5\height}{\includegraphics[width=0.1\textwidth]{plots/legend_raw.pdf}}
+\caption{Children’s responses to the test question of how the pirate ended up on a given island as a function of age groups, belief manipulation, condition and consistent (C) and inconsistent (I) outcome types.
+}
+\label{fig:raw-responses-s2}
+\end{figure}
+```
+
+```{r model-s2, include = T, fig.cap = "Probability of correct responses across age by belief. Since the performance no longer differed between conditions (change of location and dual identity), they are summarized in the plot. The horizontal dashed line represents the chance level of .50. Each filled dot represents the response proportion of one participant per belief type. Each fitted lines indicates the predicted probability of a correct response per condition by the binomial mixed effects model. Areas around the fitted lines are 95% confidence intervals. Predicted values and their confidence intervals have been obtained via bootstrapping with 10000 bots.", dpi = 300, fig.align='center', out.width="80%"}
+
+knitr::include_graphics("plots/model_s2.svg")
+```
+
+In order to analyze children’s responses we modeled the probability of correct responses.
+As in Study 1, we found a significant interaction between belief type (true vs. false belief) and age (*b* = `r printnum(table.model.2[table.model.2$coefs == "beliefTB:z_age_years","estimate"])`, *z* = `r printnum(table.model.2[table.model.2$coefs == "beliefTB:z_age_years","z"])`, bootstrapped 95% CI: [`r paste(printnum(table.model.2[table.model.2$coefs == "beliefTB:z_age_years",c("boot_lower", "boot_upper")]), sep = ",")`], *p* = `r printnum(table.model.2[table.model.2$coefs == "beliefTB:z_age_years","p"])`; Figure \@ref(fig:model-s2)).
+Additionally, we found conditional main effects.
+Once predictors are involved in an interaction, the respective main effects are conditional on the reference group of the other predictor in the interaction.
+In our case this means that the conditional main effect of age holds for the reference group of condition - false belief.
+The likelihood of correct responses in false belief trials increased with age (*b* = `r printnum(table.model.2[table.model.2$coefs == "z_age_years","estimate"])`, *z* = `r printnum(table.model.2[table.model.2$coefs == "z_age_years","z"])`, bootstrapped 95% CI: [`r paste(printnum(table.model.2[table.model.2$coefs == "z_age_years",c("boot_lower", "boot_upper")]), sep = ",")`], *p* `r printnum(table.model.2[table.model.2$coefs == "z_age_years","p"])`).
+The conditional main effect of belief types holds for mean age[^8]: children performed better in true belief than false belief trials (*b* = `r printnum(table.model.2[table.model.2$coefs == "beliefTB","estimate"])`, *z* = `r printnum(table.model.2[table.model.2$coefs == "beliefTB","z"])`, bootstrapped 95% CI: [`r paste(printnum(table.model.2[table.model.2$coefs == "beliefTB",c("boot_lower", "boot_upper")]), sep = ",")`], *p* `r printnum(table.model.2[table.model.2$coefs == "beliefTB","p"])`).
+We found a main effect of outcome type: children were significantly better in inconsistent outcome types (`r consis_s2$prop[consis_s2$consis=="I"]*100`% correct) than in consistent ones (`r consis_s2$prop[consis_s2$consis=="C"]*100`% correct; *b* = `r printnum(table.model.2[table.model.2$coefs == "consisI","estimate"])`, *z* = `r printnum(table.model.2[table.model.2$coefs == "consisI","z"])`, bootstrapped 95% CI: [`r paste(printnum(table.model.2[table.model.2$coefs == "consisI",c("boot_lower", "boot_upper")]), sep = ",")`], *p* = `r printnum(table.model.2[table.model.2$coefs == "consisI","p"])`).
+As expected, we no longer found a main effect of condition: children were as likely to answer correctly in dual identity and change of location conditions (*b* = `r printnum(table.model.2[table.model.2$coefs == "conditionCoL","estimate"])`, *z* = `r printnum(table.model.2[table.model.2$coefs == "conditionCoL","z"])`, bootstrapped 95% CI: [`r paste(printnum(table.model.2[table.model.2$coefs == "conditionCoL",c("boot_lower", "boot_upper")]), sep = ",")`], *p* = `r printnum(table.model.2[table.model.2$coefs == "conditionCoL","p"])`).
+We found no main effect of trial (*b* = `r printnum(table.model.2[table.model.2$coefs == "trial.f2","estimate"])`, *z* = `r printnum(table.model.2[table.model.2$coefs == "trial.f2","z"])`, bootstrapped 95% CI: [`r paste(printnum(table.model.2[table.model.2$coefs == "trial.f2",c("boot_lower", "boot_upper")]), sep = ",")`], *p* = `r printnum(table.model.2[table.model.2$coefs == "trial.f2","p"])`).
+As can be seen in Figure \@ref(fig:model-s2), children performed at ceiling from four years on in true belief trials.
+From age of `r round(above_chance_FB,2)` years on they performed significantly above chance level in false belief trials.
+
+[^8]: The reference group is 0 for continuous variables, which makes no sense for age, so it was z-transformed.
+    The conditional main effect thus applied to middle age due to the z-transformation.
+
+Overall, the present results largely replicate those of Study 1: As in Study 1’s control condition, children mastered our task in true belief versions from early on. However, trials that involved misrepresentations were only reliably solved from 5 to 6 years on. The (unexpected) better performance in dual identity conditions found in Study 1 disappeared in Study 2. There was no longer a difference between dual identity and change of location condition once they were adjusted in line with previous studies [@rakoczy_explicit_2015; @proft_childrens_2019; @schunemann_childrens_2021].
+
+# General Discussion
+
+The guiding question of the present work was when children develop a solid grasp of the subjectivity and aspectuality of intentions: agents may intentionally perform a given action under one description, but not necessarily under another. Previous studies found competence not before age 6. The rationale of the present study was to test whether these results may have masked earlier competence due to linguistic performance demands posed by complex and ambiguous test questions. To this end, we developed a new task to investigate children’s understanding of the subjectivity of intentions. Instead of judging whether an action was intentional under a description A or B, children had to infer whether some behavior was an action at all given relevant background information about the agent’s beliefs and desires. Children saw outcomes that could have been the result of intentional actions or brought about by other external factors (the wind). These outcomes were (or were not) consistent with the subjective rational perspective of the agent, and it was thus plausible to infer that they were brought about by an intentional action (or by some external event like the wind). The new task had the advantage of eliminating the need to understand the linguistic subtleties of the test question (such as the de re/de dicto distinction).
+
+## Summary of main findings
+
+The results were the following: First, children mastered our new task in critical conditions involving misrepresentations only from 5-6 years on. Conditions that did not involve any misrepresentations were solved from 4 years on. Second, children performed similarly in conditions with various forms of subjective beliefs (false beliefs about locations or identities) once conditions were matched in complexity and task demands.
+
+## Differences between consistent and inconsistent outcomes
+
+In both studies, we noted, as a third set of findings,  a surprising trend: children performed better in inconsistent trials than in consistent ones. This trend was especially strong in false belief versions of the task. In both outcome types children knew about the treasure’s actual location which differed from the agent’s belief (in false belief versions), and had to keep track of the relation of the agent’s subjective belief and objective reality. Why then the asymmetry in performance between inconsistent and consistent trials? One possibility is that children, for whatever reasons, have a baseline preference for saying it was the wind (correct in inconsistent/incorrect in consistent) rather than the agent (vice versa), and that this preference underlies the asymmetry. While this is possible in principle, the results of the control condition (where children solve both consistent and inconsistent trials proficiently) seem to speak against it. Another possibility is that the difference in performance between outcome types may stem from the fact that the consistent trials were more ambiguous than the inconsistent trials. In consistent trials, it was plausible and possible that the outcome was the product of an intentional action. But strictly speaking, the outcome could have been caused both by the agent and the external force, the wind. In inconsistent trials, in contrast, given the agent’s beliefs and desires and assuming rationality, it *had* to be the wind. This difference in ambiguity was a necessary byproduct of the current design. Future studies may investigate whether performance differences in consistent vs. inconsistent conditions persist in less asymmetrically ambiguous implementations. 
+
+## Theoretical implications and further directions
+
+Our results, in line with previous studies [@proft_childrens_2019; @schunemann_childrens_2021] further support a competence deficit account: Children’s late successful performance in subjective intention tasks was unlikely a performance deficit due to linguistic task demands. Our results suggest that children’s struggle to ascribe intentionality in previous studies is probably not due to a confusion of what kind of reading – de re vs. de dicto – has to be applied to a question.  It is, however, still possible that linguistic performance factors play some role. The absence of evidence in these two studies is no evidence of absence.
+
+The present studies further suggest that advanced forms of subjective action understanding does develop later in childhood. A more nuanced picture of the developing understanding of intentions is necessary. Children do not yet understand intentions in their fully-fledged metarepresentational, subjective sense before the age of 5 or 6 years. Claims that young children or even infants understand other’s intentions need to be qualified. Younger children understand acting intentionally vs. accidentally, but not necessarily acting with a fine-grained intention: when it depends on the description whether the action was intentional under this specific aspect [see @searle_intentionality_1983\; intention in action vs. prior intention].
+
+Still, it is unclear why children’s understanding of the subjectivity of intentions shows such a protracted development. Although meta-representational skills, particularly belief understanding, are necessary, they are not sufficient for subjective intention understanding [@schunemann_childrens_2021]. These skills typically emerge already around age 4 [@wimmer_belief_1983; @wellman_metaanalysis_2001], so the question remains why there is this developmental gap. What is missing? Apart from linguistic performance factors masking the competence, what are potential explanations? Plausible candidates include executive functioning, higher order Theory of Mind or recursive thinking all of which develop in protracted ways and may be necessary to acquire mature subjective action understanding. So far, however, existing studies have not found conclusive evidence that second-order false belief understanding or executive functions predicted subjective intention understanding [@schunemann_childrens_2021]. Here, we can only speculate what other potential explanations there may be.
+
+
+
+Other potentially relevant factors include counterfactual or causal reasoning. One possibility is that subjective intention understanding involves an understanding of counterfactual dependency between intentions and actions [e.g., @byrne_counterfactual_2016; @halpern_towards_2018; @paul_philiosophy_2021]. Consider the following example: “An agent performs an action that is both X (going to this island) and Y (going to an island without treasure)”. To say that the agent performed X intentionally, but did not intentionally perform Y means, among other things, this: had the agent known that Y applies to his action, he would not have performed it (but would have gone to the other island). Or take the distinction between intended main and merely foreseen side-effects. To say that an agent performed an action A that has effect P and Q in such a way that she intended to bring about P while merely foreseeing and not caring about Q means, among other things this: had the agent not believed that A leads to P, she would not have performed A; but if she had not believed that A leads to Q, that would have made no difference to her intentionally performing A. 
+
+Perhaps, thus, counterfactual reasoning is a more general, crucial developmental ingredient in the acquisition of understanding subjective and aspectual intentions. We know from many studies that mature counterfactual reasoning also develops in protracted ways [@byrne_counterfactual_2016; @kominsky_trajectory_2021] and in fact, often in close parallel with mature social cognition [@rafetseder_extended_2021; @redshaw_temporal_2020].
+
+Another (perhaps complementary) possibility is the following: It may be that complex causal reasoning in general is necessary for understanding subjective intentions. In their recent suggestion for a “simple” definition of intentionality @quillien_simple_2021 argue that intentionality judgments are basically causal judgments: An agent did X intentionally to the extent that X was causally dependent on how much the agent wanted X to happen (or not to happen). One question is whether this account could be extended to make room for an understanding of aspectual intentions as investigated in the present studies. For example, for simple intentionality judgements, it is clear that agents act intentionally under certain descriptions. For instance, an agent went intentionally to the cupboard, because she wanted to get the chocolate (and the chocolate is in fact there). Her intentional action was caused by her wanting to go there. For more complex aspectual cases, however, one might need to make more complex causal judgement that also involve counterfactual simulations. If the chocolate is not in the cupboard, but the agent believes so, she intentionally goes to the cupboard. However, she does not intentionally go to the empty cupboard. Her desire to get the chocolate caused her action, but not under the description „empty cupboard“. For this judgment the following counterfactual simulation might be necessary: had she known that the chocolate was somewhere else she would not have gone there. So her desire caused only some part of the action. Which part of the action was caused becomes clear if we think about relevant counterfactual alternatives. Future research should explore whether and how causal and counterfactual reasoning might explain children’s difficulties in tasks involving subjective intentionality more systematically.
+
+## Conclusion
+
+The present studies investigated when children begin to grasp subjective aspectual intentions. We examined whether previous studies, indicating proficiency only from age 6 [@proft_childrens_2019; @schunemann_childrens_2021], underestimated competence due to linguistic performance factors. To this end, we developed a new task that avoided linguistic subtleties of the test question. Children judged whether an outcome was likely be caused by an intentional action or not given an agent’s beliefs and desires. Our results showed that children solved our new task without misrepresentation reliably from 4 years on. However, once misrepresentations were involved, children solved our task only from 5 to 6 years on. These findings converge with previous results [@proft_childrens_2019; @schunemann_childrens_2021]. Therefore, these and prior results taken together corroborate the general picture that children’s problems to ascribe subjective intentions are more likely a competence than a performance deficit issue due to linguistic task demands. It remains unclear why children struggle so long with an understanding of subjective intentions. Future work should address potential explanations (e.g., maturing causal or counterfactual reasoning) for the developmental gap.
+
+# Acknowledgments
+
+This work was supported by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation); SFB 1528: Cognition of Interaction. We thank Marlen Kaufmann for the organization of data collection, Davida Patzak for fruitful ideas on the study design and implementation in study material, Eva Wellmer, Melissa Kulp, Elena Lorenz, and Merle Dalmer for help with data collection and reliability coding.
+
+\newpage
+
+# References
+
+::: {#refs custom-style="Bibliography"}
+:::
+
+\newpage
+
+# Appendix
+
+## Appendix A. Procedure
+
+### Study 1
+
+Participants were first introduced to the task through printed versions of the scenery and objects (see also OSF).
+The experimenter played one consistent and one inconsistent trial with the children.
+Children learnt that the pirate's goal was to collect the most valuable objects.
+The story established that the pirate aimed to travel to a specific island, but his success was variable due to an upcoming storm.
+At times, he managed to reach his intended island (intentional action); however, when the winds were too strong, he would end up on the other island where he did not want to go.
+
+During four familiarization trials, two different outcome types (consistent and inconsistent) were paired with two preference hierarchy constellations ("diamond more valuable than golden coin" and "fantasy object less valuable than coin").
+Printed animations of a paddle and a storm were used to guide children with a test question.
+In familiarization trials the retrospective desire question was asked before the test question.
+
+-   Retrospective Desire question: “To which island did the pirate want to go?
+    To this or that?”
+    [E points to both locations, first location counterbalanced]
+
+-   Test question: “Did the pirate travel to the island himself, or did the wind drive him there?”
+    [E points at printed animation of options, first option counterbalanced]
+
+Feedback was provided in response to the child's answer.
+The pirate's emotional reaction, either happy or sad, was shown in the video and reiterated by the experimenter.
+
+Test trials were similar to the familiarization trials, but included a twist where the pirate would disappear in between.
+During test trials, no feedback or reaction was displayed.
+In test trials the knowledge-seeing question was asked after the test question:
+
+-   Change of location condition: “Did the pirate see that the female pirate took the coin to the other island?”
+    [correct answer: "no"]
+
+-   Dual identity condition: “The [fantasy object] is also a diamond.
+    Does the little pirate know that?”
+    [correct answer: "no"]
+
+A pause after three test trials allowed for a search for stickers to maintain children's attention and motivation.
+
+After the completion of all test trials, a preference hierarchy check was conducted.
+An arrow pointing upwards was used to indicate the value the pirate placed on different items: at the top, what he found most desirable; in the middle, what he found of average interest; and at the bottom, what he found least appealing and somewhat boring.
+Children were then asked to place the diamond and the coin in the preference hierarchy as understood from the story.
+The expectation was that the diamond would be placed at the top or at least higher than the coin.
+They were also presented with a dual identity fantasy object and asked to consider its value if the pirate had been aware of its second identity (diamond).
+Lastly, they were given a fantasy object (without a second identity) and expected to place it below the coin in terms of desirability.
+
+### Study 2
+
+Study 2's procedure was identical to Study 1 with the following exceptions.
+In all trials objects were used that matched in value.
+Therefore, no preference hierarchy had to be learnt or checked afterwards.
+We used an adaptive number of familiarization trials.
+If children answered all control and test questions correctly, they received 2 trials.
+If they made a mistake they received another familiarization trial of the same outcome type.
+That means if a child made an error in a consistent trial, she would receive another consistent trial, but not another inconsistent trial.
+Children were also asked for each trial what object the pirate wanted:
+
+-   Object control question: “What does the pirate want to get now?”
+
+Other than in Study 1, the knowledge control question was asked before the storm came up.
+Children were first asked again, if they answered wrong, and finally corrected if they insisted.
+
+-   Knowledge question - change of location condition: “The female pirate put [desired object] on the other island. Does the pirate know that?” [correct answer true belief: "yes" / correct answer false belief: "no"]
+-   Knowledge question - dual identity condition: "The [desired object] is also a B. Does the little pirate know that?" [correct answer true belief: "yes" / correct answer false belief: "no"]
+
+Additionally children were asked a belief question.
+Children could point to the island or verbally indicate their answer.
+Children were immediately correct when they answered incorrectly.
+
+-   Belief question: “Where does the little pirate think the [desired object / identity A] is?”
+
+\newpage
+
+## Appendix B. A priori sample size, and exclusion criteria
+
+### Study 1
+
+The sample size of *N* = 120 (complete data) was determined a priori via data simulation.
+Due to scheduling errors and initially incorrect calculation of the exclusion, we exceed our sample by `r length(unique(data_long$id))-120` children.
+However, we decided to include these children in the analysis.
+This was particularly useful given that the sample size calculation is based on complete data and we have partial exclusion of the data.
+
+Additional `r sum(dropout_fam, dropout_hierarchy)` children took part, but were excluded from the data.
+Based on the preregistration, *n* = `r dropout_fam` children who made errors in test or control questions the last 2 familiarization trials, or made overall less than 75% correct in familiarization trials, were excluded.
+Additionally, beyond the preregistration, we excluded (*n* = `r dropout_hierarchy`) children who made a crucial error in the hierarchy checks.
+These children falsely claimed that the pirate valued the coin more than the diamond.
+
+Beyond the preregistration, we excluded *n* = `r sum(single_trial_exclusion_dx_coin, single_trial_exclusion_fb, single_trial_exclusion_x_coin)` (`r round(sum(single_trial_exclusion_dx_coin, single_trial_exclusion_fb, single_trial_exclusion_x_coin) / nrow(data_long)*100)`% of the data) single trials.
+*N* = `r single_trial_exclusion_dx_coin` responses in dual identity trials were excluded, because children falsely claimed that the fantasy object that was also a diamond would be regarded as less valuable or equally valuable as the coin.
+*N* = `r single_trial_exclusion_x_coin` responses in control trials were excluded, because children falsely claimed that the fantasy object that without a second identity would be regarded as more valuable or equally valuable as the coin.
+*N* = `r single_trial_exclusion_fb` responses in dual identity or change of location trials were excluded respectively, because children falsely claimed that the little pirate know about the second identity of the object or had seen the coins transfer.
+
+### Study 2
+
+`r xfun::numbers_to_words(x=dropout_abort_s2, cap=T)` children were included in the final sample but aborted the study after one test trial. Differently from preregistration, we decided not to exclude children when they answered the control question about which item the pirate wanted. Only a few children answered this question incorrectly or could not remember. If children did not answer anything or stated that they could not remember, they were reminded.
+
+\newpage
+
+## Appendix C. Counterbalancing
+
+### Study 1
+
+The following factors were counterbalanced between children: first option named in the test question ("drove there himself" vs. "wind drove him there") and respectively printed out option visualizations, and the island that was pointed to first (left vs. right).
+The following factors were counterbalanced with restrictions: order of outcome type trials – consistent (C) vs. inconsistent (I) (familiarization trials: “ICCI” vs. “CIIC”; test trials: “CICICI”, “ICICIC”), order of test trials (“dual identity, control, change of location” vs. “change of location, control, dual identity), outcome – left (L) vs. right (R) (test trials: “RRLLLR”, “LLRRRL”, “LRRRLL”, “RLLLRR”, “RRLRRL”, “LLRLLR”, “LRRLRR”, “RLLRLL”).
+This resulted in a total of 32 orders.
+Children were randomly assigned to a counterbalancing order.
+
+### Study 2
+
+The counterbalancing was preregistered and can be found on OSF.
+With the same logic, we counterbalanced the first option named in test question, the island that was pointed to first, the order of belief trials (4x true belief first, 4x false belief first vs. vice versa), the order of condition trials that came first (dual identity vs. change of location).
+We counterbalanced the following factors with restriction: the objects used, the order of outcome type trials – consistent (C) vs. inconsistent (I) (familiarization trials: “ICCI” vs. “CIIC”; test trials: “CIICCIIC” vs. “ICCIICCI”) and the outcome – left (L) vs. right (R) (“RRLLLRRL”, “LLRRRLLR”, “LRRRLLRL”, “RLLLRRRL”, “RRLRRLRL”, “LLRLLRLR”, “LRRLRRLR”, “RLLRLLLR”).
+That resulted in a total of 64 orders.
+Children were assigned in a balanced way to the orders per age group.
+All age groups received the dual identity or change of location conditions first and the truth or falsehood trials first, in roughly equal parts.
+
+\newpage
+
+## Appendix D. Demographics
+
+```{r , include=T}
+# Loop through each column in the demo dataset
+for (col in seq_along(demo)) {
+  # Replace % with \% in the current column
+  demo[[col]] <- gsub("%", "\\%", demo[[col]], fixed = TRUE)
+}
+
+# Create the kable table
+kable(demo, "latex",
+      booktabs = TRUE,
+      escape = FALSE, # Allows LaTeX formatting for headers
+      align = c(rep("c", 7)),
+      caption = "Demographic distribution of age (years;months) and gender per age group in Study 1 and Study 2",
+      col.names = c("Age in years", 
+                    "\\textit{M} age", 
+                    "\\textit{SD} age", 
+                    "gender", 
+                    "\\textit{M} age", 
+                    "\\textit{SD} age", 
+                    "gender")) %>%
+  add_header_above(c(" " = 1, "Study 1" = 3, "Study 2" = 3), italic = TRUE, bold = TRUE) %>%
+  kable_styling(full_width = TRUE) %>%
+  column_spec(1, width = "2.8cm") %>%
+  column_spec(4, width = "2.2cm") %>%
+  column_spec(7, width = "2.2cm")
+```
+
+\textit{Note.} Due to an error in our database, one child took part in the study who was already 8 years old. However, this child was not excluded from the analysis.
