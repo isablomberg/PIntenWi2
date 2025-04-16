@@ -50,28 +50,31 @@ data_long <- data_long %>%
 
 ## Descriptives
 ```{r}
+# Function to convert floating-point years to "years;months"
+convert_to_years_months <- function(age) {
+  years <- floor(age)
+  months <- floor((age - years) * 12)
+  paste0(years, ";", months)
+}
+```
+
+```{r}
 # N
 length(unique(data_long$id))
 
 mean_age_s1 <- mean(data_wide_s1$age_years)
 mean_age_s1
 
-# Convert age to years and months
-years_s1 <- floor(mean_age_s1)  # Extract the whole number part (years)
-months_s1 <- round(floor((mean_age_s1 - years_s1) * 12))  # Calculate the remaining months
-
 sd_age_s1 <- sd(data_wide_s1$age_years)
 sd_age_s1
-
-# Convert age to years and months
-years_sd_s1 <- floor(sd_age_s1)  # Extract the whole number part (years)
-months_sd_s1 <- round(floor((sd_age_s1 - years_sd_s1) * 12))  # Calculate the remaining months
 
 #z-transformation
 data_long$z_age_years <- as.numeric(scale(data_long$age_years, center = mean_age_s1, scale = sd_age_s1))
 
-min(data_long$age_years)
-max(data_long$age_years)
+min_age_s1 <- min(data_wide_s1$age_years)
+min_age_s1
+max_age_s1 <- max(data_wide_s1$age_years)
+max_age_s1
 ```
 
 ### Probability of correct choices as a function of condition and age
@@ -100,14 +103,14 @@ table(data_wide_s1$age_years_full)
 correct.choice.s1 <- data_long %>%
   filter(!is.na(t_correct)) %>%
   group_by(condition_ref_control, age_years_full) %>% 
-  summarise(prop = mean(t_correct == "1")) %>%
-  mutate(across(where(is.numeric), ~round(., 2))) %>%
+  summarise(prop = mean(t_correct == "1"), .groups = "drop") %>%
+  mutate(prop = round(prop * 100)) %>%  # convert to percentage
   pivot_wider(names_from = condition_ref_control, values_from = prop, values_fill = 0)
 
-correct.choice.s1$age_years_full[1] <- paste0(correct.choice.s1$age_years_full[1], " (n = ", table(data_wide_s1$age_years_full)[1], ")")
-correct.choice.s1$age_years_full[2] <- paste0(correct.choice.s1$age_years_full[2], " (n = ", table(data_wide_s1$age_years_full)[2], ")")
-correct.choice.s1$age_years_full[3] <- paste0(correct.choice.s1$age_years_full[3], " (n = ", table(data_wide_s1$age_years_full)[3], ")")
-correct.choice.s1$age_years_full[4] <- paste0(correct.choice.s1$age_years_full[4], " (n = ", table(data_wide_s1$age_years_full)[4], ")")
+correct.choice.s1$age_years_full[1] <- paste0(correct.choice.s1$age_years_full[1], " ($n$ = ", table(data_wide_s1$age_years_full)[1], ")")
+correct.choice.s1$age_years_full[2] <- paste0(correct.choice.s1$age_years_full[2], " ($n$ = ", table(data_wide_s1$age_years_full)[2], ")")
+correct.choice.s1$age_years_full[3] <- paste0(correct.choice.s1$age_years_full[3], " ($n$ = ", table(data_wide_s1$age_years_full)[3], ")")
+correct.choice.s1$age_years_full[4] <- paste0(correct.choice.s1$age_years_full[4], " ($n$ = ", table(data_wide_s1$age_years_full)[4], ")")
 
 kable(correct.choice.s1, "html",
       booktabs = T,
@@ -274,7 +277,7 @@ ggplot(data = raw_responses, aes(fill = res_t, y = n, x = consis)) +
         strip.background = element_blank())  # Remove background for facet labels
 ```
 
-```{r}
+```{r include=FALSE}
 svg(file = "plots/raw_res_s1.svg", width = 7, height = 7)
 pdf(file = "plots/raw_res_s1.pdf", width = 7, height = 7)
 # Change the reference group for the res_t factor
@@ -354,6 +357,109 @@ mtext(text = "Dual Identity", side = 3, line = -17, outer = TRUE, at = 0.5, cex 
 mtext(text = "Change of location", side = 3, line = -32, outer = TRUE, at = 0.5, cex = 1.2, las = 0)
 ```
 
+```{r include=FALSE}
+pdf(file = "plots/raw_res_s1_v2.pdf", width = 7, height = 7)
+# Change the reference group for the res_t factor
+raw_responses$res_t <- factor(raw_responses$res_t, levels = c("wind", "self"))
+
+# Define colors
+colors <- c("#4472C4", "#c1e7bb")  # Corresponding to "wind" and "self"
+
+# Split data by facets
+facets <- split(raw_responses, list(raw_responses$condition_ref_control))
+
+ages <- unique(raw_responses$age_years_full)
+
+par(mfrow = c(3, 4), mar = c(2, 2, 3, 1), oma = c(6, 4, 2, 2))  # Adjusted outer margin (oma)
+
+plot_index <- 0  # initialize plot counter
+
+for (i in seq_along(facets)) {
+  for (age in ages) {
+    plot_index <- plot_index + 1  # increment for each subplot
+    
+    data <- facets[[i]]
+    data <- data[data$age_years_full == age, ]
+    
+    # Create barplot
+    bar_heights <- tapply(data$n, list(data$res_t, data$consis), sum)
+    bar_labels <- tapply(data$percentage, list(data$res_t, data$consis), function(x) paste0(round(x), "%"))
+    
+    barplot_heights <- barplot(
+      height = bar_heights, 
+      beside = FALSE, 
+      border = NA,
+      col = colors, 
+      ylim = c(0, max(raw_responses$n) + 5),
+      xlab = "", 
+      ylab = "", 
+      main = "",
+      cex.names = 1.2,
+      yaxt = "n"
+    )
+    
+    axis(2, at = seq(0, max(raw_responses$n) + 5, by = 10), las = 1, cex.axis = 1.2)
+    cumulative_height <- apply(bar_heights, 2, cumsum)
+    midpoints <- barplot_heights
+    
+    for (j in 1:ncol(bar_heights)) {
+      for (k in 1:nrow(bar_heights)) {
+        if (as.numeric(sub("%", "", bar_labels[k, j])) >= 10) {
+          text(
+            x = midpoints[j], 
+            y = cumulative_height[k, j] - bar_heights[k, j] / 2, 
+            labels = bar_labels[k, j], 
+            cex = 1.1, 
+            col = "black"
+          )
+        }
+      }
+    }
+
+    if (plot_index >= 9) {
+      center_x <- mean(barplot_heights)
+      text(x = center_x, y = -19, labels = paste(age),
+           xpd = NA, cex = 1.8)
+    }
+  }
+}
+
+mtext(text = "Age", side = 1, line = 3.5, outer = TRUE, at = 0, cex = 1.2)
+mtext(text = "Number of Children", side = 2, line = 2, outer = TRUE, at = 0.5, cex = 1, las = 0)
+mtext(text = "Outcome type", side = 1, line = 1, outer = TRUE, at = 0.5, cex = 1, las = 0)
+
+# Add "Change of location" and "Dual Identity" labels above the columns
+mtext(text = "Control", side = 3, line = -1, outer = TRUE, at = 0.5, cex = 1.2, las = 0)
+mtext(text = "Dual Identity", side = 3, line = -17, outer = TRUE, at = 0.5, cex = 1.2, las = 0)
+mtext(text = "Change of location", side = 3, line = -32, outer = TRUE, at = 0.5, cex = 1.2, las = 0)
+
+
+# Allow drawing outside plots
+par(xpd = NA)
+
+# Convert normalized positions to user coordinates
+x_left  <- grconvertX(0.12, from = "ndc", to = "user")
+x_right <- grconvertX(0.94, from = "ndc", to = "user")
+y_line  <- grconvertY(0.06, from = "ndc", to = "user")  # adjust to hover just above age labels
+
+# Draw the horizontal line
+segments(x0 = x_left, y0 = y_line, x1 = x_right, y1 = y_line, lwd = 1)
+
+# Normalized x positions for age labels
+age_ndc_positions <- c(0.199, 0.42, 0.64, 0.86)
+
+# Convert to user coordinates
+age_tick_x <- grconvertX(age_ndc_positions, from = "ndc", to = "user")
+
+# Set vertical range of each tick
+tick_y_bottom <- y_line - 0.5  # slightly below the line
+tick_y_top <- y_line + 0.5     # slightly above the line
+
+# Draw the ticks
+segments(x0 = age_tick_x, y0 = tick_y_bottom, x1 = age_tick_x, y1 = tick_y_top, lwd = 1)
+
+dev.off()
+```
 
 ## Statistical analyses
 
@@ -580,7 +686,7 @@ polygon(x = c(plot.xvals, rev(plot.xvals)),
         y = c(boot.res.plot$ci.predicted$lower.cl[boot.res.plot$ci.predicted$condition == "asp"],
               rev(boot.res.plot$ci.predicted$upper.cl[boot.res.plot$ci.predicted$condition == "asp"])), 
         border = NA, 
-        col = alpha("#F0BF1B", 0.3))
+        col = alpha("#F0BF1B", 0.6))
 
 # Add CI for condition Control
 polygon(x = c(plot.xvals, rev(plot.xvals)), 
@@ -611,14 +717,14 @@ lines(x = plot.xvals, y = boot.res.plot$ci.predicted$fitted[boot.res.plot$ci.pre
 lines(x = plot.xvals, y = boot.res.plot$ci.predicted$fitted[boot.res.plot$ci.predicted$condition == "kon"], lty = 1, lwd = 2, col = 3)
 
 # Add line for condition Change of location
-lines(x = plot.xvals, y = boot.res.plot$ci.predicted$fitted[boot.res.plot$ci.predicted$condition == "n.asp"], lty = 5, lwd = 2, col = "#4682B4")
+lines(x = plot.xvals, y = boot.res.plot$ci.predicted$fitted[boot.res.plot$ci.predicted$condition == "n.asp"], lty = 3, lwd = 3, col = "#4682B4")
 
 # Add x-axis
 x.lab = c(4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0)
 axis(side = 1, labels = x.lab, at = (x.lab - mean(data_long$age_years)) / sd(data_long$age_years), cex.axis = 1.1)
 
 # Add legend
-legend(x = 0.6, y = 0.23, legend = c( "Control","Dual identity", "Change of location"), col=c(3,"#F0BF1B","#4682B4"), lty = c(1,2,5), lwd = 2, pch = c(19,17,18), bty = "n", cex = 1)
+legend(x = 0.6, y = 0.23, legend = c( "Control","Dual identity", "Change of location"), col=c(3,"#F0BF1B","#4682B4"), lty = c(1,2,3), lwd = 2, pch = c(19,17,18), bty = "n", cex = 1)
 
 # chance level
 abline(h = 0.5, lty = 8)
@@ -658,14 +764,14 @@ polygon(x = c(plot.xvals, rev(plot.xvals)),
         y = c(boot.res.plot$ci.predicted$lower.cl[boot.res.plot$ci.predicted$condition == "asp"],
               rev(boot.res.plot$ci.predicted$upper.cl[boot.res.plot$ci.predicted$condition == "asp"])), 
         border = NA, 
-        col = alpha("#F0BF1B", 0.3))
+        col = alpha("#F0BF1B", 0.6))
 
 # Add CI for condition Control
 polygon(x = c(plot.xvals, rev(plot.xvals)), 
         y = c(boot.res.plot$ci.predicted$lower.cl[boot.res.plot$ci.predicted$condition == "kon"],
               rev(boot.res.plot$ci.predicted$upper.cl[boot.res.plot$ci.predicted$condition == "kon"])), 
         border = NA, 
-        col = alpha(3, 0.3))
+        col = alpha(3, 0.2))
 
 # Add CI for condition Change of location
 polygon(x = c(plot.xvals, rev(plot.xvals)), 
@@ -683,25 +789,28 @@ points(x = xx$z_age_years, y = xx$x,
        cex = 1.5,) 
 
 # Add line for condition Dual identity
-lines(x = plot.xvals, y = boot.res.plot$ci.predicted$fitted[boot.res.plot$ci.predicted$condition == "asp"], lty = 2, lwd = 2, col = "#CEA620")
+lines(x = plot.xvals, y = boot.res.plot$ci.predicted$fitted[boot.res.plot$ci.predicted$condition == "asp"], lty = 2, lwd = 3, col = "#CEA620")
 
 # Add line for condition Control
-lines(x = plot.xvals, y = boot.res.plot$ci.predicted$fitted[boot.res.plot$ci.predicted$condition == "kon"], lty = 1, lwd = 2, col = 3)
+lines(x = plot.xvals, y = boot.res.plot$ci.predicted$fitted[boot.res.plot$ci.predicted$condition == "kon"], lty = 1, lwd = 3, col = 3)
 
 # Add line for condition Change of location
-lines(x = plot.xvals, y = boot.res.plot$ci.predicted$fitted[boot.res.plot$ci.predicted$condition == "n.asp"], lty = 5, lwd = 2, col = "#4682B4")
+lines(x = plot.xvals, y = boot.res.plot$ci.predicted$fitted[boot.res.plot$ci.predicted$condition == "n.asp"], lty = 4, lwd = 3, col = "#4682B4")
 
 # Add x-axis
 x.lab = c(4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0)
-axis(side = 1, labels = x.lab, at = (x.lab - mean(data_long$age_years)) / sd(data_long$age_years), cex.axis = 1.1)
+x.labels <- c("4", "4½", "5", "5½", "6", "6½", "7", "7½", "8")
+axis(side = 1, labels = x.labels, at = (x.lab - mean(data_long$age_years)) / sd(data_long$age_years), cex.axis = 1.1)
 
 # Add legend
-legend(x = 0.6, y = 0.23, legend = c( "Control","Dual identity", "Change of location"), col=c(3,"#F0BF1B","#4682B4"), lty = c(1,2,5), lwd = 2, pch = c(19,17,18), bty = "n", cex = 1)
+legend(x = 0.6, y = 0.23, legend = c( "Control","Dual identity", "Change of location"), col=c(3,"#F0BF1B","#4682B4"), lty = c(1,2,4), lwd = 2, pch = c(19,17,18), bty = "n", cex = 1)
 
 # Zufallsniveau
 abline(h = 0.5, lty = 8)
 
 mtext(side = 2, "Probability of correct intentionality judgment", line = 2.5, las = 3, cex = 1.1)
+
+dev.off()
 ```
 
 
@@ -793,22 +902,16 @@ length(unique(df_long_ex$id))
 mean_age_s2 <- mean(df_wide_s2$age_years)
 mean_age_s2
 
-# Convert age to years and months
-years_s2 <- floor(mean_age_s2)  # Extract the whole number part (years)
-months_s2 <- round(floor((mean_age_s2 - years_s2) * 12))  # Calculate the remaining months
-
 sd_age_s2 <- sd(df_wide_s2$age_years)
 sd_age_s2
-
-# Convert age to years and months
-years_sd_s2 <- floor(sd_age_s2)  # Extract the whole number part (years)
-months_sd_s2 <- round(floor((sd_age_s2 - years_sd_s2) * 12))  # Calculate the remaining months
 
 # Z-transformation
 df_long_ex$z_age_years <- as.numeric(scale(df_long_ex$age_years, center = mean_age_s2, scale = sd_age_s2))
 
-min(df_long_ex$age_years)
-max(df_long_ex$age_years)
+min_age_s2 <- min(df_wide_s2$age_years)
+min_age_s2
+max_age_s2 <- max(df_wide_s2$age_years)
+max_age_s2
 ```
 
 ### Probability of correct choices as a function of belief and age
@@ -864,6 +967,25 @@ kable(correct.choice.s2, "html",
   add_header_above(c(" " = 1, "False belief" = 2, "True belief" = 2)) %>%
   kable_styling(full_width = T)
 ```
+
+```{r}
+df_long_ex$age_years_full[df_long_ex$id == 146] <- 7
+
+correct.choice.s2 <- df_long_ex %>%
+  filter(!is.na(TQ)) %>%
+  group_by(belief_ref_TB, condition_ref_CoL, age_years_full) %>% 
+  summarise(prop = mean(TQ == "1"), .groups = "drop") %>%
+  mutate(prop = round(prop * 100)) %>%  # convert to percentage
+  pivot_wider(names_from = c("belief_ref_TB", "condition_ref_CoL"), values_from = prop, values_fill = 0)
+
+correct.choice.s2$age_years_full[1] <- paste0(correct.choice.s2$age_years_full[1], " ($n$ = ", table(df_wide_s2$age_years_full)[1], ")")
+correct.choice.s2$age_years_full[2] <- paste0(correct.choice.s2$age_years_full[2], " ($n$ = ", table(df_wide_s2$age_years_full)[2], ")")
+correct.choice.s2$age_years_full[3] <- paste0(correct.choice.s2$age_years_full[3], " ($n$ = ", table(df_wide_s2$age_years_full)[3], ")")
+correct.choice.s2$age_years_full[4] <- paste0(correct.choice.s2$age_years_full[4], " ($n$ = ", table(df_wide_s2$age_years_full)[4]+1, ")") # adding the 8 year old
+
+df_long_ex$age_years_full[df_long_ex$id == 146] <- 8
+```
+
 
 ##### Probability of correct choices in consistent trials as a function of belief, condition and age
 
@@ -1109,6 +1231,118 @@ ggplot(data = raw_responses_s2, aes(fill = res_t, y = n, x = consis)) +
         text = element_text(size = 12),
         #strip.text.x = element_blank(),  # Remove x-axis facet labels
         strip.background = element_blank())  # Remove background for facet labels
+```
+
+
+```{r}
+pdf(file = "plots/raw_res_s2_v2.pdf", width = 7, height = 8)
+# Change the reference group for the res_t factor
+raw_responses_s2$res_t <- factor(raw_responses_s2$res_t, levels = c("wind", "self"))
+
+# Define colors
+colors <- c("#4472C4", "#c1e7bb")  # Corresponding to "wind" and "self"
+
+# Split data by facets
+facets <- split(raw_responses_s2, list(raw_responses_s2$condition_ref_CoL, raw_responses_s2$belief_ref_TB))
+
+# Set up the plotting area with multiple facets and ensure enough space for the custom label
+ages <- unique(raw_responses_s2$age_years_full)
+
+par(mfrow = c(4, 4), mar = c(2, 2, 3, 1), oma = c(6, 4, 2, 2))  # Adjusted outer margin (oma)
+
+plot_index <- 0  # initialize plot counter
+
+for (i in seq_along(facets)) {
+  for (age in ages) {
+    plot_index <- plot_index + 1  # increment for each subplot
+    
+    data <- facets[[i]]
+    data <- data[data$age_years_full == age, ]
+    
+    # Create barplot
+    bar_heights <- tapply(data$n, list(data$res_t, data$consis), sum)
+    bar_labels <- tapply(data$percentage, list(data$res_t, data$consis), function(x) paste0(round(x), "%"))
+    
+    barplot_heights <- barplot(
+      height = bar_heights, 
+      beside = FALSE, 
+      border = NA,
+      col = colors, 
+      ylim = c(0, max(raw_responses$n) + 5),
+      xlab = "", 
+      ylab = "", 
+      main = "",
+      cex.names = 1.2,
+      yaxt = "n"
+    )
+    
+    axis(2, at = seq(0, max(raw_responses$n) + 5, by = 10), las = 1, cex.axis = 1.2)
+
+    cumulative_height <- apply(bar_heights, 2, cumsum)
+    midpoints <- barplot_heights
+    
+    for (j in 1:ncol(bar_heights)) {
+      for (k in 1:nrow(bar_heights)) {
+        if (as.numeric(sub("%", "", bar_labels[k, j])) >= 10) {
+          text(
+            x = midpoints[j], 
+            y = cumulative_height[k, j] - bar_heights[k, j] / 2, 
+            labels = bar_labels[k, j], 
+            cex = 1.1, 
+            col = "black"
+          )
+        }
+      }
+    }
+
+    if (plot_index >= 13) {
+      center_x <- mean(barplot_heights)
+      text(x = center_x, y = -24, labels = paste(age),
+           xpd = NA, cex = 1.8)
+    }
+  }
+}
+
+mtext(text = "Age", side = 1, line = 3.5, outer = TRUE, at = 0, cex = 1.2)
+mtext(text = "Number of Children", side = 2, line = 1, outer = TRUE, at = 0.5, cex = 1, las = 0)
+mtext(text = "Outcome type", side = 1, line = 1, outer = TRUE, at = 0.5, cex = 1, las = 0)
+
+# Add "True Belief" and "False Belief" labels to the left side
+mtext(text = "True Belief", side = 2, line = 2, outer = TRUE, at = 0.75, cex = 1.2, las = 0)
+mtext(text = "False Belief", side = 2, line = 2, outer = TRUE, at = 0.25, cex = 1.2, las = 0)
+
+# Add "Change of location" and "Dual Identity" labels above the columns
+mtext(text = "Change of location", side = 3, line = -2, outer = TRUE, at = 0.5, cex = 1.2, las = 0)
+mtext(text = "Dual Identity", side = 3, line = -16, outer = TRUE, at = 0.5, cex = 1.2, las = 0)
+mtext(text = "Change of location", side = 3, line = -29, outer = TRUE, at = 0.5, cex = 1.2, las = 0)
+mtext(text = "Dual Identity", side = 3, line = -42, outer = TRUE, at = 0.5, cex = 1.2, las = 0)
+
+
+# Allow drawing outside plots
+par(xpd = NA)
+
+# Convert normalized positions to user coordinates
+x_left  <- grconvertX(0.12, from = "ndc", to = "user")
+x_right <- grconvertX(0.94, from = "ndc", to = "user")
+y_line  <- grconvertY(0.05, from = "ndc", to = "user")  # adjust to hover just above age labels
+
+# Draw the horizontal line
+segments(x0 = x_left, y0 = y_line, x1 = x_right, y1 = y_line, lwd = 1)
+
+# Normalized x positions for age labels
+age_ndc_positions <- c(0.199, 0.42, 0.64, 0.86)
+
+# Convert to user coordinates
+age_tick_x <- grconvertX(age_ndc_positions, from = "ndc", to = "user")
+
+# Set vertical range of each tick
+tick_y_bottom <- y_line - 0.5  # slightly below the line
+tick_y_top <- y_line + 0.5     # slightly above the line
+
+# Draw the ticks
+segments(x0 = age_tick_x, y0 = tick_y_bottom, x1 = age_tick_x, y1 = tick_y_top, lwd = 1)
+
+dev.off()
 ```
 
 
@@ -1431,7 +1665,8 @@ lines(x = plot.xvals, y = boot.res.plot.s2$ci.predicted$fitted[boot.res.plot.s2$
 
 # Add x-axis
 x.lab = c(4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0)
-axis(side = 1, labels = x.lab, at = (x.lab - mean(df_long_ex$age_years)) / sd(df_long_ex$age_years), cex.axis = 1.1)
+x.labels <- c("4", "4½", "5", "5½", "6", "6½", "7", "7½", "8")
+axis(side = 1, labels = x.labels, at = (x.lab - mean(df_long_ex$age_years)) / sd(df_long_ex$age_years), cex.axis = 1.1)
 
 # Add legend
 legend(x = 0.6, y = 0.23, legend = c("True belief","False belief"), col=c(3, "#bb6528"), lty = c(1,2), lwd = 2, pch = c(19,17), bty = "n", cex = 1)
@@ -1440,6 +1675,8 @@ legend(x = 0.6, y = 0.23, legend = c("True belief","False belief"), col=c(3, "#b
 abline(h = 0.5, lty = 8)
 
 mtext(side = 2, "Probability of correct intentionality judgment", line = 2.5, las = 3, cex = 1.1)
+
+dev.off()
 ```
 ### Age of onset
 
@@ -1926,75 +2163,72 @@ kable(false.belief.s2, "html",
 df_wide_s2$age_years_full[df_wide_s2$id == 146] <- 8
 
 demo <- data.frame(age = c(4,5,6,7,8),
-                      mean_s1 = NA,
-                      sd_s1 = NA, 
-                      gender_s1 = NA,
-                      mean_s2 = NA,
-                      sd_s2 = NA, 
-                      gender_s2 = NA)
-
-# Function to convert floating-point years to "years;months"
-convert_to_years_months <- function(age) {
-  years <- floor(age)
-  months <- round((age - years) * 12)
-  paste(years, months, sep = ";")
-}
+                   n_s1 = NA,
+                   mean_s1 = NA,
+                   sd_s1 = NA, 
+                   gender_s1 = NA,
+                   n_s2 = NA,
+                   mean_s2 = NA,
+                   sd_s2 = NA, 
+                   gender_s2 = NA)
 
 # Loop through each age in the demo table for both datasets
 for (i in 1:nrow(demo)) {
   age_group <- demo$age[i]
   
-  # Data for data_wide_s1
+  # Study 1
   filtered_data_s1 <- data_wide_s1 %>% filter(age_years_full == age_group)
-  mean_age_s1 <- mean(filtered_data_s1$age_years, na.rm = TRUE)
-  sd_age_s1 <- sd(filtered_data_s1$age_years, na.rm = TRUE)
+  demo$n_s1[i] <- nrow(filtered_data_s1)
+  mean_age_s1_here <- mean(filtered_data_s1$age_years, na.rm = TRUE)
+  sd_age_s1_here <- sd(filtered_data_s1$age_years, na.rm = TRUE)
+  gender_s1 <- if (nrow(filtered_data_s1) > 0) paste0(round(mean(filtered_data_s1$sex == "f", na.rm = TRUE)*100), "% female") else NA
   
-  # Calculate the percentage of females in data_wide_s1
-  if (nrow(filtered_data_s1) > 0) {
-    percent_female_s1 <- sum(filtered_data_s1$sex == "f", na.rm = TRUE) / nrow(filtered_data_s1) * 100
-    gender_s1 <- paste0(round(percent_female_s1), "% female")
-  } else {
-    gender_s1 <- NA
-  }
-  
-  # Convert to "years;months" format and populate the demo table
-  demo$mean_s1[i] <- if (!is.na(mean_age_s1)) convert_to_years_months(mean_age_s1) else NA
-  demo$sd_s1[i] <- if (!is.na(sd_age_s1)) convert_to_years_months(sd_age_s1) else NA
+  demo$mean_s1[i] <- if (!is.na(mean_age_s1_here)) convert_to_years_months(mean_age_s1_here) else NA
+  demo$sd_s1[i] <- if (!is.na(sd_age_s1_here)) convert_to_years_months(sd_age_s1_here) else NA
   demo$gender_s1[i] <- gender_s1
-  
-  # Data for df_wide_s2
+
+  # Study 2
   filtered_data_s2 <- df_wide_s2 %>% filter(age_years_full == age_group)
-  mean_age_s2 <- mean(filtered_data_s2$age_years, na.rm = TRUE)
-  sd_age_s2 <- sd(filtered_data_s2$age_years, na.rm = TRUE)
+  demo$n_s2[i] <- nrow(filtered_data_s2)
+  mean_age_s2_here <- mean(filtered_data_s2$age_years, na.rm = TRUE)
+  sd_age_s2_here <- sd(filtered_data_s2$age_years, na.rm = TRUE)
+  gender_s2 <- if (nrow(filtered_data_s2) > 0) paste0(round(mean(filtered_data_s2$sex == "f", na.rm = TRUE)*100), "% female") else NA
   
-  # Calculate the percentage of females in df_wide_s2
-  if (nrow(filtered_data_s2) > 0) {
-    percent_female_s2 <- sum(filtered_data_s2$sex == "f", na.rm = TRUE) / nrow(filtered_data_s2) * 100
-    gender_s2 <- paste0(round(percent_female_s2), "% female")
-  } else {
-    gender_s2 <- NA
-  }
-  
-  # Convert to "years;months" format and populate the demo table
-  demo$mean_s2[i] <- if (!is.na(mean_age_s2)) convert_to_years_months(mean_age_s2) else NA
-  demo$sd_s2[i] <- if (!is.na(sd_age_s2)) convert_to_years_months(sd_age_s2) else NA
+  demo$mean_s2[i] <- if (!is.na(mean_age_s2_here)) convert_to_years_months(mean_age_s2_here) else NA
+  demo$sd_s2[i] <- if (!is.na(sd_age_s2_here)) convert_to_years_months(sd_age_s2_here) else NA
   demo$gender_s2[i] <- gender_s2
 }
 
-# Replace all NA values in the demo dataset with empty strings
+# Replace all NA values with empty strings
 demo[is.na(demo)] <- ""
 ```
 
 
 ```{r}
-kable(demo, "html",
-      booktabs = T,
-      escape = F,
-      align = c(rep("c")),
-      caption = "Demographic distribution of age (years;months) and gender across both studies",
-      col.names = c("Age in years","mean age","SD age", "gender","mean age", "SD age", "gender")) %>%
-  add_header_above(c(" " = 1, "Study 1" = 3, "Study 2" = 3)) %>%
-  kable_styling(full_width = T)
+# Table for Study 1
+demo_s1 <- demo %>%
+  filter(n_s1 != "" & age != 8) %>%  # Exclude empty and age 8
+  transmute(`Age ($n$)` = paste0(age, " ($n$ = ", n_s1, ")"),
+            `mean age` = mean_s1,
+            `SD age` = sd_s1,
+            `gender` = gender_s1)
+
+# Table for Study 2
+demo_s2 <- demo %>%
+  transmute(`Age ($n$)` = paste0(age, " ($n$ = ", n_s2, ")"),
+            `mean age` = mean_s2,
+            `SD age` = sd_s2,
+            `gender` = gender_s2)
+```
+
+```{r}
+kable(demo_s1, "html", booktabs = T, escape = F, align = c("c", "c", "c", "c"),
+      caption = "Demographic distribution of age (years;months) and gender in Study 1") %>%
+  kable_styling(full_width = F)
+
+kable(demo_s2, "html", booktabs = T, escape = F, align = c("c", "c", "c", "c"),
+      caption = "Demographic distribution of age (years;months) and gender in Study 2") %>%
+  kable_styling(full_width = F)
 ```
 
 
